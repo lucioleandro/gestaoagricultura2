@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AtividadePecuaria" pageWidth="802" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6099feca-bfa5-4735-8358-589e8ae1f369">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="mysql"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="idPropriedade" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select * from agricultura.agri_atividade_pecuaria where propriedade_id =  $P{idPropriedade}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_pecuaria"/>
+	</field>
+	<field name="especie" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="especie"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_pecuaria"/>
+	</field>
+	<field name="quantidade" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="quantidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_pecuaria"/>
+	</field>
+	<field name="raca" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="raca"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_pecuaria"/>
+	</field>
+	<field name="version" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="version"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_pecuaria"/>
+	</field>
+	<field name="propriedade_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="propriedade_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_pecuaria"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="800" height="30" uuid="9cafbca0-59b8-4d91-bd44-d3cffc82635e">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Atividade Pecuária]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="28">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="28" uuid="65d13b52-0db2-4fe3-9e87-441699f00ab5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2a73873e-912a-43eb-8fe1-99395f9b4133"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+					<paragraph leftIndent="0"/>
+				</textElement>
+				<text><![CDATA[Especie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="28" uuid="38fcc369-fff2-470b-aa52-34ed4c1b995b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4ece156d-bb0c-4693-85d1-a19d3549dcd1"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[raça]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="100" height="28" uuid="41fa0cfc-c827-4cff-b4a7-4fba33f9ee99">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b2e5e69-d141-4adc-88ad-d2cbab171e28"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[quantidade]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="28" uuid="ea8e7154-d0d3-4116-b2ab-535ff10a9e80">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2a73873e-912a-43eb-8fe1-99395f9b4133"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{especie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="28" uuid="f2e562cf-5291-4365-ad1a-fd2326493072">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b2e5e69-d141-4adc-88ad-d2cbab171e28"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="28" uuid="32265947-b0de-4c41-9da8-5ed14e5be2d1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4ece156d-bb0c-4693-85d1-a19d3549dcd1"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{raca}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

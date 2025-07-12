@@ -1,0 +1,12 @@
+//  =========================================== CAMPOS PARTICULARES DA CLASSE
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id;
+	
+	@Version
+	private int version;
+
+//  =========================================== JUNÇÕES 1-N
+
+//  ===========================================

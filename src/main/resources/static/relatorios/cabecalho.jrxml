@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cabecalho" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="1" uuid="b9ea87ee-b4dc-4a84-ba7a-7fbea7e5f1c9">
+	<property name="ireport.zoom" value="2.853116706110003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="mysql"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[SELECT a.brasao, a.nome, a.bairro,a.tipo_logradouro, a.cep, a.cnpj,
+a.numero,a.telefone,a.logradouro,
+	CASE WHEN a.cidade IS NOT NULL THEN a.cidade ELSE "" END cidade,
+	CASE WHEN a.uf IS NOT NULL THEN concat(" - ",a.uf) ELSE "" END uf,
+	CASE WHEN a.fax IS NOT NULL THEN a.fax ELSE "" END fax
+FROM agricultura.sistema_parametros a
+WHERE a.id=1]]>
+	</queryString>
+	<field name="brasao" class="java.lang.Object">
+		<property name="com.jaspersoft.studio.field.label" value="brasao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bairro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="bairro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo_logradouro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_logradouro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
+	</field>
+	<field name="cep" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cep"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cnpj" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cnpj"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefone" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefone"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="logradouro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="logradouro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cidade"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="uf" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="uf"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fax" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fax"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<title>
+		<band height="77" splitType="Stretch">
+			<textField>
+				<reportElement x="70" y="26" width="485" height="10" uuid="c22b1cec-b6d2-4adf-be21-3ac7c64f08b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CNPJ:" + $F{cnpj}+", "+ $F{cidade}+$F{uf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="16" width="485" height="10" uuid="c22b1cec-b6d2-4adf-be21-3ac7c64f08b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_logradouro}+" "+$F{logradouro}+" Nº "+$F{numero}+" - "+$F{bairro}+", CEP: "+$F{cep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="36" width="485" height="10" uuid="c22b1cec-b6d2-4adf-be21-3ac7c64f08b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Telefone: " + $F{telefone} + " Fax: " + $F{fax}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="1" width="485" height="15" uuid="acbaac2f-6395-485c-879d-6bcf8b88e76a"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="80" height="65" uuid="2c495776-2385-4b2a-8784-e0653653ec2d"/>
+				<imageExpression><![CDATA[$F{brasao}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+</jasperReport>

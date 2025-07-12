@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="propriedade" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d402ce47-499b-4969-a5cf-0bd9b76a0422">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="mysql"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="REPORT_DIR" class="java.lang.String"/>
+	<parameter name="pathCabecalhoPaisagem" class="java.lang.String"/>
+	<parameter name="pathCabecalho" class="java.lang.String"/>
+	<parameter name="idPropriedade" class="java.lang.Long"/>
+	<parameter name="pathAtividadePecuaria" class="java.lang.String"/>
+	<parameter name="pathAtividadeAgricola" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select prop.area_agricola, prop.area_total, 
+prop.incra, prop.itr,prop.latitude, prop.longitude,
+prop.nome, prop.regularizacao_fundiaria,
+prop.reserva_legal, prop.tipo_residencia, atveconomica.descricao as atividadeeconomica,
+endereco.cep, endereco.complemento,
+endereco.logradouro, endereco.numero, endereco.tipo_logradouro,
+bairro.nome as bairro, municipio.nome as municipio, municipio.uf,
+agricultor.nome as proprietario, agricultor.apelido, agricultor.cpf, agricultor.rg
+from agricultura.agri_propriedade prop
+left join agricultura.agri_agricultor agricultor on (agricultor.id = prop.agricultor_id)
+left join agricultura.agri_endereco endereco on (endereco.id = prop.endereco_id)
+left join agricultura.agri_bairro bairro on (bairro.id = endereco.bairro_id)
+left join agricultura.agri_municipio municipio on (municipio.id = endereco.municipio_id)
+left join agricultura.agri_atividade_economica_agricultor atveagricultor on (atveagricultor.propriedade_id = prop.id)
+left join agricultura.agri_atividade_economica atveconomica on (atveconomica.id = atveagricultor.atividade_economica_id)
+ where prop.id =   $P{idPropriedade}]]>
+	</queryString>
+	<field name="area_agricola" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="area_agricola"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="area_total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="area_total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="incra" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="incra"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="itr" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="itr"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="latitude" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="latitude"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="longitude" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="longitude"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="regularizacao_fundiaria" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="regularizacao_fundiaria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="reserva_legal" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="reserva_legal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="tipo_residencia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_residencia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+	</field>
+	<field name="atividadeeconomica" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="atividadeeconomica"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_economica"/>
+	</field>
+	<field name="cep" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cep"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+	</field>
+	<field name="complemento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="complemento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+	</field>
+	<field name="logradouro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="logradouro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+	</field>
+	<field name="tipo_logradouro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_logradouro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+	</field>
+	<field name="bairro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="bairro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_bairro"/>
+	</field>
+	<field name="municipio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="municipio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_municipio"/>
+	</field>
+	<field name="uf" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="uf"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_municipio"/>
+	</field>
+	<field name="proprietario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="proprietario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_agricultor"/>
+	</field>
+	<field name="apelido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="apelido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_agricultor"/>
+	</field>
+	<field name="cpf" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cpf"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_agricultor"/>
+	</field>
+	<field name="rg" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="rg"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_agricultor"/>
+	</field>
+	<background>
+		<band height="555" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="555" uuid="91779d83-b96a-47d5-9aa3-c73606a4038a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="41" splitType="Stretch">
+			<subreport>
+				<reportElement x="2" y="0" width="798" height="24" uuid="8eef3d73-5274-4cfb-b01d-d5f401020187"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{pathCabecalhoPaisagem}]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="2" y="25" width="798" height="14" uuid="d440351c-1179-4138-831c-7d9356e3a39c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Boletim de Cadastro de Propriedade]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="2" y="40" width="798" height="1" uuid="e5c5880d-17c4-4a98-bc7e-92ac72f02a94"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="197" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="100" height="7" uuid="20a10929-6f0f-4f41-a258-28e521d43396"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dados do proprietário:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="8" width="60" height="12" uuid="581fc545-7385-46d4-8de9-1a1d65cf66e1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proprietário:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="20" width="30" height="12" uuid="f2ca50a5-19ab-49e4-a7ec-166da2433f98">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="26" y="20" width="104" height="12" uuid="122ee2a2-1a89-4c8b-a7bb-cd03bd77a94a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="131" y="20" width="30" height="12" uuid="0c811fb2-ac05-48fa-8f41-b92ebbd4235e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RG:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="152" y="20" width="158" height="12" uuid="f071da27-0b46-4a99-ba3b-a4fc1e6e5199"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="8" width="460" height="12" uuid="a1307b77-befe-4398-8efb-48d23e784a0f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{proprietario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="276" y="40" width="41" height="12" uuid="fdaa3e0a-d1f8-47bc-ba23-4a75ced2fe32">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INCRA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="423" y="40" width="97" height="12" uuid="e105d915-ad32-45a8-8b03-35128b1c1fcc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="52" width="95" height="12" uuid="09e031f3-9542-46a2-977e-db9e54191f11">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Área Total:]]></text>
+			</staticText>
+			<textField pattern="000000">
+				<reportElement x="87" y="40" width="119" height="12" uuid="071ee9fa-ad96-4093-b150-36eed3d22778">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="310" y="40" width="112" height="12" uuid="4fa7846e-da63-47e5-b331-f751b551fc58">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{incra}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="443" y="40" width="180" height="12" uuid="f4c2a426-5cb7-4377-9465-9b1830ad15ed">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itr}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="2" y="85" width="798" height="1" uuid="28a18dfc-227d-45ea-ab8e-daaa7099ac14"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="2" y="32" width="798" height="5" uuid="7856f0e0-fd2e-49df-9e69-c628a7214295"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="2" y="92" width="60" height="11" uuid="d83d9e6b-a34a-4a03-b2d6-f6ddc034cfa0"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Endereço:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="50" y="92" width="703" height="11" uuid="173598e3-8496-461f-954a-80613ec0df3e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{logradouro}+", "+$F{numero}+","+$F{complemento}+","+$F{bairro}+" "+$F{cep}+" - "+$F{municipio}+" "+$F{uf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="105" width="78" height="11" uuid="5dceec4f-0dfc-468e-9bd4-2c602d02ac60"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Residência:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="76" y="105" width="104" height="11" uuid="c8c6c329-6609-4991-ad48-45669f101fe9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_residencia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="132" y="52" width="68" height="12" uuid="8a548eba-d16a-4127-8f25-6d2b8a08bc83">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Área Agrícola:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="52" width="67" height="12" uuid="eaec1a3c-575c-4d45-9d42-de93d968e1d4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reserva Legal:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="342" y="52" width="80" height="12" uuid="979823ef-431d-4519-b3b5-14349985ba20">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reserva_legal} + " hectares"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="52" width="80" height="12" uuid="19ddce6d-29bd-4391-84ab-3904c953ac68">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area_total} + " hectares"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="195" y="52" width="80" height="12" uuid="31b17298-ee92-4f3a-8823-03fb5ade0817">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area_agricola} + " hectares"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="423" y="52" width="109" height="12" uuid="9742170c-605f-4875-82aa-82cd75efd3f3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Regularização Fundiária:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="531" y="52" width="123" height="12" uuid="c8e2d7b2-8cec-42a6-94d6-c2a3c75088b7">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{regularizacao_fundiaria}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="40" width="95" height="12" uuid="3db0ed9c-eb4e-4de7-9378-2c8648198d88">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome Propriedade:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement positionType="Float" x="2" y="128" width="798" height="28" uuid="b7a27f1f-851d-449e-9a0a-86ddd50a00c1"/>
+				<subreportParameter name="idPropriedade">
+					<subreportParameterExpression><![CDATA[$P{idPropriedade}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{pathAtividadePecuaria}]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement positionType="Float" x="3" y="125" width="798" height="1" uuid="a805948b-f313-4979-b4d7-f34423b9a109"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="2" y="194" width="798" height="1" uuid="7baaab6e-05c1-4445-b5eb-06456777e629"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<subreport>
+				<reportElement positionType="Float" x="2" y="162" width="798" height="28" uuid="acfdda3c-5af0-4cf0-8bdb-5aa1ce47d798"/>
+				<subreportParameter name="idPropriedade">
+					<subreportParameterExpression><![CDATA[$P{idPropriedade}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{pathAtividadeAgricola}]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement positionType="Float" x="2" y="159" width="798" height="1" uuid="78bb785c-3f64-4c9c-bbb9-d34d6532ee81"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="2" y="70" width="218" height="12" uuid="d75c48b0-2832-4c74-bdba-8bdf97ec60fe">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Principal atividade desenvolvida na propriedade:]]></text>
+			</staticText>
+			<textField pattern="000000" isBlankWhenNull="true">
+				<reportElement x="213" y="70" width="578" height="12" uuid="1bbe35d9-480e-44c1-9a2e-ee3e68003dfb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{atividadeeconomica}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

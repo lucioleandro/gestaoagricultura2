@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="modelo_cadastro" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d402ce47-499b-4969-a5cf-0bd9b76a0422">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.Long"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="pathCab" class="java.lang.String"/>
+	<parameter name="REPORT_DIR" class="java.lang.String"/>
+	<parameter name="pathCabecalhoPaisagem" class="java.lang.String"/>
+	<parameter name="Parameter1" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT a.id,a.`zoneamento`,a.`zoneamentoAnterior`,b.`descricao` situacao,
+d.`tipo` prefixo,d.`descricao` logradouro,e.`nome` bairro,c.`cep`,c.`numero`,
+f.`nome` municipio,f.`uf`,g.`descricao` patrimonio,a.`possuiescritura` escritura,
+a.`profundidade`,a.`areaTerreno`,a.`valorVenalTerreno`,SUM(h.`area`) areatconst,
+SUM(h.`valorVenal`) valorvconst,a.`valorComercial` valoritib,i.`descricao` loteamento,
+j.`descricao` condominio, c.complemento
+FROM `tri_imobiliariourbano` a
+LEFT JOIN tri_situacoes b ON (b.id=a.`situacoes_id`)
+LEFT JOIN tri_endereco c ON (c.id= a.`enderecoImovel_id`)
+LEFT JOIN tri_logradouro d ON (d.id=c.`logradouro_id`)
+LEFT JOIN patrimonio_bairro  e ON (e.id=c.`bairro_id`)
+LEFT JOIN patrimonio_municipio f ON (f.id=c.`municipio_id`)
+LEFT JOIN `tri_indicadorpatrimonio` g ON (g.id=a.`indicadorPatrimonio_id`)
+LEFT JOIN `tri_imobiliariourbanoconstrucao` h  ON(h.`imobiliariourbano_id`=a.id)
+LEFT JOIN `tri_loteamento` i ON (i.id=a.`loteamento_id`)
+LEFT JOIN `tri_condominio` j ON (j.id=a.`condominio_id`)
+WHERE a.id = $P{id}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="zoneamento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="zoneamentoAnterior" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="situacao" class="java.lang.String"/>
+	<field name="prefixo" class="java.lang.String"/>
+	<field name="logradouro" class="java.lang.String"/>
+	<field name="bairro" class="java.lang.String"/>
+	<field name="cep" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="municipio" class="java.lang.String"/>
+	<field name="uf" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="patrimonio" class="java.lang.String"/>
+	<field name="escritura" class="java.lang.Boolean"/>
+	<field name="profundidade" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="areaTerreno" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valorVenalTerreno" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="areatconst" class="java.lang.Double"/>
+	<field name="valorvconst" class="java.lang.Double"/>
+	<field name="valoritib" class="java.lang.Double"/>
+	<field name="loteamento" class="java.lang.String"/>
+	<field name="condominio" class="java.lang.String"/>
+	<field name="complemento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band height="555" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="555" uuid="91779d83-b96a-47d5-9aa3-c73606a4038a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="45" splitType="Stretch">
+			<subreport>
+				<reportElement x="2" y="0" width="798" height="24" uuid="8eef3d73-5274-4cfb-b01d-d5f401020187"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{pathCabecalhoPaisagem}]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="2" y="25" width="798" height="14" uuid="d440351c-1179-4138-831c-7d9356e3a39c"/>
+				<text><![CDATA[Boletim de Cadastro Imobiliário]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="2" y="40" width="798" height="1" uuid="e5c5880d-17c4-4a98-bc7e-92ac72f02a94"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="2" width="95" height="11" uuid="3db0ed9c-eb4e-4de7-9378-2c8648198d88"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inscrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="2" width="83" height="11" uuid="fdaa3e0a-d1f8-47bc-ba23-4a75ced2fe32"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zoneamento Atual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="453" y="2" width="97" height="11" uuid="e105d915-ad32-45a8-8b03-35128b1c1fcc"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zoneamento Anterior]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="14" width="95" height="11" uuid="09e031f3-9542-46a2-977e-db9e54191f11"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dados Cartóriais]]></text>
+			</staticText>
+			<textField pattern="000000">
+				<reportElement x="97" y="2" width="104" height="11" uuid="071ee9fa-ad96-4093-b150-36eed3d22778"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="290" y="2" width="154" height="11" uuid="4fa7846e-da63-47e5-b331-f751b551fc58"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zoneamento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="550" y="2" width="154" height="11" uuid="f4c2a426-5cb7-4377-9465-9b1830ad15ed"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zoneamentoAnterior}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="2" y="27" width="798" height="1" uuid="28a18dfc-227d-45ea-ab8e-daaa7099ac14"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="2" y="30" width="95" height="11" uuid="d83d9e6b-a34a-4a03-b2d6-f6ddc034cfa0"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Endereço]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="97" y="30" width="703" height="11" uuid="173598e3-8496-461f-954a-80613ec0df3e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prefixo}+" "+$F{logradouro}+", "+$F{numero}+","+$F{complemento}+","+$F{bairro}+" "+$F{cep}+" - "+$F{municipio}+" "+$F{uf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="43" width="95" height="11" uuid="5dceec4f-0dfc-468e-9bd4-2c602d02ac60"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo do Cadastro]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="97" y="43" width="104" height="11" uuid="c8c6c329-6609-4991-ad48-45669f101fe9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Original"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="203" y="56" width="83" height="11" uuid="f6f923a6-a574-4310-98d5-1a5ea4037d8b"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lançamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="56" width="95" height="11" uuid="5a6301d1-ff10-40fc-badd-c12275f9e6f9"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Profundidade ]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="499" y="56" width="97" height="11" uuid="f69b3432-f3ac-428b-8622-8518f9f645fd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{profundidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="727" y="56" width="70" height="11" uuid="063d68f4-b148-4114-98f1-2e11447e6a7c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{areaTerreno}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="606" y="56" width="95" height="11" uuid="23a3cece-10d9-4a3a-9ed2-3e368aedf7c5"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Área Terreno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="203" y="43" width="83" height="11" uuid="2d395d1e-a373-484a-82f7-fd3e3ea04673"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Patrimônio]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="290" y="43" width="114" height="11" uuid="33b43455-82bb-44f2-a9be-abcaf3f0008e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{patrimonio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="405" y="43" width="83" height="11" uuid="e63dbc7e-f5ae-4d1b-93f7-4688dbe662d6"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Imóvel]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="596" y="43" width="204" height="11" uuid="4bfde1e2-2398-4b8e-8293-eabec2b95c9a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="56" width="95" height="11" uuid="24412fb7-68fc-4da9-b982-c5246ec2c1b9"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situação]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="97" y="56" width="104" height="11" uuid="f9edb63d-c1b4-4d54-9014-191fec609bc9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{situacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="69" width="95" height="11" uuid="400045df-80f5-49b3-a67e-296b0d3ebf43"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Área T. Construída]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="97" y="69" width="104" height="11" uuid="6b4e7f2b-1da5-4e6e-8188-e87161ac7b78"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{areatconst}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="203" y="69" width="83" height="11" uuid="8ae0824b-f2e3-4cae-b191-5ff6b3235e24"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vlr Venal Terreno]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="290" y="69" width="87" height="11" uuid="4db71234-47f6-4341-898b-235157059109"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorVenalTerreno}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="701" y="69" width="96" height="11" uuid="fd3a1d27-d94f-4b89-915e-520eb56f7a37"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorVenalTerreno}+$F{valorvconst}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="405" y="69" width="95" height="11" uuid="a5a882a0-3710-4b71-b54f-78d63b976ae7"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vlr Venal Construção]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="606" y="69" width="95" height="11" uuid="551aff6c-ad88-4e3c-a6e4-e458840d83f4"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vlr Venal Total]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="500" y="69" width="97" height="11" uuid="64e74fc7-f925-46f3-b8cc-8542c87ddc4e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorvconst}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="207" y="13" width="41" height="11" uuid="8a548eba-d16a-4127-8f25-6d2b8a08bc83"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quadra:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="251" y="14" width="54" height="11" uuid="73ae8910-e1b4-44b0-a5b6-dd9a6ed87813"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zoneamento}.substring( 6,10 )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="305" y="13" width="28" height="11" uuid="eaec1a3c-575c-4d45-9d42-de93d968e1d4"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lote:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="333" y="13" width="54" height="11" uuid="979823ef-431d-4519-b3b5-14349985ba20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zoneamento}.substring(11,14)]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="40">
+			<subreport>
+				<reportElement x="2" y="0" width="800" height="40" uuid="b1f385a2-2782-415b-be05-bf3a84799ecb"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+			</subreport>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="20"/>
+	</lastPageFooter>
+</jasperReport>

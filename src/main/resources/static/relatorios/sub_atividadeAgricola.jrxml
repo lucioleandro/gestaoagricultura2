@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="atividadeAgricola" pageWidth="802" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6099feca-bfa5-4735-8358-589e8ae1f369">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="mysql"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="idPropriedade" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select atvagricola.area_plantada, atvagricola.data_plantio,
+atvagricola.producao_anual, atvagricola.quantidade_plantas,
+atvagricola.variedade, produto.descricao,
+
+case 
+	when atvagricola.fonte_agua = 'IP' then 'Irrigação Pública'
+	when atvagricola.fonte_agua = 'R' then 'Rio'
+	when atvagricola.fonte_agua = 'C' then 'Correto'
+	when atvagricola.fonte_agua = 'PF' then 'Poço Fundo'
+	when atvagricola.fonte_agua = 'PA' then 'Poço Amazonas / Cacimba'
+	when atvagricola.fonte_agua = 'B' then 'Barragem / Represa / Açude'
+	when atvagricola.fonte_agua = 'L' then 'Lagoa'
+	when atvagricola.fonte_agua = 'N' then 'Nenhuma'
+end as fonteAgua,
+
+case 
+	when atvagricola.metodo_irrigacao = 'S' then 'Sulco'
+	when atvagricola.metodo_irrigacao = 'AC' then 'Aspersão Convencional'
+	when atvagricola.metodo_irrigacao = 'MA' then 'Microaspersão'
+	when atvagricola.metodo_irrigacao = 'PV' then 'Pivô Central'
+	when atvagricola.metodo_irrigacao = 'SI' then 'Sub-Irrigação'
+	when atvagricola.metodo_irrigacao = 'B' then 'Bacia'
+	when atvagricola.metodo_irrigacao = 'GT' then 'Gotejamento'
+end as metodoIrrigacao
+
+from agricultura.agri_atividade_agricola atvagricola
+left join agricultura.agri_produto produto on (produto.id = atvagricola.produto_id)
+where propriedade_id =  $P{idPropriedade}]]>
+	</queryString>
+	<field name="area_plantada" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="area_plantada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_agricola"/>
+	</field>
+	<field name="data_plantio" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="data_plantio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_agricola"/>
+	</field>
+	<field name="producao_anual" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="producao_anual"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_agricola"/>
+	</field>
+	<field name="quantidade_plantas" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="quantidade_plantas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_agricola"/>
+	</field>
+	<field name="variedade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="variedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_agricola"/>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descricao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_produto"/>
+	</field>
+	<field name="fonteAgua" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fonteAgua"/>
+	</field>
+	<field name="metodoIrrigacao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="metodoIrrigacao"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="800" height="30" uuid="9cafbca0-59b8-4d91-bd44-d3cffc82635e">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Atividade Agrícola]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30">
+			<staticText>
+				<reportElement x="101" y="0" width="100" height="30" uuid="33cf076e-4578-4d36-aa7f-1267e932209d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2a65bf27-fc70-4584-bc9a-cc6f06070a59"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Área Plantada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="100" height="30" uuid="7e1b5372-3bd3-4bcc-a690-cd5f248e9940">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c5ab8e3c-a083-4b5f-a001-b99edef2a1d7"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="0" width="100" height="30" uuid="207a0833-def2-4e83-b83f-0124a185ed99">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9bc6fab8-5519-4ce6-9e3c-88a303034511"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Data Plantio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="401" y="0" width="100" height="30" uuid="54613e97-f891-4d7d-bdaf-2ab190493700">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0e5d39a7-c074-4b22-8c91-20d03d5b2179"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Fonte de Água]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="0" width="100" height="30" uuid="08bcb4c2-0621-40ff-8e57-47334b3b8e10">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="024ecaae-6e50-4867-8a1b-9021674c24d3"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Produção Anual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="501" y="0" width="119" height="30" uuid="858a20d4-2cc7-421f-9ff8-965496cc9a8e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fe2e8282-bf02-46f9-afb9-581d816dcce1"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Método de Irrigação]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30">
+			<textField>
+				<reportElement x="101" y="0" width="100" height="30" uuid="033191c1-226c-4526-88fd-065add49ddff">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2a65bf27-fc70-4584-bc9a-cc6f06070a59"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{area_plantada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="0" width="100" height="30" uuid="7252c542-248c-4ee5-9483-46eba44bacb4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c5ab8e3c-a083-4b5f-a001-b99edef2a1d7"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<paragraph leftIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="0" width="100" height="30" uuid="b3af5580-7749-4a5b-8861-42c83a2bac3b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9bc6fab8-5519-4ce6-9e3c-88a303034511"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{data_plantio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="0" width="100" height="30" uuid="2bf46d0d-dfe8-4d90-8183-577eef3b6483">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0e5d39a7-c074-4b22-8c91-20d03d5b2179"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fonteAgua}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="301" y="0" width="100" height="30" uuid="210f2c47-70fb-49c7-927d-f64664dff04b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="024ecaae-6e50-4867-8a1b-9021674c24d3"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{producao_anual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="501" y="0" width="119" height="30" uuid="5dec5248-9a29-4f08-8d05-7b4281b65245">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fe2e8282-bf02-46f9-afb9-581d816dcce1"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{metodoIrrigacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
