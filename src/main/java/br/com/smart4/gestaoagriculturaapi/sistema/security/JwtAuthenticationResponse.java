@@ -2,7 +2,7 @@ package br.com.smart4.gestaoagriculturaapi.sistema.security;
 
 public class JwtAuthenticationResponse {
 
-	private String accessToken;
+	private final String accessToken;
 
 	public JwtAuthenticationResponse(String accessToken) {
 		this.accessToken = accessToken;

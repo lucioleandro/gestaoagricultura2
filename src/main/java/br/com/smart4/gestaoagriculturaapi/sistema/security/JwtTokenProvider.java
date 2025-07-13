@@ -1,8 +1,8 @@
 package br.com.smart4.gestaoagriculturaapi.sistema.security;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Profile;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.User;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.ProfileService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.User;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.services.ProfileService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -11,7 +11,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -32,13 +31,13 @@ public class JwtTokenProvider {
 	private final long jwtExpirationInMs;
 
 	public JwtTokenProvider(@Value("${app.jwtSecret}") String jwtSecret,
-						 @Value("${app.jwtExpirationInMs}") long jwtExpirationInMs) {
+							@Value("${app.jwtExpirationInMs}") long jwtExpirationInMs, ProfileService profileService) {
 		this.jwtSecret = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 		this.jwtExpirationInMs = jwtExpirationInMs;
+		this.profileService = profileService;
 	}
 	
-	@Autowired
-	private ProfileService profileService;
+	private final ProfileService profileService;
 
 	public String generateToken(Authentication authentication) {
 		User userPrincipal = (User) authentication.getPrincipal();

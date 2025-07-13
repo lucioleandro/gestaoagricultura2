@@ -1,7 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.sistema.security;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,19 +23,22 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfiguration  {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
-	@Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+	private final JwtAuthenticationEntryPoint unauthorizedHandler;
+
+	public SecurityConfiguration(UserService userService, JwtAuthenticationEntryPoint unauthorizedHandler, JwtAuthenticationFilter jwtAuthenticationFilter) {
+		this.userService = userService;
+		this.unauthorizedHandler = unauthorizedHandler;
+		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+	}
 
 	@Bean
 	BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Autowired
-	JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
