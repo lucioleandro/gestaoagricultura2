@@ -1,40 +1,40 @@
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME:gestaoagriculturaapi}
+    name: ${SPRING_APPLICATION_NAME}
 
   datasource:
-    driver-class-name: ${SPRING_DATASOURCE_DRIVER:com.mysql.cj.jdbc.Driver}
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost/smartagrodb?useSSL=false}
-    username: ${SPRING_DATASOURCE_USERNAME:myuser}
-    password: ${SPRING_DATASOURCE_PASSWORD:secret}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
 
   servlet:
     multipart:
-      max-file-size: ${SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE:16MB}
-      max-request-size: ${SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE:16MB}
+      max-file-size: ${SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE}
+      max-request-size: ${SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE}
 
 server:
-  port: ${SERVER_PORT:9000}
+  port: ${SERVER_PORT}
   servlet:
-    context-path: ${SERVER_CONTEXT_PATH:/gestaoagriculturaapi}
+    context-path: ${SERVER_CONTEXT_PATH}
 
 app:
-  jwtSecret: ${APP_JWT_SECRET:b@dm%#2VA3YN??=cO_onfb$*HYzZr)0"T77nnmI$'#uL=55yIx2[5qbOwlRDJHhLz-bAYB1pnP5qNKJb9qU8[g%#OrXm'ZhecuD10P"mwNPyVyEiFKJPz)}
-  jwtExpirationInMs: ${APP_JWT_EXPIRATION:3600000}
+  jwtSecret: ${APP_JWT_SECRET}
+  jwtExpirationInMs: ${APP_JWT_EXPIRATION}
 
 management:
   endpoint:
     health:
-      show-details: ${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:always}
+      show-details: ${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS}
   endpoints:
     web:
       exposure:
-        include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:*}
+        include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE}
 
 info:
   app:
-    name: ${INFO_APP_NAME:@project.name@}
-    version: ${INFO_APP_VERSION:@project.version@}
+    name: ${INFO_APP_NAME}
+    version: ${INFO_APP_VERSION}
 
 # Uncomment and configure if using Spring Boot Admin
 # spring:
