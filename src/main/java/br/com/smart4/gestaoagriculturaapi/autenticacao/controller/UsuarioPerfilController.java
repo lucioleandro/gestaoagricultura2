@@ -1,7 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controller;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.UsuarioPerfil;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UsuarioPerfilService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.UserProfile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -25,12 +25,12 @@ import java.util.Optional;
 public class UsuarioPerfilController {
 
 	@Autowired
-	private UsuarioPerfilService usuarioPerfilService;
+	private UserProfileService userProfileService;
 	
 	@PostMapping("/cadastra")
-	public ResponseEntity<?> cadastraUsuarioPerfil(@RequestBody UsuarioPerfil request) {
+	public ResponseEntity<?> cadastraUsuarioPerfil(@RequestBody UserProfile request) {
 		try {
-			return ResponseEntity.created(null).body(usuarioPerfilService.create(request));
+			return ResponseEntity.created(null).body(userProfileService.create(request));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -38,9 +38,9 @@ public class UsuarioPerfilController {
 	}
 
 	@GetMapping("/lista")
-	public List<UsuarioPerfil> getListaUsuarioPerfil() {
+	public List<UserProfile> getListaUsuarioPerfil() {
 		try {
-			return usuarioPerfilService.findAll();
+			return userProfileService.findAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -48,9 +48,9 @@ public class UsuarioPerfilController {
 	}
 
 	@GetMapping("/listabyusuario")
-	public List<UsuarioPerfil> getListaUsuarioPerfiByUsuario(@Param(value="id") Long id) {
+	public List<UserProfile> getListaUsuarioPerfiByUsuario(@Param(value="id") Long id) {
 		try {
-			return usuarioPerfilService.findByUsuarioId(id);
+			return userProfileService.findByUsuarioId(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -60,10 +60,10 @@ public class UsuarioPerfilController {
 	@DeleteMapping("/remove/{id}")
 	public ResponseEntity<?> removeUsuarioPerfil(@PathVariable Long id) {
 		try {
-			Optional<UsuarioPerfil> usuarioPerfil = usuarioPerfilService.findById(id);
+			Optional<UserProfile> usuarioPerfil = userProfileService.findById(id);
 
 			if (usuarioPerfil.isPresent()) {
-				usuarioPerfilService.remove(usuarioPerfil.get());
+				userProfileService.remove(usuarioPerfil.get());
 				return ResponseEntity.ok().body("");
 			} 
 			else if (!usuarioPerfil.isPresent()) {
@@ -79,9 +79,9 @@ public class UsuarioPerfilController {
 	}
 
 	@PutMapping("/atualiza")
-	public ResponseEntity<?> atualizaUsuarioPerfil(@RequestBody UsuarioPerfil request) {
+	public ResponseEntity<?> atualizaUsuarioPerfil(@RequestBody UserProfile request) {
 		try {
-			return ResponseEntity.ok().body(usuarioPerfilService.atualiza(request));
+			return ResponseEntity.ok().body(userProfileService.atualiza(request));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

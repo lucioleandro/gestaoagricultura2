@@ -1,9 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controller;
 
 import br.com.smart4.gestaoagriculturaapi.api.util.ResponseMessage;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Perfil;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Permissao;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.PermissaoService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Profile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Permission;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -27,17 +27,17 @@ import java.util.Optional;
 public class PermissaoController {
 
 	@Autowired
-	private PermissaoService permissaoService;
+	private PermissionService permissionService;
 	
 	@PostMapping("/cadastra")
-	public ResponseEntity<?> cadastraPermissao(@RequestBody Permissao request) {
+	public ResponseEntity<?> cadastraPermissao(@RequestBody Permission request) {
 		try {
 			if(componenteJaCadastradoParaOPerfil(request.getComponente(),request.getPerfil())) {
 				return ResponseEntity.badRequest()
 						.body(new ResponseMessage("Este componente já está vinculado a este perfil !"));
 			}
 			
-			return ResponseEntity.created(null).body(permissaoService.create(request));
+			return ResponseEntity.created(null).body(permissionService.create(request));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.badRequest().body(
@@ -45,10 +45,10 @@ public class PermissaoController {
 		}
 	}
 	
-	private boolean componenteJaCadastradoParaOPerfil(String componente, Perfil perfil) {
-		List<Permissao> perfis = permissaoService.findByPerfilId(perfil.getId());
+	private boolean componenteJaCadastradoParaOPerfil(String componente, Profile perfil) {
+		List<Permission> perfis = permissionService.findByPerfilId(perfil.getId());
 		
-		for(Permissao perf: perfis) {
+		for(Permission perf: perfis) {
 			if(perf.getComponente().equals(componente)) {
 				return true;
 			}
@@ -58,13 +58,13 @@ public class PermissaoController {
 	}
 	
 	@PutMapping("/atualiza")
-	public ResponseEntity<?> atualizaPermissao(@RequestBody Permissao request) {
+	public ResponseEntity<?> atualizaPermissao(@RequestBody Permission request) {
 		try {
 			if(componenteJaCadastradoParaOPerfil(request.getComponente(), request.getPerfil())) {
 				return ResponseEntity.badRequest().body(
 						   new ResponseMessage("Este componente já está vinculado a este perfil!"));
 			}
-			return ResponseEntity.ok().body(permissaoService.atualiza(request));
+			return ResponseEntity.ok().body(permissionService.atualiza(request));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,9 +74,9 @@ public class PermissaoController {
 	}
 
 	@GetMapping("/lista")
-	public List<Permissao> getListaPermissao() {
+	public List<Permission> getListaPermissao() {
 		try {
-			return permissaoService.findAll();
+			return permissionService.findAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -84,9 +84,9 @@ public class PermissaoController {
 	}
 	
 	@GetMapping("/listabyperfil")
-	public List<Permissao> getListaPermissao(@Param(value = "id") Long id) {
+	public List<Permission> getListaPermissao(@Param(value = "id") Long id) {
 		try {
-			return permissaoService.findByPerfilId(id);
+			return permissionService.findByPerfilId(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -97,10 +97,10 @@ public class PermissaoController {
 	@DeleteMapping("/remove/{id}")
 	public ResponseEntity<?> removePermissao(@PathVariable Long id) {
 		try {
-			Optional<Permissao> permissao = permissaoService.findById(id);
+			Optional<Permission> permissao = permissionService.findById(id);
 
 			if (permissao.isPresent()) {
-				permissaoService.remove(permissao.get());
+				permissionService.remove(permissao.get());
 				return ResponseEntity.ok().body("");
 			} 
 			else if (!permissao.isPresent()) {

@@ -1,7 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controller;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Perfil;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.PerfilService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Profile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +24,12 @@ import java.util.Optional;
 public class PerfilController {
 
 	@Autowired
-	private PerfilService perfilService;
+	private ProfileService profileService;
 	
 	@PostMapping("/cadastra")
-	public ResponseEntity<?> cadastraPerfil(@RequestBody Perfil request) {
+	public ResponseEntity<?> cadastraPerfil(@RequestBody Profile request) {
 		try {
-			return ResponseEntity.created(null).body(perfilService.create(request));
+			return ResponseEntity.created(null).body(profileService.create(request));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -37,9 +37,9 @@ public class PerfilController {
 	}
 	
 	@PutMapping("/atualiza")
-	public ResponseEntity<?> atualizaPerfil(@RequestBody Perfil request) {
+	public ResponseEntity<?> atualizaPerfil(@RequestBody Profile request) {
 		try {
-			return ResponseEntity.ok().body(perfilService.atualiza(request));
+			return ResponseEntity.ok().body(profileService.atualiza(request));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,9 +48,9 @@ public class PerfilController {
 	}
 
 	@GetMapping("/lista")
-	public List<Perfil> getListaPerfil() {
+	public List<Profile> getListaPerfil() {
 		try {
-			return perfilService.findAll();
+			return profileService.findAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -61,10 +61,10 @@ public class PerfilController {
 	@DeleteMapping("/remove/{id}")
 	public ResponseEntity<?> removePerfil(@PathVariable Long id) {
 		try {
-			Optional<Perfil> perfil = perfilService.findById(id);
+			Optional<Profile> perfil = profileService.findById(id);
 
 			if (perfil.isPresent()) {
-				perfilService.remove(perfil.get());
+				profileService.remove(perfil.get());
 				return ResponseEntity.ok().body("");
 			} else if (!perfil.isPresent()) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");

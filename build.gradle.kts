@@ -30,7 +30,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 	implementation ("io.jsonwebtoken:jjwt-impl:0.12.6")
 	implementation ("io.jsonwebtoken:jjwt-jackson:0.12.6")
-	implementation("net.sf.jasperreports:jasperreports:6.8.1")
+	implementation("net.sf.jasperreports:jasperreports:7.0.3")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	runtimeOnly("com.mysql:mysql-connector-j")

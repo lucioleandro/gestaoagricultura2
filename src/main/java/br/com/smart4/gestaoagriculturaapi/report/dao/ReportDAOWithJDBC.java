@@ -13,7 +13,7 @@ public class ReportDAOWithJDBC implements ReportDAO {
 
 	public Connection getConnection(){
 		props  = new Properties();
-		InputStream in = this.getClass().getResourceAsStream("/application.properties"); 
+		InputStream in = this.getClass().getResourceAsStream("/application.yml");
 
 		try{  
 			props.load(in);  

@@ -7,12 +7,12 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="mysql"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<queryString>
-		<![CDATA[SELECT a.brasao, a.nome, a.bairro,a.tipo_logradouro, a.cep, a.cnpj,
+		<![CDATA[SELECT a.brasao, a.nome, a.neighborhood,a.tipo_logradouro, a.cep, a.cnpj,
 a.numero,a.telefone,a.logradouro,
 	CASE WHEN a.cidade IS NOT NULL THEN a.cidade ELSE "" END cidade,
 	CASE WHEN a.uf IS NOT NULL THEN concat(" - ",a.uf) ELSE "" END uf,
 	CASE WHEN a.fax IS NOT NULL THEN a.fax ELSE "" END fax
-FROM agricultura.sistema_parametros a
+FROM smartagrodb.sistema_parametros a
 WHERE a.id=1]]>
 	</queryString>
 	<field name="brasao" class="java.lang.Object">
@@ -25,8 +25,8 @@ WHERE a.id=1]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="bairro" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="bairro"/>
+	<field name="neighborhood" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="neighborhood"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -85,7 +85,7 @@ WHERE a.id=1]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tipo_logradouro}+" "+$F{logradouro}+" Nº "+$F{numero}+" - "+$F{bairro}+", CEP: "+$F{cep}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tipo_logradouro}+" "+$F{logradouro}+" Nº "+$F{numero}+" - "+$F{neighborhood}+", CEP: "+$F{cep}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="70" y="36" width="485" height="10" uuid="c22b1cec-b6d2-4adf-be21-3ac7c64f08b3"/>

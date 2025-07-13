@@ -12,16 +12,16 @@
 	<parameter name="Parameter1" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT a.id,a.`zoneamento`,a.`zoneamentoAnterior`,b.`descricao` situacao,
-d.`tipo` prefixo,d.`descricao` logradouro,e.`nome` bairro,c.`cep`,c.`numero`,
+d.`tipo` prefixo,d.`descricao` logradouro,e.`nome` neighborhood,c.`cep`,c.`numero`,
 f.`nome` municipio,f.`uf`,g.`descricao` patrimonio,a.`possuiescritura` escritura,
 a.`profundidade`,a.`areaTerreno`,a.`valorVenalTerreno`,SUM(h.`area`) areatconst,
 SUM(h.`valorVenal`) valorvconst,a.`valorComercial` valoritib,i.`descricao` loteamento,
 j.`descricao` condominio, c.complemento
 FROM `tri_imobiliariourbano` a
 LEFT JOIN tri_situacoes b ON (b.id=a.`situacoes_id`)
-LEFT JOIN tri_endereco c ON (c.id= a.`enderecoImovel_id`)
+LEFT JOIN tri_address c ON (c.id= a.`addressImovel_id`)
 LEFT JOIN tri_logradouro d ON (d.id=c.`logradouro_id`)
-LEFT JOIN patrimonio_bairro  e ON (e.id=c.`bairro_id`)
+LEFT JOIN patrimonio_neighborhood  e ON (e.id=c.`neighborhood_id`)
 LEFT JOIN patrimonio_municipio f ON (f.id=c.`municipio_id`)
 LEFT JOIN `tri_indicadorpatrimonio` g ON (g.id=a.`indicadorPatrimonio_id`)
 LEFT JOIN `tri_imobiliariourbanoconstrucao` h  ON(h.`imobiliariourbano_id`=a.id)
@@ -41,7 +41,7 @@ WHERE a.id = $P{id}]]>
 	<field name="situacao" class="java.lang.String"/>
 	<field name="prefixo" class="java.lang.String"/>
 	<field name="logradouro" class="java.lang.String"/>
-	<field name="bairro" class="java.lang.String"/>
+	<field name="neighborhood" class="java.lang.String"/>
 	<field name="cep" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -169,7 +169,7 @@ WHERE a.id = $P{id}]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{prefixo}+" "+$F{logradouro}+", "+$F{numero}+","+$F{complemento}+","+$F{bairro}+" "+$F{cep}+" - "+$F{municipio}+" "+$F{uf}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{prefixo}+" "+$F{logradouro}+", "+$F{numero}+","+$F{complemento}+","+$F{neighborhood}+" "+$F{cep}+" - "+$F{municipio}+" "+$F{uf}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="2" y="43" width="95" height="11" uuid="5dceec4f-0dfc-468e-9bd4-2c602d02ac60"/>

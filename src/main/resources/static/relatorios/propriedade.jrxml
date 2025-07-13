@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="propriedade" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d402ce47-499b-4969-a5cf-0bd9b76a0422">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="property" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d402ce47-499b-4969-a5cf-0bd9b76a0422">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -9,94 +9,94 @@
 	<parameter name="REPORT_DIR" class="java.lang.String"/>
 	<parameter name="pathCabecalhoPaisagem" class="java.lang.String"/>
 	<parameter name="pathCabecalho" class="java.lang.String"/>
-	<parameter name="idPropriedade" class="java.lang.Long"/>
-	<parameter name="pathAtividadePecuaria" class="java.lang.String"/>
-	<parameter name="pathAtividadeAgricola" class="java.lang.String"/>
+	<parameter name="idProperty" class="java.lang.Long"/>
+	<parameter name="pathLivestockActivity" class="java.lang.String"/>
+	<parameter name="pathAgricultureActivity" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select prop.area_agricola, prop.area_total, 
 prop.incra, prop.itr,prop.latitude, prop.longitude,
 prop.nome, prop.regularizacao_fundiaria,
-prop.reserva_legal, prop.tipo_residencia, atveconomica.descricao as atividadeeconomica,
-endereco.cep, endereco.complemento,
-endereco.logradouro, endereco.numero, endereco.tipo_logradouro,
-bairro.nome as bairro, municipio.nome as municipio, municipio.uf,
-agricultor.nome as proprietario, agricultor.apelido, agricultor.cpf, agricultor.rg
-from agricultura.agri_propriedade prop
-left join agricultura.agri_agricultor agricultor on (agricultor.id = prop.agricultor_id)
-left join agricultura.agri_endereco endereco on (endereco.id = prop.endereco_id)
-left join agricultura.agri_bairro bairro on (bairro.id = endereco.bairro_id)
-left join agricultura.agri_municipio municipio on (municipio.id = endereco.municipio_id)
-left join agricultura.agri_atividade_economica_agricultor atveagricultor on (atveagricultor.propriedade_id = prop.id)
-left join agricultura.agri_atividade_economica atveconomica on (atveconomica.id = atveagricultor.atividade_economica_id)
- where prop.id =   $P{idPropriedade}]]>
+prop.reserva_legal, prop.tipo_residencia, atveconomica.descricao as economicactivity,
+address.cep, address.complemento,
+address.logradouro, address.numero, address.tipo_logradouro,
+neighborhood.nome as neighborhood, municipio.nome as municipio, municipio.uf,
+farmer.nome as proprietario, farmer.apelido, farmer.cpf, farmer.rg
+from smartagrodb.agri_property prop
+left join smartagrodb.agri_farmer farmer on (farmer.id = prop.farmer_id)
+left join smartagrodb.agri_address address on (address.id = prop.address_id)
+left join smartagrodb.agri_neighborhood neighborhood on (neighborhood.id = address.neighborhood_id)
+left join smartagrodb.agri_municipio municipio on (municipio.id = address.municipio_id)
+left join smartagrodb.agri_atividade_economica_farmer atvefarmer on (atvefarmer.property_id = prop.id)
+left join smartagrodb.agri_atividade_economica atveconomica on (atveconomica.id = atvefarmer.atividade_economica_id)
+ where prop.id =   $P{idProperty}]]>
 	</queryString>
 	<field name="area_agricola" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="area_agricola"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
 	<field name="area_total" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="area_total"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
 	<field name="incra" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="incra"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
 	<field name="itr" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="itr"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
 	<field name="latitude" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="latitude"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
 	<field name="longitude" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="longitude"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
 	<field name="nome" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nome"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
 	<field name="regularizacao_fundiaria" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="regularizacao_fundiaria"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
 	<field name="reserva_legal" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="reserva_legal"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
 	<field name="tipo_residencia" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="tipo_residencia"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_propriedade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_property"/>
 	</field>
-	<field name="atividadeeconomica" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="atividadeeconomica"/>
+	<field name="economicactivity" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="economicactivity"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="agri_atividade_economica"/>
 	</field>
 	<field name="cep" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="cep"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_address"/>
 	</field>
 	<field name="complemento" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="complemento"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_address"/>
 	</field>
 	<field name="logradouro" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="logradouro"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_address"/>
 	</field>
 	<field name="numero" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="numero"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_address"/>
 	</field>
 	<field name="tipo_logradouro" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="tipo_logradouro"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_endereco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_address"/>
 	</field>
-	<field name="bairro" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="bairro"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_bairro"/>
+	<field name="neighborhood" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="neighborhood"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_neighborhood"/>
 	</field>
 	<field name="municipio" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="municipio"/>
@@ -108,19 +108,19 @@ left join agricultura.agri_atividade_economica atveconomica on (atveconomica.id 
 	</field>
 	<field name="proprietario" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="proprietario"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_agricultor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_farmer"/>
 	</field>
 	<field name="apelido" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="apelido"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_agricultor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_farmer"/>
 	</field>
 	<field name="cpf" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="cpf"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_agricultor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_farmer"/>
 	</field>
 	<field name="rg" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="rg"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="agri_agricultor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="agri_farmer"/>
 	</field>
 	<background>
 		<band height="555" splitType="Stretch">
@@ -144,7 +144,7 @@ left join agricultura.agri_atividade_economica atveconomica on (atveconomica.id 
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Boletim de Cadastro de Propriedade]]></text>
+				<text><![CDATA[Boletim de Cadastro de Property]]></text>
 			</staticText>
 			<line>
 				<reportElement positionType="Float" x="2" y="40" width="798" height="1" uuid="e5c5880d-17c4-4a98-bc7e-92ac72f02a94"/>
@@ -289,7 +289,7 @@ left join agricultura.agri_atividade_economica atveconomica on (atveconomica.id 
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{logradouro}+", "+$F{numero}+","+$F{complemento}+","+$F{bairro}+" "+$F{cep}+" - "+$F{municipio}+" "+$F{uf}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{logradouro}+", "+$F{numero}+","+$F{complemento}+","+$F{neighborhood}+" "+$F{cep}+" - "+$F{municipio}+" "+$F{uf}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="2" y="105" width="78" height="11" uuid="5dceec4f-0dfc-468e-9bd4-2c602d02ac60"/>
@@ -377,15 +377,15 @@ left join agricultura.agri_atividade_economica atveconomica on (atveconomica.id 
 				<textElement verticalAlignment="Middle" markup="none">
 					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Nome Propriedade:]]></text>
+				<text><![CDATA[Nome Property:]]></text>
 			</staticText>
 			<subreport>
 				<reportElement positionType="Float" x="2" y="128" width="798" height="28" uuid="b7a27f1f-851d-449e-9a0a-86ddd50a00c1"/>
-				<subreportParameter name="idPropriedade">
-					<subreportParameterExpression><![CDATA[$P{idPropriedade}]]></subreportParameterExpression>
+				<subreportParameter name="idProperty">
+					<subreportParameterExpression><![CDATA[$P{idProperty}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{pathAtividadePecuaria}]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{pathLivestockActivity}]]></subreportExpression>
 			</subreport>
 			<line>
 				<reportElement positionType="Float" x="3" y="125" width="798" height="1" uuid="a805948b-f313-4979-b4d7-f34423b9a109"/>
@@ -401,11 +401,11 @@ left join agricultura.agri_atividade_economica atveconomica on (atveconomica.id 
 			</line>
 			<subreport>
 				<reportElement positionType="Float" x="2" y="162" width="798" height="28" uuid="acfdda3c-5af0-4cf0-8bdb-5aa1ce47d798"/>
-				<subreportParameter name="idPropriedade">
-					<subreportParameterExpression><![CDATA[$P{idPropriedade}]]></subreportParameterExpression>
+				<subreportParameter name="idProperty">
+					<subreportParameterExpression><![CDATA[$P{idProperty}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{pathAtividadeAgricola}]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{pathAgricultureActivity}]]></subreportExpression>
 			</subreport>
 			<line>
 				<reportElement positionType="Float" x="2" y="159" width="798" height="1" uuid="78bb785c-3f64-4c9c-bbb9-d34d6532ee81"/>
@@ -420,7 +420,7 @@ left join agricultura.agri_atividade_economica atveconomica on (atveconomica.id 
 				<textElement verticalAlignment="Middle" markup="none">
 					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Principal atividade desenvolvida na propriedade:]]></text>
+				<text><![CDATA[Principal atividade desenvolvida na property:]]></text>
 			</staticText>
 			<textField pattern="000000" isBlankWhenNull="true">
 				<reportElement x="213" y="70" width="578" height="12" uuid="1bbe35d9-480e-44c1-9a2e-ee3e68003dfb">
@@ -429,7 +429,7 @@ left join agricultura.agri_atividade_economica atveconomica on (atveconomica.id 
 				<textElement verticalAlignment="Middle" markup="html">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{atividadeeconomica}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{economicactivity}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -3,8 +3,8 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.controller;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.smart4.gestaoagriculturaapi.api.util.ResponseMessage;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Usuario;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UsuarioService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.User;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -31,17 +31,17 @@ import java.util.Optional;
 public class UsuarioController {
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private UserService userService;
 	
 	@PostMapping("/cadastra")
-	public ResponseEntity<?> cadastraUsuario(@RequestBody Usuario request) {
+	public ResponseEntity<?> cadastraUsuario(@RequestBody User request) {
 		try {
 			new CPFValidator().assertValid(request.getCpf());
 			
 			String senhaCriptografada = new BCryptPasswordEncoder().encode(request.getPassword());
 			request.setSenha(senhaCriptografada);
 			
-			return ResponseEntity.created(null).body(usuarioService.create(request));
+			return ResponseEntity.created(null).body(userService.create(request));
 
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
@@ -57,14 +57,14 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("/atualiza")
-	public ResponseEntity<?> atualizaUsuario(@RequestBody Usuario request) {
+	public ResponseEntity<?> atualizaUsuario(@RequestBody User request) {
 		try {
 			new CPFValidator().assertValid(request.getCpf());
 			
 			String senhaCriptografada = new BCryptPasswordEncoder().encode(request.getPassword());
 			request.setSenha(senhaCriptografada);
 			
-			return ResponseEntity.ok().body(usuarioService.atualiza(request));
+			return ResponseEntity.ok().body(userService.atualiza(request));
 
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
@@ -85,9 +85,9 @@ public class UsuarioController {
 											 @RequestParam("novologin") String novoLogin,
 											 @RequestParam("email") String email) {
 		try {
-			Optional<Usuario> optionalUsuario = this.usuarioService.findByLogin(login);
+			Optional<User> optionalUsuario = this.userService.findByLogin(login);
 				
-			Usuario usuario = null;
+			User usuario = null;
 			
 			if(optionalUsuario.isPresent()) {
 				usuario = optionalUsuario.get();
@@ -97,7 +97,7 @@ public class UsuarioController {
 			}
 			
 			return ResponseEntity.ok()
-					.body(usuarioService.atualiza(usuario));
+					.body(userService.atualiza(usuario));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,9 +106,9 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/lista")
-	public List<Usuario> getListaUsuarioes() {
+	public List<User> getListaUsuarioes() {
 		try {
-			return usuarioService.findAll();
+			return userService.findAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -118,10 +118,10 @@ public class UsuarioController {
 	@DeleteMapping("/remove/{id}")
 	public ResponseEntity<?> removeUsuario(@PathVariable Long id) {
 		try {
-			Optional<Usuario> usuario = usuarioService.findById(id);
+			Optional<User> usuario = userService.findById(id);
 
 			if (usuario.isPresent()) {
-				usuarioService.remove(usuario.get());
+				userService.remove(usuario.get());
 				return ResponseEntity.ok().body("");
 			} 
 			else if (!usuario.isPresent()) {
@@ -142,8 +142,8 @@ public class UsuarioController {
 												  @RequestParam("login") String login) {
 		
 		try {
-			Optional<Usuario> optionalUsuario = usuarioService.findByLogin(login);
-			Usuario usuario = null;
+			Optional<User> optionalUsuario = userService.findByLogin(login);
+			User usuario = null;
 			
 			if(optionalUsuario.isPresent()) {
 				usuario = optionalUsuario.get();
@@ -157,7 +157,7 @@ public class UsuarioController {
 				if(senhaAtualEhValida) {
 					usuario.setSenha(novaSenhaCriptografada);
 					
-					return ResponseEntity.ok().body(usuarioService.atualiza(usuario));
+					return ResponseEntity.ok().body(userService.atualiza(usuario));
 				}
 				
 				return ResponseEntity.badRequest().body(new ResponseMessage("A senha atual informada está incorreta"));

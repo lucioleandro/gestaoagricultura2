@@ -1,7 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.controller;
 
-import br.com.smart4.gestaoagriculturaapi.api.domain.Municipio;
-import br.com.smart4.gestaoagriculturaapi.api.service.MunicipioService;
+import br.com.smart4.gestaoagriculturaapi.api.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,11 +24,11 @@ import java.util.Optional;
 public class MunicipioController {
 	
 	@Autowired
-	private MunicipioService municipioService;
+	private CityService municipioService;
 	
 	@PostMapping("/cadastra")
 	@CacheEvict(value = "listaDeMunicipios", allEntries = true)
-	public ResponseEntity<?> cadastraMunicipio(@RequestBody Municipio request) {
+	public ResponseEntity<?> cadastraMunicipio(@RequestBody br.com.smart4.gestaoagriculturaapi.api.domain.City request) {
 		try {
 			return ResponseEntity.created(null).body(municipioService.create(request));
 		} catch (Exception e) {
@@ -40,7 +39,7 @@ public class MunicipioController {
 	
 	@PutMapping("/atualiza")
 	@CacheEvict(value = "listaDeMunicipios", allEntries = true)
-	public ResponseEntity<?> atualizaMunicipio(@RequestBody Municipio request) {
+	public ResponseEntity<?> atualizaMunicipio(@RequestBody br.com.smart4.gestaoagriculturaapi.api.domain.City request) {
 		try {
 			return ResponseEntity.ok().body(municipioService.atualiza(request));
 		} catch (Exception e) {
@@ -51,7 +50,7 @@ public class MunicipioController {
 
 	@GetMapping("/lista")
 	@Cacheable(value = "listaDeMunicipios")
-	public List<Municipio> getListaMunicipioes() {
+	public List<br.com.smart4.gestaoagriculturaapi.api.domain.City> getListaMunicipioes() {
 		try {
 			return municipioService.findAll();
 		} catch (Exception e) {
@@ -64,7 +63,7 @@ public class MunicipioController {
 	@CacheEvict(value = "listaDeMunicipios", allEntries = true)
 	public ResponseEntity<?> removeMunicipio(@PathVariable Long id) {
 		try {
-			Optional<Municipio> municipio = municipioService.findById(id);
+			Optional<br.com.smart4.gestaoagriculturaapi.api.domain.City> municipio = municipioService.findById(id);
 
 			if (municipio.isPresent()) {
 				municipioService.remove(municipio.get());

@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.sistema.security;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UsuarioService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ import java.util.List;
 public class SecurityConfiguration  {
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private UserService userService;
 	
 	@Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;

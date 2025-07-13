@@ -1,8 +1,8 @@
 package br.com.smart4.gestaoagriculturaapi.sistema.security;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Perfil;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Usuario;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.PerfilService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Profile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.User;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.service.ProfileService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -27,10 +27,8 @@ import java.util.Map;
 @Component
 public class JwtTokenProvider {
 
-	@Value("${app.jwtSecret}")
 	private final SecretKey jwtSecret;
 
-	@Value("${app.jwtExpirationInMs}")
 	private final long jwtExpirationInMs;
 
 	public JwtTokenProvider(@Value("${app.jwtSecret}") String jwtSecret,
@@ -40,16 +38,16 @@ public class JwtTokenProvider {
 	}
 	
 	@Autowired
-	private PerfilService perfilService;
+	private ProfileService profileService;
 
 	public String generateToken(Authentication authentication) {
-		Usuario userPrincipal = (Usuario) authentication.getPrincipal();
+		User userPrincipal = (User) authentication.getPrincipal();
 
 		OffsetDateTime expiryDate = OffsetDateTime.now().plus(jwtExpirationInMs, ChronoUnit.MILLIS);
 
 		Map<String, Object> claims = new HashMap<>();
 		
-		List<Perfil> perfis = perfilService.findByIdUsuario(userPrincipal.getId());
+		List<Profile> perfis = profileService.findByIdUsuario(userPrincipal.getId());
 
 		claims.put("id", userPrincipal.getId());
 		claims.put("nome", userPrincipal.getNome());

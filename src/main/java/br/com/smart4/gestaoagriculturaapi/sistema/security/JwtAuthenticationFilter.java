@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.sistema.security;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UsuarioService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private JwtTokenProvider tokenProvider;
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private UserService userService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 			String username = tokenProvider.getUsernameFromJwt(jwt);
 
-			UserDetails userDetails = usuarioService.loadUserByUsername(username);
+			UserDetails userDetails = userService.loadUserByUsername(username);
 
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
 					null, userDetails.getAuthorities());

@@ -7,7 +7,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="mysql"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<queryString>
-		<![CDATA[select * from agricultura.sistema_parametros]]>
+		<![CDATA[select * from smartagrodb.sistema_parametros]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
@@ -18,8 +18,8 @@
 		<property name="com.jaspersoft.studio.field.label" value="acod"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
 	</field>
-	<field name="bairro" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="bairro"/>
+	<field name="neighborhood" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="neighborhood"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sistema_parametros"/>
 	</field>
 	<field name="brasao" class="java.lang.Object">
@@ -108,7 +108,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="9" isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tipo_logradouro}+' '+$F{logradouro}+", nº "+$F{numero}+" , "+$F{bairro}+", Cep: "+$F{cep}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tipo_logradouro}+' '+$F{logradouro}+", nº "+$F{numero}+" , "+$F{neighborhood}+", Cep: "+$F{cep}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="3" y="2" width="796" height="23" uuid="7f124411-c148-4120-8ee0-5121c36faef2"/>

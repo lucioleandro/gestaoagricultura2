@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class SweggerConfiguration {
 
 //	@Bean
-//	public Docket GestaoAgriculturaApi() {
+//	public Docket GestaoAgrifarmingSystemApi() {
 //		return new Docket(DocumentationType.SWAGGER_2)
 //				.select()
 //				.apis(RequestHandlerSelectors.basePackage("com.smart4"))

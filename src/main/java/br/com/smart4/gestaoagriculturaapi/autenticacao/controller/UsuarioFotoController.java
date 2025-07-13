@@ -1,9 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controller;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.Usuario;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.UsuarioFoto;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UsuarioFotoService;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UsuarioService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.User;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domain.UserPicture;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UserPictureService;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -28,15 +28,15 @@ import java.util.Optional;
 public class UsuarioFotoController {
 
 	@Autowired
-	private UsuarioFotoService usuarioFotoService;
+	private UserPictureService userPictureService;
 	
 	@Autowired
-	UsuarioService usuarioService;
+	UserService userService;
 	
 	@PostMapping("/cadastra")
-	public ResponseEntity<?> cadastraUsuarioFoto(@RequestBody UsuarioFoto request) {
+	public ResponseEntity<?> cadastraUsuarioFoto(@RequestBody UserPicture request) {
 		try {
-			return ResponseEntity.created(null).body(usuarioFotoService.create(request));
+			return ResponseEntity.created(null).body(userPictureService.create(request));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -48,22 +48,22 @@ public class UsuarioFotoController {
 												 @RequestParam("login") String login) {
 
 		try {
-			Optional<UsuarioFoto> usuarioFotoOptional = usuarioFotoService.findByUsuarioLogin(login);
-			Optional<Usuario> usuarioOptional = usuarioService.findByLogin(login);
+			Optional<UserPicture> usuarioFotoOptional = userPictureService.findByUsuarioLogin(login);
+			Optional<User> usuarioOptional = userService.findByLogin(login);
 			
-			UsuarioFoto usuarioFoto = null;
+			UserPicture userPicture = null;
 			
 			if(usuarioOptional.isPresent() && usuarioFotoOptional.isPresent()) {
-				usuarioFoto = usuarioFotoOptional.get();
+				userPicture = usuarioFotoOptional.get();
 				
-				usuarioFoto.setFotoPerfil(fotoPerfil);
-				usuarioFoto.setUsuario(usuarioOptional.get());
+				userPicture.setFotoPerfil(fotoPerfil);
+				userPicture.setUsuario(usuarioOptional.get());
 			
 			} else if(!usuarioFotoOptional.isPresent() && usuarioOptional.isPresent()) {
-				usuarioFoto = new UsuarioFoto(fotoPerfil, usuarioOptional.get());
+				userPicture = new UserPicture(fotoPerfil, usuarioOptional.get());
 			}
 			
-			return ResponseEntity.ok().body(usuarioFotoService.createOrAtualiza(usuarioFoto));
+			return ResponseEntity.ok().body(userPictureService.createOrAtualiza(userPicture));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,9 +72,9 @@ public class UsuarioFotoController {
 	}
 
 	@GetMapping("/lista")
-	public List<UsuarioFoto> getListaUsuarioFoto() {
+	public List<UserPicture> getListaUsuarioFoto() {
 		try {
-			return usuarioFotoService.findAll();
+			return userPictureService.findAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -82,9 +82,9 @@ public class UsuarioFotoController {
 	}
 
 	@GetMapping("/fotobyusuario")
-	public UsuarioFoto getFotoByUsuario(@Param(value="login") String login) {
+	public UserPicture getFotoByUsuario(@Param(value="login") String login) {
 		try {
-			Optional<UsuarioFoto> usuarioOptional = usuarioFotoService.findByUsuarioLogin(login);
+			Optional<UserPicture> usuarioOptional = userPictureService.findByUsuarioLogin(login);
 			
 			if(usuarioOptional.isPresent()) {
 				return usuarioOptional.get();
@@ -98,10 +98,10 @@ public class UsuarioFotoController {
 	@DeleteMapping("/remove/{id}")
 	public ResponseEntity<?> removeUsuarioFoto(@PathVariable Long id) {
 		try {
-			Optional<UsuarioFoto> usuarioFoto = usuarioFotoService.findById(id);
+			Optional<UserPicture> usuarioFoto = userPictureService.findById(id);
 
 			if (usuarioFoto.isPresent()) {
-				usuarioFotoService.remove(usuarioFoto.get());
+				userPictureService.remove(usuarioFoto.get());
 				return ResponseEntity.ok().body("");
 			} 
 			else if (!usuarioFoto.isPresent()) {
