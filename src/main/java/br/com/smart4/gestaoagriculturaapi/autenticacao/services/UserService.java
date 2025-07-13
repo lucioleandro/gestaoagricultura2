@@ -1,6 +1,8 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.User;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.UserRequest;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.factories.UserFactory;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.USerRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,13 +33,18 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	public User create(User usuario) {
-		return USerRepository.saveAndFlush(usuario);
+	public User create(UserRequest user) {
+		return USerRepository.saveAndFlush(UserFactory.fromRequest(user)); //TODO Pq esta usando saveAndFlush
 	}
 
 	@Transactional
-	public User atualiza(User usuario) {
-		return USerRepository.save(usuario);
+	public User atualiza(User user) {
+		return USerRepository.save(user);
+	}
+
+	@Transactional
+	public User atualiza(UserRequest user) {
+		return USerRepository.save(UserFactory.fromRequest(user));
 	}
 	
 	public List<User> findAll() {

@@ -1,9 +1,9 @@
-package br.com.smart4.gestaoagriculturaapi.autenticacao.domains;
+package br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests;
 
 
 import jakarta.validation.constraints.NotBlank;
 
-public class LoginDTO {
+public class LoginRequest {
 
 	@NotBlank
 	private String userName;

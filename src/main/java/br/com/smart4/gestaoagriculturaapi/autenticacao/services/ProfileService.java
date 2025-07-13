@@ -1,6 +1,8 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.ProfileRequest;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.factories.ProfileFactory;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.ProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +20,13 @@ public class ProfileService {
 	}
 
 	@Transactional
-	public Profile create(Profile perfil) {
-		return profileRepository.saveAndFlush(perfil);
+	public Profile create(ProfileRequest perfil) {
+		return profileRepository.saveAndFlush(ProfileFactory.fromRequest(perfil));
 	}
 
 	@Transactional
-	public Profile atualiza(Profile perfil) {
-		return profileRepository.save(perfil);
+	public Profile atualiza(ProfileRequest perfil) {
+		return profileRepository.save(ProfileFactory.fromRequest(perfil));
 	}
 	
 	public List<Profile> findAll() {

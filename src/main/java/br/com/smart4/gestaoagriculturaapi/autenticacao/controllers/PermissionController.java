@@ -3,7 +3,9 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 import br.com.smart4.gestaoagriculturaapi.api.utils.ResponseMessage;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Permission;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.PermissionRequest;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.PermissionService;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +33,12 @@ public class PermissionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraPermissao(@RequestBody Permission request) {
-        if (componenteJaCadastradoParaOPerfil(request.getComponente(), request.getPerfil())) {
-            return ResponseEntity.badRequest()
-                    .body(new ResponseMessage("Este componente já está vinculado a este perfil !"));
-        }
+    public ResponseEntity<?> cadastraPermissao(@RequestBody @Valid PermissionRequest request) {
+//        if (componenteJaCadastradoParaOPerfil(request.getComponente(), request.getPerfilId())) {
+//            return ResponseEntity.badRequest()
+//                    .body(new ResponseMessage("Este componente já está vinculado a este perfil !"));
+//        }
+        // TODO Revisar acima
         return ResponseEntity.created(null).body(permissionService.create(request));
     }
 
@@ -52,11 +55,12 @@ public class PermissionController {
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaPermissao(@RequestBody Permission request) {
-        if (componenteJaCadastradoParaOPerfil(request.getComponente(), request.getPerfil())) {
-            return ResponseEntity.badRequest().body(
-                    new ResponseMessage("Este componente já está vinculado a este perfil!"));
-        }
+    public ResponseEntity<?> atualizaPermissao(@RequestBody @Valid PermissionRequest request) {
+//        if (componenteJaCadastradoParaOPerfil(request.getComponente(), request.getPerfil())) {
+//            return ResponseEntity.badRequest().body(
+//                    new ResponseMessage("Este componente já está vinculado a este perfil!"));
+//        }
+        // TODO Revisar acima
         return ResponseEntity.ok().body(permissionService.atualiza(request));
     }
 

@@ -1,7 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.UserProfile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.UserProfileRequest;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.UserProfileService;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +31,7 @@ public class UserProfileController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraUsuarioPerfil(@RequestBody UserProfile request) {
+    public ResponseEntity<?> cadastraUsuarioPerfil(@RequestBody @Valid UserProfileRequest request) {
         return ResponseEntity.created(null).body(userProfileService.create(request));
     }
 
@@ -58,7 +60,7 @@ public class UserProfileController {
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaUsuarioPerfil(@RequestBody UserProfile request) {
+    public ResponseEntity<?> atualizaUsuarioPerfil(@RequestBody @Valid UserProfileRequest request) {
         return ResponseEntity.ok().body(userProfileService.atualiza(request));
     }
 

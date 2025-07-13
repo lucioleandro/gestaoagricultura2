@@ -44,7 +44,7 @@ public class AgricultureActivityController {
         return agricultureActivityService.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/property")
     public List<AgricultureActivity> getListaAgricultureActivityByProperty(@Param(value = "id") Long id) {
         return agricultureActivityService.findByProperty(id);
     }

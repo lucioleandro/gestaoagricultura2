@@ -3,7 +3,9 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.smart4.gestaoagriculturaapi.api.utils.ResponseMessage;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.User;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.UserRequest;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,21 +35,23 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraUsuario(@RequestBody User request) {
+    public ResponseEntity<?> cadastraUsuario(@RequestBody @Valid UserRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 
-        String senhaCriptografada = new BCryptPasswordEncoder().encode(request.getPassword());
-        request.setSenha(senhaCriptografada);
+//        String senhaCriptografada = new BCryptPasswordEncoder().encode(request.getPassword());
+//        request.setSenha(senhaCriptografada);
+        // TODO Resolver acima
 
         return ResponseEntity.created(null).body(userService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaUsuario(@RequestBody User request) {
+    public ResponseEntity<?> atualizaUsuario(@RequestBody @Valid UserRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 
-        String senhaCriptografada = new BCryptPasswordEncoder().encode(request.getPassword());
-        request.setSenha(senhaCriptografada);
+//        String senhaCriptografada = new BCryptPasswordEncoder().encode(request.getPassword());
+//        request.setSenha(senhaCriptografada);
+        // TODO Resolver acima
 
         return ResponseEntity.ok().body(userService.atualiza(request));
     }
@@ -91,7 +95,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PatchMapping
+    @PatchMapping("/pass")
     public ResponseEntity<?> atualizaSenhaUsuario(@RequestParam("senhaAtual") String senhaAtual,
                                                   @RequestParam("novaSenha") String novaSenha,
                                                   @RequestParam("login") String login) {

@@ -33,7 +33,7 @@ public class QuestionResponseController {
         return ResponseEntity.created(null).body(respostaQuestionService.create(request));
     }
 
-    @PostMapping
+    @PostMapping("/list")
     public ResponseEntity<?> cadastraRespostasQuestion(@RequestBody @Valid  List<ResponseQuestionRequest> request) {
 //        Long idFarmer = request.get(0).getFarmer().getId();
 //        this.DeletaRespostasMultiplaEscolhaByFarmer(idFarmer);

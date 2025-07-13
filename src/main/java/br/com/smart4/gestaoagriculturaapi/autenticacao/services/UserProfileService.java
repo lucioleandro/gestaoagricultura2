@@ -1,6 +1,8 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.UserProfile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.UserProfileRequest;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.factories.UserProfileFactory;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.UserProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +20,13 @@ public class UserProfileService {
 	}
 
 	@Transactional
-	public UserProfile create(UserProfile usuarioFoto) {
-		return usuarioFotoRepository.saveAndFlush(usuarioFoto);
+	public UserProfile create(UserProfileRequest userPicure) {
+		return usuarioFotoRepository.saveAndFlush(UserProfileFactory.fromRequest(userPicure));
 	}
 
 	@Transactional
-	public UserProfile atualiza(UserProfile usuarioFoto) {
-		return usuarioFotoRepository.save(usuarioFoto);
+	public UserProfile atualiza(UserProfileRequest userPicure) {
+		return usuarioFotoRepository.save(UserProfileFactory.fromRequest(userPicure));
 	}
 	
 	public List<UserProfile> findAll() {

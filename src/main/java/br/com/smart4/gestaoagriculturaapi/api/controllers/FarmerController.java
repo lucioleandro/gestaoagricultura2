@@ -52,11 +52,11 @@ public class FarmerController {
     }
 
     @GetMapping
-    public List<Farmer> getListaFarmeres() {
+    public List<Farmer> getListaFarmers() {
         return farmerService.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/document")
     public Farmer getFarmerByCpf(@Param(value = "cpf") String cpf) {
         Optional<Farmer> farmer = farmerService.findByCpf(cpf);
 

@@ -1,7 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.ProfileRequest;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.ProfileService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,12 +30,12 @@ public class ProfileController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraPerfil(@RequestBody Profile request) {
+    public ResponseEntity<?> cadastraPerfil(@RequestBody @Valid ProfileRequest request) {
         return ResponseEntity.created(null).body(profileService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaPerfil(@RequestBody Profile request) {
+    public ResponseEntity<?> atualizaPerfil(@RequestBody @Valid ProfileRequest request) {
         return ResponseEntity.ok().body(profileService.atualiza(request));
     }
 

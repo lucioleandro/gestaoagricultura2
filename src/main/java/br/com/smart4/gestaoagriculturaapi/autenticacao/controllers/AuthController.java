@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.LoginDTO;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.LoginRequest;
 import br.com.smart4.gestaoagriculturaapi.sistema.security.JwtAuthenticationResponse;
 import br.com.smart4.gestaoagriculturaapi.sistema.security.JwtTokenProvider;
 import jakarta.validation.Valid;
@@ -32,7 +32,7 @@ public class AuthController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> autenticaUsuario(@Valid @RequestBody LoginDTO request) {
+	public ResponseEntity<?> autenticaUsuario(@Valid @RequestBody LoginRequest request) {
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
 

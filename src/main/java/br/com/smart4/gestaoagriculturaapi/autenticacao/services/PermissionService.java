@@ -1,6 +1,8 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Permission;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.PermissionRequest;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.factories.PermissionFactory;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.PermissionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +20,13 @@ public class PermissionService {
 	}
 
 	@Transactional
-	public Permission create(Permission permission) {
-		return permissionRepository.saveAndFlush(permission);
+	public Permission create(PermissionRequest permission) {
+		return permissionRepository.saveAndFlush(PermissionFactory.fromRequest(permission));
 	}
 
 	@Transactional
-	public Permission atualiza(Permission permission) {
-		return permissionRepository.save(permission);
+	public Permission atualiza(PermissionRequest permission) {
+		return permissionRepository.save(PermissionFactory.fromRequest(permission));
 	}
 
 	public List<Permission> findAll() {

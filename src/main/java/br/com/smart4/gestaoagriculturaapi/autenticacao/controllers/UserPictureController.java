@@ -2,8 +2,10 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.User;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.UserPicture;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.UserPictureRequest;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.UserPictureService;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,7 @@ public class UserPictureController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraUsuarioFoto(@RequestBody UserPicture request) {
+    public ResponseEntity<?> cadastraUsuarioFoto(@RequestBody @Valid UserPictureRequest request) {
         return ResponseEntity.created(null).body(userPictureService.create(request));
     }
 
