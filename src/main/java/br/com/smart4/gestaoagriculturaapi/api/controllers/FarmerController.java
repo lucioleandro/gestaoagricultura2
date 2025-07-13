@@ -3,7 +3,9 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Farmer;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.FarmerRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.FarmerService;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +33,7 @@ public class FarmerController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraFarmer(@RequestBody Farmer request,
+    public ResponseEntity<?> cadastraFarmer(@RequestBody @Valid FarmerRequest request,
                                             UriComponentsBuilder uriBuilder) throws InvalidStateException {
         new CPFValidator().assertValid(request.getCpf());
 
@@ -43,7 +45,7 @@ public class FarmerController {
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaFarmer(@RequestBody Farmer request) {
+    public ResponseEntity<?> atualizaFarmer(@RequestBody @Valid FarmerRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 
         return ResponseEntity.ok().body(farmerService.atualiza(request));

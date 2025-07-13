@@ -1,6 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Product;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.ProductRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +27,12 @@ public class ProductController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraProduct(@Valid @RequestBody Product request) {
+    public ResponseEntity<?> cadastraProduct(@RequestBody @Valid ProductRequest request) {
         return ResponseEntity.created(null).body(productService.create(request));
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaProduct(@RequestBody Product request) {
+    public ResponseEntity<?> atualizaProduct(@RequestBody @Valid ProductRequest request) {
         return ResponseEntity.ok().body(productService.atualiza(request));
     }
 

@@ -1,7 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.EconomicActivity;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.EconomicActivityRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.EconomicActivityService;
+import jakarta.validation.Valid;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +31,13 @@ public class EconomicActivityController {
 
     @PostMapping("/cadastra")
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<?> cadastraEconomicActivity(@RequestBody EconomicActivity request) {
+    public ResponseEntity<?> cadastraEconomicActivity(@RequestBody @Valid EconomicActivityRequest request) {
         return ResponseEntity.created(null).body(economicActivityService.create(request));
     }
 
     @PutMapping("/atualiza")
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<?> atualizaEconomicActivity(@RequestBody EconomicActivity request) {
+    public ResponseEntity<?> atualizaEconomicActivity(@RequestBody @Valid EconomicActivityRequest request) {
         return ResponseEntity.ok().body(economicActivityService.atualiza(request));
     }
 

@@ -1,7 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.LivestockActivity;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.LivestockActivityRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.LivestockActivityService;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,12 +29,12 @@ public class LivestockActivityController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraLivestockActivity(@RequestBody LivestockActivity request) {
+    public ResponseEntity<?> cadastraLivestockActivity(@RequestBody @Valid LivestockActivityRequest request) {
         return ResponseEntity.created(null).body(livestockActivityService.create(request));
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaLivestockActivity(@RequestBody LivestockActivity request) {
+    public ResponseEntity<?> atualizaLivestockActivity(@RequestBody @Valid LivestockActivityRequest request) {
         return ResponseEntity.ok().body(livestockActivityService.atualiza(request));
     }
 

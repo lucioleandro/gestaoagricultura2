@@ -2,6 +2,7 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Question;
 import br.com.smart4.gestaoagriculturaapi.api.domains.StandardResponse;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.QuestionRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.QuestionService;
 import br.com.smart4.gestaoagriculturaapi.api.services.StandardResponseService;
 import jakarta.validation.Valid;
@@ -39,13 +40,13 @@ public class QuestionController {
 
     @PostMapping("/cadastra")
     @CacheEvict(value = "{listaDeQuestionsAtivas, listaDeQuestions}", allEntries = true)
-    public ResponseEntity<?> cadastraQuestion(@Valid @RequestBody Question request) {
+    public ResponseEntity<?> cadastraQuestion(@RequestBody @Valid QuestionRequest request) {
         limpaTodosOsCaches();
         return ResponseEntity.created(null).body(perguntaService.create(request));
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaQuestion(@RequestBody Question request) {
+    public ResponseEntity<?> atualizaQuestion(@RequestBody @Valid QuestionRequest request) {
         limpaTodosOsCaches();
         return ResponseEntity.ok().body(perguntaService.atualiza(request));
     }

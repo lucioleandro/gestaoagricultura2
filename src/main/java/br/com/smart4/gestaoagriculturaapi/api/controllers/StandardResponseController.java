@@ -1,7 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.StandardResponse;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.StandardResponseRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.StandardResponseService;
+import jakarta.validation.Valid;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.query.Param;
@@ -30,13 +32,13 @@ public class StandardResponseController {
 
     @PostMapping("/cadastra")
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
-    public ResponseEntity<?> cadastraStandardResponse(@RequestBody StandardResponse request) {
+    public ResponseEntity<?> cadastraStandardResponse(@RequestBody @Valid StandardResponseRequest request) {
         return ResponseEntity.created(null).body(respostaPadraoService.create(request));
     }
 
     @PutMapping("/atualiza")
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
-    public ResponseEntity<?> atualizaStandardResponse(@RequestBody StandardResponse request) {
+    public ResponseEntity<?> atualizaStandardResponse(@RequestBody @Valid StandardResponseRequest request) {
         return ResponseEntity.ok().body(respostaPadraoService.atualiza(request));
     }
 

@@ -1,6 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.PersonalInformation;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.PersonalInformationRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.PersonalInformationService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +25,12 @@ public class PersonalInformationController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraPersonalInformation(@RequestBody PersonalInformation request) {
+    public ResponseEntity<?> cadastraPersonalInformation(@RequestBody @Valid PersonalInformationRequest request) {
         return ResponseEntity.created(null).body(personalInformationService.create(request));
     }
 
     @PostMapping("/atualiza")
-    public ResponseEntity<?> atualizaPersonalInformation(@RequestBody PersonalInformation request) {
+    public ResponseEntity<?> atualizaPersonalInformation(@RequestBody @Valid PersonalInformationRequest request) {
         return ResponseEntity.ok().body(personalInformationService.atualiza(request));
     }
 

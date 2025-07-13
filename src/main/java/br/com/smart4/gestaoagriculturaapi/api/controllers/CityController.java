@@ -1,6 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
+import br.com.smart4.gestaoagriculturaapi.api.domains.City;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.CityRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.CityService;
+import jakarta.validation.Valid;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
@@ -28,26 +31,26 @@ public class CityController {
 
     @PostMapping("/cadastra")
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
-    public ResponseEntity<?> cadastraMunicipio(@RequestBody br.com.smart4.gestaoagriculturaapi.api.domains.City request) {
+    public ResponseEntity<?> cadastraMunicipio(@RequestBody @Valid CityRequest request) {
         return ResponseEntity.created(null).body(municipioService.create(request));
     }
 
     @PutMapping("/atualiza")
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
-    public ResponseEntity<?> atualizaMunicipio(@RequestBody br.com.smart4.gestaoagriculturaapi.api.domains.City request) {
+    public ResponseEntity<?> atualizaMunicipio(@RequestBody @Valid CityRequest request) {
         return ResponseEntity.ok().body(municipioService.atualiza(request));
     }
 
     @GetMapping("/lista")
     @Cacheable(value = "listaDeMunicipios")
-    public List<br.com.smart4.gestaoagriculturaapi.api.domains.City> getListaMunicipioes() {
+    public List<City> getListaMunicipioes() {
         return municipioService.findAll();
     }
 
     @DeleteMapping("/remove/{id}")
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
     public ResponseEntity<?> removeMunicipio(@PathVariable Long id) {
-        Optional<br.com.smart4.gestaoagriculturaapi.api.domains.City> municipio = municipioService.findById(id);
+        Optional<City> municipio = municipioService.findById(id);
         if (municipio.isPresent()) {
             municipioService.remove(municipio.get());
             return ResponseEntity.ok().body("");

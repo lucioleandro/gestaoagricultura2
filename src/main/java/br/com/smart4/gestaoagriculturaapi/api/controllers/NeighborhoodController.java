@@ -1,7 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Neighborhood;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.NeighborhoodRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.NeighborhoodService;
+import jakarta.validation.Valid;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.query.Param;
@@ -32,13 +34,13 @@ public class NeighborhoodController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraNeighborhood(@RequestBody Neighborhood request) {
+    public ResponseEntity<?> cadastraNeighborhood(@RequestBody @Valid NeighborhoodRequest request) {
         limpaTodosOsCaches();
         return ResponseEntity.created(null).body(neighborhoodService.create(request));
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaNeighborhood(@RequestBody Neighborhood request) {
+    public ResponseEntity<?> atualizaNeighborhood(@RequestBody @Valid NeighborhoodRequest request) {
         limpaTodosOsCaches();
         return ResponseEntity.ok().body(neighborhoodService.atualiza(request));
     }

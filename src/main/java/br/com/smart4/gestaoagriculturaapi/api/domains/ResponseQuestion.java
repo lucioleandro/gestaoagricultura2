@@ -9,11 +9,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.io.Serializable;
 
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_response_question", schema = "smartagrodb")
 public class ResponseQuestion implements Serializable {

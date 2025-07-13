@@ -1,6 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
 
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumQuestionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,11 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.io.Serializable;
 
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_question", schema = "smartagrodb")
 public class Question implements Serializable {
@@ -40,7 +43,7 @@ public class Question implements Serializable {
 	private Boolean obrigatoria;
 
 	@Enumerated(EnumType.STRING)
-	private br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumQuestionType tipoQuestion;
+	private EnumQuestionType tipoQuestion;
 
 //  =========================================== JUNÇÕES 1-N
 

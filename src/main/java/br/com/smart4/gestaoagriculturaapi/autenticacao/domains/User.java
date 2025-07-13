@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "aut_user", schema = "smartagrodb",
 uniqueConstraints = { 

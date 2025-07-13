@@ -10,11 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.io.Serializable;
 
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "aut_permission", schema = "smartagrodb")
 public class Permission implements Serializable {

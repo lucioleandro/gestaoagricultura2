@@ -33,7 +33,7 @@ public class AddressController {
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaAddress(@RequestBody Address request) {
+    public ResponseEntity<?> atualizaAddress(@RequestBody AddressRequest request) {
         return ResponseEntity.ok().body(addressService.atualiza(request));
     }
 

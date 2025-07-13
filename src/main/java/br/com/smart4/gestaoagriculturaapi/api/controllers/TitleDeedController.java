@@ -1,13 +1,15 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.EnumTitleDeed;
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumTitleDeed;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import br.com.smart4.gestaoagriculturaapi.api.domains.TitleDeed;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.TitleDeedRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.TitleDeedService;
 import br.com.smart4.gestaoagriculturaapi.api.services.PropertyService;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,12 +45,12 @@ public class TitleDeedController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraDocumentosProperty(@RequestBody TitleDeed request) {
+    public ResponseEntity<?> cadastraDocumentosProperty(@RequestBody @Valid TitleDeedRequest request) throws IOException {
         return ResponseEntity.created(null).body(titleDeedService.create(request));
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaDocumentosProperty(@RequestBody TitleDeed request) {
+    public ResponseEntity<?> atualizaDocumentosProperty(@RequestBody @Valid TitleDeedRequest request) throws IOException {
         return ResponseEntity.ok().body(titleDeedService.atualiza(request));
     }
 
@@ -89,7 +91,7 @@ public class TitleDeedController {
         LocalDateTime dataAdicao = LocalDateTime.now();
         Optional<Property> prop = propertyService.findById(idProperty);
 
-        TitleDeed arquivo = new TitleDeed(titulo, observacao, dataAdicao,
+        TitleDeedRequest arquivo = new TitleDeedRequest(titulo, observacao, dataAdicao,
                 byteArquivo, extensao, documento, prop.get());
 
         return ResponseEntity.ok().body(titleDeedService.create(arquivo));

@@ -1,7 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.AgricultureActivity;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.AgricultureActivityRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.AgricultureActivityService;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,12 +30,12 @@ public class AgricultureActivityController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraAgricultureActivity(@RequestBody AgricultureActivity request) {
+    public ResponseEntity<?> cadastraAgricultureActivity(@RequestBody @Valid AgricultureActivityRequest request) {
         return ResponseEntity.created(null).body(agricultureActivityService.create(request));
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaAgricultureActivity(@RequestBody AgricultureActivity request) {
+    public ResponseEntity<?> atualizaAgricultureActivity(@RequestBody @Valid AgricultureActivityRequest request) {
         agricultureActivityService.atualiza(request);
         return ResponseEntity.ok().body("");
     }

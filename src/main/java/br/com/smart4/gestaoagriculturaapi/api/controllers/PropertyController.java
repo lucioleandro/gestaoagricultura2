@@ -2,6 +2,8 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Address;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.AddressRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.PropertyRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.AddressService;
 import br.com.smart4.gestaoagriculturaapi.api.services.PropertyService;
 import br.com.smart4.gestaoagriculturaapi.api.utils.Coordinates;
@@ -42,7 +44,7 @@ public class PropertyController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraProperty(@Valid @RequestBody Property request) {
+    public ResponseEntity<?> cadastraProperty(@RequestBody @Valid PropertyRequest request) {
         Coordinates coordenadas = this.buscaCoordenadas(request.getAddress());
 
         request.setLatitude(coordenadas.getLatitude());
@@ -53,47 +55,47 @@ public class PropertyController {
         return ResponseEntity.created(null).body(propertyService.create(request));
     }
 
-    public Coordinates buscaCoordenadas(Address address) {
+    public Coordinates buscaCoordenadas(AddressRequest address) {
 
         HttpClient httpClient = HttpClient.newHttpClient();
         ObjectMapper objectMapper = new ObjectMapper();
 //		String apiKey = System.getenv("GOOGLE_MAPS_API_KEY");
         String apiKey = System.getenv("AIzaSyB4hsbTQ9Vsb_2YkIdzJCnjYlM4-IN5Fbo");
         try {
-            String addressFormatado = String.join(",",
-                    address.getLogradouro(),
-                    address.getNumero(),
-                    address.getNeighborhood().getNome(),
-                    address.getCity().getNome(),
-                    address.getCity().getUf());
+//            String addressFormatado = String.join(",",
+//                    address.getLogradouro(),
+//                    address.getNumero(),
+//                    address.getNeighborhood().getNome(),
+//                    address.getCity().getNome(),
+//                    address.getCity().getUf());
 
-            String encodedAddress = URLEncoder.encode(addressFormatado, StandardCharsets.UTF_8);
-            String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s",
-                    encodedAddress, apiKey);
+//            String encodedAddress = URLEncoder.encode(addressFormatado, StandardCharsets.UTF_8);
+//            String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s",
+//                    encodedAddress, apiKey);
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
-                    .header("Accept", "application/json")
-                    .GET()
-                    .build();
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(URI.create(url))
+//                    .header("Accept", "application/json")
+//                    .GET()
+//                    .build();
 
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+//            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+//
+//            if (response.statusCode() != 200) {
+//                throw new RuntimeException("Erro ao chamar a API do Google Maps: HTTP " + response.statusCode());
+//            }
+//
+//            JsonNode root = objectMapper.readTree(response.body());
+//            JsonNode location = root.at("/results/0/geometry/location");
+//
+//            if (location.isMissingNode()) {
+//                throw new RuntimeException("Não foi possível obter coordenadas para o endereço informado.");
+//            }
 
-            if (response.statusCode() != 200) {
-                throw new RuntimeException("Erro ao chamar a API do Google Maps: HTTP " + response.statusCode());
-            }
+//            String lat = location.get("lat").asText();
+//            String lng = location.get("lng").asText();
 
-            JsonNode root = objectMapper.readTree(response.body());
-            JsonNode location = root.at("/results/0/geometry/location");
-
-            if (location.isMissingNode()) {
-                throw new RuntimeException("Não foi possível obter coordenadas para o endereço informado.");
-            }
-
-            String lat = location.get("lat").asText();
-            String lng = location.get("lng").asText();
-
-            return new Coordinates(lat, lng);
+            return new Coordinates(null, null);
 
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar coordenadas: " + e.getMessage(), e);
@@ -101,7 +103,7 @@ public class PropertyController {
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaProperty(@RequestBody Property request) {
+    public ResponseEntity<?> atualizaProperty(@RequestBody @Valid PropertyRequest request) {
         Coordinates coordenadas = this.buscaCoordenadas(request.getAddress());
         request.setLatitude(coordenadas.getLatitude());
         request.setLongitude(coordenadas.getLongitude());

@@ -1,4 +1,4 @@
-package br.com.smart4.gestaoagriculturaapi.api.domains;
+package br.com.smart4.gestaoagriculturaapi.api.domains.enums;
 
 public enum StreetType {
 	RUA, AVENIDA, LOTE, TRAVESSA, ALAMEDA, BECO, QUADRA, PARQUE, VILA, POVOADO, CONDOMINIO, FAZENDA, ESTRADA, SITIO,

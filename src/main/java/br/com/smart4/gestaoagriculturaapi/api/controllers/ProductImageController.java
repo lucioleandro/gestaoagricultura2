@@ -2,9 +2,11 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Product;
 import br.com.smart4.gestaoagriculturaapi.api.domains.ProductImage;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.ProductImageRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.ProductImageService;
 import br.com.smart4.gestaoagriculturaapi.api.services.ProductService;
 import br.com.smart4.gestaoagriculturaapi.api.utils.ResponseMessage;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,15 +47,15 @@ public class ProductImageController {
 
         if (product.isPresent()) {
             return ResponseEntity.created(null).body(productImageService
-                    .create(new ProductImage(arquivo.getBytes(),
-                            extensao, product.get())));
+                    .create(new ProductImageRequest(arquivo.getBytes(),
+                            extensao, product.get().getId())));
         } else {
             return ResponseEntity.badRequest().body(new ResponseMessage("Este product não existe na base"));
         }
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaProductImage(@RequestBody ProductImage request) {
+    public ResponseEntity<?> atualizaProductImage(@RequestBody @Valid ProductImageRequest request) {
         return ResponseEntity.ok().body(productImageService.atualiza(request));
     }
 

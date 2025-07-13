@@ -1,6 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.ResponseQuestion;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.ResponseQuestionRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.ResponseQuestionService;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
@@ -28,16 +29,17 @@ public class ResponseQuestionController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraResponseQuestion(@RequestBody ResponseQuestion request) {
+    public ResponseEntity<?> cadastraResponseQuestion(@RequestBody @Valid ResponseQuestionRequest request) {
         return ResponseEntity.created(null).body(respostaQuestionService.create(request));
     }
 
     @PostMapping("/cadastrarespostas")
-    public ResponseEntity<?> cadastraRespostasQuestion(@Valid @RequestBody List<ResponseQuestion> request) {
-        Long idFarmer = request.get(0).getFarmer().getId();
-        this.DeletaRespostasMultiplaEscolhaByFarmer(idFarmer);
+    public ResponseEntity<?> cadastraRespostasQuestion(@RequestBody @Valid  List<ResponseQuestionRequest> request) {
+//        Long idFarmer = request.get(0).getFarmer().getId();
+//        this.DeletaRespostasMultiplaEscolhaByFarmer(idFarmer);
+        // TODO revisar isso aqui
 
-        for (ResponseQuestion resposta : request) {
+        for (ResponseQuestionRequest resposta : request) {
             respostaQuestionService.create(resposta);
         }
 
@@ -49,7 +51,7 @@ public class ResponseQuestionController {
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaResponseQuestion(@RequestBody ResponseQuestion request) {
+    public ResponseEntity<?> atualizaResponseQuestion(@RequestBody @Valid ResponseQuestionRequest request) {
         return ResponseEntity.ok().body(respostaQuestionService.atualiza(request));
     }
 

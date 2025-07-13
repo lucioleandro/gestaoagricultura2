@@ -22,8 +22,8 @@ public class AgricultureActivityService {
 		return atividadeAgriculaRepository.save(AgricultureActivityFactory.fromRequest(atividadeAgricula));
 	}
 
-	public void atualiza(AgricultureActivity atividadeAgricula) {
-		atividadeAgriculaRepository.save(atividadeAgricula);
+	public void atualiza(AgricultureActivityRequest atividadeAgricula) {
+		atividadeAgriculaRepository.save(AgricultureActivityFactory.fromRequest(atividadeAgricula));
 	}
 
 	public Optional<AgricultureActivity> findById(Long id) {

@@ -6,11 +6,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "agro_product", schema = "smartagrodb")
 public class Product implements Serializable {
@@ -35,9 +39,6 @@ public class Product implements Serializable {
 //  =========================================== RELACIONAMENTOS
 
 //  ===========================================
-
-	public Product() {
-	}
 
 	public Product(Long id, int version, String descricao) {
 		this.id = id;

@@ -1,5 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.StreetType;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

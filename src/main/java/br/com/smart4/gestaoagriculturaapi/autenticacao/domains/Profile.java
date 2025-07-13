@@ -13,12 +13,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "aut_profile", schema="smartagrodb")
 public class Profile implements Serializable {

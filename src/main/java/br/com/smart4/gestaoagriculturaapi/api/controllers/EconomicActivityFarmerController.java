@@ -2,8 +2,10 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.EconomicActivityFarmer;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.EconomicActivityFarmerRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.EconomicActivityFarmerService;
 import br.com.smart4.gestaoagriculturaapi.api.utils.ResponseMessage;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +33,12 @@ public class EconomicActivityFarmerController {
     }
 
     @PostMapping("/cadastra")
-    public ResponseEntity<?> cadastraEconomicActivityFarmer(@RequestBody EconomicActivityFarmer request) {
-        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
-            return ResponseEntity.badRequest()
-                    .body(new ResponseMessage("Já existe uma atividade como principal"));
-        }
+    public ResponseEntity<?> cadastraEconomicActivityFarmer(@RequestBody @Valid EconomicActivityFarmerRequest request) {
+//        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
+//            return ResponseEntity.badRequest()
+//                    .body(new ResponseMessage("Já existe uma atividade como principal"));
+//        }
+        // TODO revisar acima
 
         return ResponseEntity.created(null).body(economicActivityFarmerService.create(request));
     }
@@ -52,11 +55,12 @@ public class EconomicActivityFarmerController {
     }
 
     @PutMapping("/atualiza")
-    public ResponseEntity<?> atualizaEconomicActivityFarmer(@RequestBody EconomicActivityFarmer request) {
-        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
-            return ResponseEntity.badRequest()
-                    .body(new ResponseMessage("Já existe uma atividade como principal"));
-        }
+    public ResponseEntity<?> atualizaEconomicActivityFarmer(@RequestBody @Valid EconomicActivityFarmerRequest request) {
+//        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
+//            return ResponseEntity.badRequest()
+//                    .body(new ResponseMessage("Já existe uma atividade como principal"));
+//        }
+        // TODO revisar acima
 
         return ResponseEntity.ok().body(economicActivityFarmerService.atualiza(request));
     }
