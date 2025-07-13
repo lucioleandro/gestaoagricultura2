@@ -26,7 +26,7 @@ public class TitleDeedService {
 	}
 
 	@Transactional
-	public TitleDeed atualiza(TitleDeedRequest documentosProperty) throws IOException {
+	public TitleDeed update(TitleDeedRequest documentosProperty) throws IOException {
 		return titleDeedRepository.save(TitleDeedFactory.fromRequest(documentosProperty));
 	}
 

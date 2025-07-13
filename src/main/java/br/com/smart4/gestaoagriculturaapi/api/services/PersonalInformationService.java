@@ -25,7 +25,7 @@ public class PersonalInformationService {
 	}
 
 	@Transactional
-	public PersonalInformation atualiza(PersonalInformationRequest personalInformation) {
+	public PersonalInformation update(PersonalInformationRequest personalInformation) {
 		return personalInformationRepository.save(PersonalInformationFactory.fromRequest(personalInformation));
 	}
 

@@ -25,7 +25,7 @@ public class EconomicActivityFarmerService {
 	}
 
 	@Transactional
-	public EconomicActivityFarmer atualiza(EconomicActivityFarmerRequest municipio) {
+	public EconomicActivityFarmer update(EconomicActivityFarmerRequest municipio) {
 		return economicActivityRepository.save(EconomicActivityFarmerFactory.fromRequest(municipio));
 	}
 

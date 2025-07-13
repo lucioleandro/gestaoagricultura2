@@ -31,25 +31,25 @@ public class EconomicActivityController {
 
     @PostMapping
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<?> cadastraEconomicActivity(@RequestBody @Valid EconomicActivityRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid EconomicActivityRequest request) {
         return ResponseEntity.created(null).body(economicActivityService.create(request));
     }
 
     @PutMapping
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<?> atualizaEconomicActivity(@RequestBody @Valid EconomicActivityRequest request) {
-        return ResponseEntity.ok().body(economicActivityService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid EconomicActivityRequest request) {
+        return ResponseEntity.ok().body(economicActivityService.update(request));
     }
 
     @GetMapping
     @Cacheable(value = "listaDeAtividadesEconomicas")
-    public List<EconomicActivity> getListaEconomicActivityes() {
+    public List<EconomicActivity> getList() {
         return economicActivityService.findAll();
     }
 
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<?> removeEconomicActivity(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<EconomicActivity> economicActivity = economicActivityService.findById(id);
 
         if (economicActivity.isPresent()) {

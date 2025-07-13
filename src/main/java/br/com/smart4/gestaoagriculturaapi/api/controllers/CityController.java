@@ -31,25 +31,25 @@ public class CityController {
 
     @PostMapping
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
-    public ResponseEntity<?> cadastraMunicipio(@RequestBody @Valid CityRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid CityRequest request) {
         return ResponseEntity.created(null).body(municipioService.create(request));
     }
 
     @PutMapping
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
-    public ResponseEntity<?> atualizaMunicipio(@RequestBody @Valid CityRequest request) {
-        return ResponseEntity.ok().body(municipioService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid CityRequest request) {
+        return ResponseEntity.ok().body(municipioService.update(request));
     }
 
     @GetMapping
     @Cacheable(value = "listaDeMunicipios")
-    public List<City> getListaMunicipioes() {
+    public List<City> getList() {
         return municipioService.findAll();
     }
 
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
-    public ResponseEntity<?> removeMunicipio(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<City> municipio = municipioService.findById(id);
         if (municipio.isPresent()) {
             municipioService.remove(municipio.get());

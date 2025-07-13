@@ -25,7 +25,7 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product atualiza(ProductRequest product) {
+	public Product update(ProductRequest product) {
 		return productRepository.save(ProductFactory.fromRequest(product));
 	}
 

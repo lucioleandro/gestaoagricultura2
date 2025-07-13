@@ -27,22 +27,22 @@ public class PersonalInformationController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraPersonalInformation(@RequestBody @Valid PersonalInformationRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid PersonalInformationRequest request) {
         return ResponseEntity.created(null).body(personalInformationService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaPersonalInformation(@RequestBody @Valid PersonalInformationRequest request) {
-        return ResponseEntity.ok().body(personalInformationService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid PersonalInformationRequest request) {
+        return ResponseEntity.ok().body(personalInformationService.update(request));
     }
 
     @GetMapping
-    public List<PersonalInformation> getListaPersonalInformationes() {
+    public List<PersonalInformation> getList() {
         return personalInformationService.findAll();
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> removePersonalInformation(@Valid @PathVariable Long id) {
+    public ResponseEntity<?> remove(@Valid @PathVariable Long id) {
         Optional<PersonalInformation> personalInformation = personalInformationService.findById(id);
 
         if (personalInformation.isPresent()) {

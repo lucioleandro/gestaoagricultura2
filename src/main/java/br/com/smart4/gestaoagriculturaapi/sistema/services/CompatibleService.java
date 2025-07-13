@@ -23,7 +23,7 @@ public class CompatibleService {
 	}
 
 	@Transactional
-	public Compatible atualiza(Compatible compatible) {
+	public Compatible update(Compatible compatible) {
 		return compatibleRepository.save(compatible);
 	}
 

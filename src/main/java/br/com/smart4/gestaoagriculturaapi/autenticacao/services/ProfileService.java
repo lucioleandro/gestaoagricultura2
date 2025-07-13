@@ -25,7 +25,7 @@ public class ProfileService {
 	}
 
 	@Transactional
-	public Profile atualiza(ProfileRequest perfil) {
+	public Profile update(ProfileRequest perfil) {
 		return profileRepository.save(ProfileFactory.fromRequest(perfil));
 	}
 	

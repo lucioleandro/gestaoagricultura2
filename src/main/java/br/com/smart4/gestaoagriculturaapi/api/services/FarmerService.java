@@ -25,7 +25,7 @@ public class FarmerService {
 	}
 
 	@Transactional
-	public Farmer atualiza(FarmerRequest farmer) {
+	public Farmer update(FarmerRequest farmer) {
 		return farmerRepository.save(FarmerFactory.fromRequest(farmer));
 	}
 

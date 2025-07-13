@@ -29,28 +29,28 @@ public class AgricultureActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraAgricultureActivity(@RequestBody @Valid AgricultureActivityRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid AgricultureActivityRequest request) {
         return ResponseEntity.created(null).body(agricultureActivityService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaAgricultureActivity(@RequestBody @Valid AgricultureActivityRequest request) {
-        agricultureActivityService.atualiza(request);
+    public ResponseEntity<?> update(@RequestBody @Valid AgricultureActivityRequest request) {
+        agricultureActivityService.update(request);
         return ResponseEntity.ok().body("");
     }
 
     @GetMapping
-    public List<AgricultureActivity> getListaAgricultureActivity() {
+    public List<AgricultureActivity> getList() {
         return agricultureActivityService.findAll();
     }
 
     @GetMapping("/property")
-    public List<AgricultureActivity> getListaAgricultureActivityByProperty(@Param(value = "id") Long id) {
+    public List<AgricultureActivity> getListByProperty(@Param(value = "id") Long id) {
         return agricultureActivityService.findByProperty(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeAgricultureActivity(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<AgricultureActivity> agricultureActivity = agricultureActivityService.findById(id);
 
         if (agricultureActivity.isPresent()) {

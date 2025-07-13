@@ -45,7 +45,7 @@ public class CompatibleController {
 
     @PutMapping
     public ResponseEntity<?> atualizaCompativeis(@RequestBody Compatible request) {
-        return ResponseEntity.ok().body(compatibleService.atualiza(request));
+        return ResponseEntity.ok().body(compatibleService.update(request));
     }
 
     @GetMapping
@@ -147,7 +147,7 @@ public class CompatibleController {
         compatibleAux = compatibleService.findByCodSistema(Integer.valueOf(idSistema));
         if (!senhaDeLiberacao.equals("")) {
             compatibleAux.setSenhaDeLiberacao(senhaDeLiberacao);
-            compatibleService.atualiza(compatibleAux);
+            compatibleService.update(compatibleAux);
         }
     }
 

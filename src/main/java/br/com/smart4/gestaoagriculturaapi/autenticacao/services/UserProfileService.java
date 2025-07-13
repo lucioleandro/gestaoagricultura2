@@ -25,7 +25,7 @@ public class UserProfileService {
 	}
 
 	@Transactional
-	public UserProfile atualiza(UserProfileRequest userPicure) {
+	public UserProfile update(UserProfileRequest userPicure) {
 		return usuarioFotoRepository.save(UserProfileFactory.fromRequest(userPicure));
 	}
 	

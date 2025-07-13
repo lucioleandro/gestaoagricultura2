@@ -25,7 +25,7 @@ public class NeighborhoodService {
 	}
 
 	@Transactional
-	public Neighborhood atualiza(NeighborhoodRequest neighborhood) {
+	public Neighborhood update(NeighborhoodRequest neighborhood) {
 		return neighborhoodRepository.save(NeighborhoodFactory.fromRequest(neighborhood));
 	}
 

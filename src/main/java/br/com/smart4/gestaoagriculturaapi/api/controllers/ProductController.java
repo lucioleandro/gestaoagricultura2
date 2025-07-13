@@ -27,22 +27,22 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraProduct(@RequestBody @Valid ProductRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid ProductRequest request) {
         return ResponseEntity.created(null).body(productService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaProduct(@RequestBody @Valid ProductRequest request) {
-        return ResponseEntity.ok().body(productService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid ProductRequest request) {
+        return ResponseEntity.ok().body(productService.update(request));
     }
 
     @GetMapping
-    public List<Product> getListaProductes() {
+    public List<Product> getList() {
         return productService.findAll();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeProduct(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<Product> product = productService.findById(id);
 
         if (product.isPresent()) {

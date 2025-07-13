@@ -25,12 +25,12 @@ public class UserPictureService {
 	}
 
 	@Transactional
-	public UserPicture createOrAtualiza(UserPicture userPicture) {
+	public UserPicture createOrUpdate(UserPicture userPicture) {
 		return userPictureRepository.saveAndFlush(userPicture);
 	}
 
 	@Transactional
-	public UserPicture atualiza(UserPictureRequest userPicture) {
+	public UserPicture update(UserPictureRequest userPicture) {
 		return userPictureRepository.save(UserPictureFactory.fromRequest(userPicture));
 	}
 	

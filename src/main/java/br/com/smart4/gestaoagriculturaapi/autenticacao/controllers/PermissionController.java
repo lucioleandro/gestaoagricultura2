@@ -1,6 +1,5 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.utils.ResponseMessage;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Permission;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.PermissionRequest;
@@ -61,7 +60,7 @@ public class PermissionController {
 //                    new ResponseMessage("Este componente já está vinculado a este perfil!"));
 //        }
         // TODO Revisar acima
-        return ResponseEntity.ok().body(permissionService.atualiza(request));
+        return ResponseEntity.ok().body(permissionService.update(request));
     }
 
     @GetMapping

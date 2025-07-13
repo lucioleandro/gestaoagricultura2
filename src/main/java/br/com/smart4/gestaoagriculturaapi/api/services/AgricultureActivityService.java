@@ -25,7 +25,7 @@ public class AgricultureActivityService {
 	}
 
 	@Transactional
-	public void atualiza(AgricultureActivityRequest atividadeAgricula) {
+	public void update(AgricultureActivityRequest atividadeAgricula) {
 		atividadeAgriculaRepository.save(AgricultureActivityFactory.fromRequest(atividadeAgricula));
 	}
 

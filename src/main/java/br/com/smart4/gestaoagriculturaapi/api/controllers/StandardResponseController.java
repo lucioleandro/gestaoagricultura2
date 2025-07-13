@@ -32,30 +32,30 @@ public class StandardResponseController {
 
     @PostMapping
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
-    public ResponseEntity<?> cadastraStandardResponse(@RequestBody @Valid StandardResponseRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid StandardResponseRequest request) {
         return ResponseEntity.created(null).body(respostaPadraoService.create(request));
     }
 
     @PutMapping
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
-    public ResponseEntity<?> atualizaStandardResponse(@RequestBody @Valid StandardResponseRequest request) {
-        return ResponseEntity.ok().body(respostaPadraoService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid StandardResponseRequest request) {
+        return ResponseEntity.ok().body(respostaPadraoService.update(request));
     }
 
     @GetMapping
-    public List<StandardResponse> getListaStandardResponsees() {
+    public List<StandardResponse> getList() {
         return respostaPadraoService.findAll();
     }
 
     @GetMapping("/question")
     @Cacheable(value = "listaDeRespostasPadroesPorQuestion")
-    public List<StandardResponse> getListaStandardResponseByQuestion(@Param(value = "id") Long questionId) {
+    public List<StandardResponse> getListByQuestion(@Param(value = "id") Long questionId) {
         return respostaPadraoService.findByQuestionId(questionId);
     }
 
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
-    public ResponseEntity<?> removeStandardResponse(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<StandardResponse> respostaPadrao = respostaPadraoService.findById(id);
 
         if (respostaPadrao.isPresent()) {

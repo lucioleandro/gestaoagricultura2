@@ -25,7 +25,7 @@ public class EconomicActivityService {
 	}
 
 	@Transactional
-	public EconomicActivity atualiza(EconomicActivityRequest economicActivity) {
+	public EconomicActivity update(EconomicActivityRequest economicActivity) {
 		return economicActivityRepository.save(EconomicActivityFactory.fromRequest(economicActivity));
 	}
 

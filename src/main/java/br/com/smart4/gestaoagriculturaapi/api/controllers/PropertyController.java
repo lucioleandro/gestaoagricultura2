@@ -7,7 +7,6 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.PropertyRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.AddressService;
 import br.com.smart4.gestaoagriculturaapi.api.services.PropertyService;
 import br.com.smart4.gestaoagriculturaapi.api.utils.Coordinates;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
@@ -21,12 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,8 +38,8 @@ public class PropertyController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraProperty(@RequestBody @Valid PropertyRequest request) {
-        Coordinates coordenadas = this.buscaCoordenadas(request.getAddress());
+    public ResponseEntity<?> create(@RequestBody @Valid PropertyRequest request) {
+        Coordinates coordenadas = this.searchCoordinates(request.getAddress());
 
         request.setLatitude(coordenadas.getLatitude());
         request.setLongitude(coordenadas.getLongitude());
@@ -55,7 +49,7 @@ public class PropertyController {
         return ResponseEntity.created(null).body(propertyService.create(request));
     }
 
-    public Coordinates buscaCoordenadas(AddressRequest address) {
+    public Coordinates searchCoordinates(AddressRequest address) {
 
         HttpClient httpClient = HttpClient.newHttpClient();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -103,28 +97,28 @@ public class PropertyController {
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaProperty(@RequestBody @Valid PropertyRequest request) {
-        Coordinates coordenadas = this.buscaCoordenadas(request.getAddress());
+    public ResponseEntity<?> update(@RequestBody @Valid PropertyRequest request) {
+        Coordinates coordenadas = this.searchCoordinates(request.getAddress());
         request.setLatitude(coordenadas.getLatitude());
         request.setLongitude(coordenadas.getLongitude());
 
-        addressService.atualiza(request.getAddress());
+        addressService.update(request.getAddress());
 
-        return ResponseEntity.ok().body(propertyService.atualiza(request));
+        return ResponseEntity.ok().body(propertyService.update(request));
     }
 
     @GetMapping
-    public List<Property> getListaPropertyes() {
+    public List<Property> getList() {
         return propertyService.findAll();
     }
 
     @GetMapping("/farmer")
-    public List<Property> getListaPropertyesByFarmer(@Param(value = "id") Long farmerId) {
+    public List<Property> getListByFarmer(@Param(value = "id") Long farmerId) {
         return propertyService.findByFarmer(farmerId);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeProperty(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<Property> property = propertyService.findById(id);
 
         property.ifPresent(prop -> {

@@ -28,17 +28,17 @@ public class AddressController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraAddress(@RequestBody @Valid AddressRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid AddressRequest request) {
         return ResponseEntity.created(null).body(addressService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaAddress(@RequestBody @Valid AddressRequest request) {
-        return ResponseEntity.ok().body(addressService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid AddressRequest request) {
+        return ResponseEntity.ok().body(addressService.update(request));
     }
 
     @GetMapping
-    public List<Address> getListaAddresses() {
+    public List<Address> getList() {
         return addressService.findAll();
     }
 

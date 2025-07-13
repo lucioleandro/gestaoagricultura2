@@ -25,7 +25,7 @@ public class QuestionResponseService {
 	}
 
 	@Transactional
-	public QuestionResponse atualiza(ResponseQuestionRequest respostaQuestion) {
+	public QuestionResponse update(ResponseQuestionRequest respostaQuestion) {
 		return respostaQuestionRepository.save(ResponseQuestionFactory.fromRequest(respostaQuestion));
 	}
 	

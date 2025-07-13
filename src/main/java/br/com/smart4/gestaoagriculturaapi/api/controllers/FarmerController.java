@@ -33,7 +33,7 @@ public class FarmerController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraFarmer(@RequestBody @Valid FarmerRequest request,
+    public ResponseEntity<?> create(@RequestBody @Valid FarmerRequest request,
                                             UriComponentsBuilder uriBuilder) throws InvalidStateException {
         new CPFValidator().assertValid(request.getCpf());
 
@@ -45,19 +45,19 @@ public class FarmerController {
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaFarmer(@RequestBody @Valid FarmerRequest request) {
+    public ResponseEntity<?> update(@RequestBody @Valid FarmerRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 
-        return ResponseEntity.ok().body(farmerService.atualiza(request));
+        return ResponseEntity.ok().body(farmerService.update(request));
     }
 
     @GetMapping
-    public List<Farmer> getListaFarmers() {
+    public List<Farmer> getList() {
         return farmerService.findAll();
     }
 
     @GetMapping("/document")
-    public Farmer getFarmerByCpf(@Param(value = "cpf") String cpf) {
+    public Farmer getByCpf(@Param(value = "cpf") String cpf) {
         Optional<Farmer> farmer = farmerService.findByCpf(cpf);
 
         if (farmer.isPresent()) {
@@ -68,7 +68,7 @@ public class FarmerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeFarmer(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<Farmer> farmer = farmerService.findById(id);
 
         if (farmer.isPresent()) {

@@ -45,27 +45,27 @@ public class TitleDeedController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraDocumentosProperty(@RequestBody @Valid TitleDeedRequest request) throws IOException {
+    public ResponseEntity<?> create(@RequestBody @Valid TitleDeedRequest request) throws IOException {
         return ResponseEntity.created(null).body(titleDeedService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaDocumentosProperty(@RequestBody @Valid TitleDeedRequest request) throws IOException {
-        return ResponseEntity.ok().body(titleDeedService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid TitleDeedRequest request) throws IOException {
+        return ResponseEntity.ok().body(titleDeedService.update(request));
     }
 
     @GetMapping
-    public List<TitleDeed> getListaDocumentosPropertys() {
+    public List<TitleDeed> getList() {
         return titleDeedService.findAll();
     }
 
     @GetMapping("/property")
-    public List<TitleDeed> getListaDocumentosPropertysbyproperty(@Param(value = "id") Long propertyId) {
+    public List<TitleDeed> getListbyproperty(@Param(value = "id") Long propertyId) {
         return titleDeedService.findByProperty(propertyId);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeDocumentosProperty(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<TitleDeed> documentosProperty = titleDeedService.findById(id);
 
         if (documentosProperty.isPresent()) {
@@ -78,7 +78,7 @@ public class TitleDeedController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> cadastraDocumentosProperty(
+    public ResponseEntity<?> createPropertyDocuments(
             @RequestParam("titulo") String titulo,
             @RequestParam("observacao") String observacao,
             @RequestParam("bytes") MultipartFile arquivoMult,

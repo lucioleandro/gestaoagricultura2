@@ -25,7 +25,7 @@ public class PermissionService {
 	}
 
 	@Transactional
-	public Permission atualiza(PermissionRequest permission) {
+	public Permission update(PermissionRequest permission) {
 		return permissionRepository.save(PermissionFactory.fromRequest(permission));
 	}
 

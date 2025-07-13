@@ -61,7 +61,7 @@ public class UserProfileController {
 
     @PutMapping
     public ResponseEntity<?> atualizaUsuarioPerfil(@RequestBody @Valid UserProfileRequest request) {
-        return ResponseEntity.ok().body(userProfileService.atualiza(request));
+        return ResponseEntity.ok().body(userProfileService.update(request));
     }
 
 }

@@ -28,22 +28,22 @@ public class ParametersController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraParametros(@Valid @RequestBody Parameters request) {
+    public ResponseEntity<?> create(@Valid @RequestBody Parameters request) {
         return ResponseEntity.created(null).body(parametersService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaParametros(@RequestBody Parameters request) {
-        return ResponseEntity.ok().body(parametersService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody Parameters request) {
+        return ResponseEntity.ok().body(parametersService.update(request));
     }
 
     @GetMapping
-    public List<Parameters> getListaParametroses() {
+    public List<Parameters> getList() {
         return parametersService.findAll();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeParametros(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<Parameters> parametros = parametersService.findById(id);
 
         if (parametros.isPresent()) {

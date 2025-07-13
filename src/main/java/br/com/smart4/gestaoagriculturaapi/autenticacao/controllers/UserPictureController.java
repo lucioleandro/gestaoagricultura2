@@ -60,7 +60,7 @@ public class UserPictureController {
             userPicture = new UserPicture(fotoPerfil, usuarioOptional.get());
         }
 
-        return ResponseEntity.ok().body(userPictureService.createOrAtualiza(userPicture));
+        return ResponseEntity.ok().body(userPictureService.createOrUpdate(userPicture));
     }
 
     @GetMapping

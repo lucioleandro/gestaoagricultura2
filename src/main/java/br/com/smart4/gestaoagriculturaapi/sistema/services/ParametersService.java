@@ -23,7 +23,7 @@ public class ParametersService {
 	}
 
 	@Transactional
-	public Parameters atualiza(Parameters parametro) {
+	public Parameters update(Parameters parametro) {
 		return parametroRepository.save(parametro);
 	}
 

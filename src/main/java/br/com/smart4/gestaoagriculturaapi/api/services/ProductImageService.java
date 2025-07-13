@@ -25,7 +25,7 @@ public class ProductImageService {
 	}
 
 	@Transactional
-	public ProductImage atualiza(ProductImageRequest productImage) {
+	public ProductImage update(ProductImageRequest productImage) {
 		return productImageRepository.save(ProductImageFactory.fromRequest(productImage));
 	}
 

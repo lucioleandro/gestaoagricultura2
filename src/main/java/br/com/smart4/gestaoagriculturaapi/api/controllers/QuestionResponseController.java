@@ -29,12 +29,12 @@ public class QuestionResponseController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraResponseQuestion(@RequestBody @Valid ResponseQuestionRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid ResponseQuestionRequest request) {
         return ResponseEntity.created(null).body(respostaQuestionService.create(request));
     }
 
     @PostMapping("/list")
-    public ResponseEntity<?> cadastraRespostasQuestion(@RequestBody @Valid  List<ResponseQuestionRequest> request) {
+    public ResponseEntity<?> createList(@RequestBody @Valid  List<ResponseQuestionRequest> request) {
 //        Long idFarmer = request.get(0).getFarmer().getId();
 //        this.DeletaRespostasMultiplaEscolhaByFarmer(idFarmer);
         // TODO revisar isso aqui
@@ -51,22 +51,22 @@ public class QuestionResponseController {
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaResponseQuestion(@RequestBody @Valid ResponseQuestionRequest request) {
-        return ResponseEntity.ok().body(respostaQuestionService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid ResponseQuestionRequest request) {
+        return ResponseEntity.ok().body(respostaQuestionService.update(request));
     }
 
     @GetMapping
-    public List<QuestionResponse> getListaResponseQuestiones() {
+    public List<QuestionResponse> getList() {
         return respostaQuestionService.findAll();
     }
 
     @GetMapping("/farmer")
-    public List<QuestionResponse> getListaResponseQuestionByQuestion(@Param(value = "id") Long farmerId) {
+    public List<QuestionResponse> getListByQuestion(@Param(value = "id") Long farmerId) {
         return respostaQuestionService.findByFarmerId(farmerId);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeResponseQuestion(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<QuestionResponse> respostaQuestion = respostaQuestionService.findById(id);
 
         if (respostaQuestion.isPresent()) {

@@ -36,7 +36,7 @@ public class ProfileController {
 
     @PutMapping
     public ResponseEntity<?> atualizaPerfil(@RequestBody @Valid ProfileRequest request) {
-        return ResponseEntity.ok().body(profileService.atualiza(request));
+        return ResponseEntity.ok().body(profileService.update(request));
     }
 
     @GetMapping

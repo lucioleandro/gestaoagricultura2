@@ -25,7 +25,7 @@ public class CityService {
 	}
 
 	@Transactional
-	public City atualiza(CityRequest municipio) {
+	public City update(CityRequest municipio) {
 		return municipioRepository.save(CityFactory.fromRequest(municipio));
 	}
 

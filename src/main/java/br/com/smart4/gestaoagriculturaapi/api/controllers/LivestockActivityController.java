@@ -29,27 +29,27 @@ public class LivestockActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraLivestockActivity(@RequestBody @Valid LivestockActivityRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid LivestockActivityRequest request) {
         return ResponseEntity.created(null).body(livestockActivityService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaLivestockActivity(@RequestBody @Valid LivestockActivityRequest request) {
-        return ResponseEntity.ok().body(livestockActivityService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid LivestockActivityRequest request) {
+        return ResponseEntity.ok().body(livestockActivityService.update(request));
     }
 
     @GetMapping
-    public List<LivestockActivity> getListaLivestockActivity() {
+    public List<LivestockActivity> getList() {
         return livestockActivityService.findAll();
     }
 
     @GetMapping("/property")
-    public List<LivestockActivity> getListaLivestockActivityByProperty(@Param(value = "id") Long propertyId) {
+    public List<LivestockActivity> getListByProperty(@Param(value = "id") Long propertyId) {
         return livestockActivityService.findByPropertyId(propertyId);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeLivestockActivity(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<LivestockActivity> livestockActivity = livestockActivityService.findById(id);
 
         if (livestockActivity.isPresent()) {

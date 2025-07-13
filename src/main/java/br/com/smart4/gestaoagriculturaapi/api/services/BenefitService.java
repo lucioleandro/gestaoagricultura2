@@ -25,7 +25,7 @@ public class BenefitService {
 	}
 
 	@Transactional
-	public void atualiza(BenefitRequest benefit) {
+	public void update(BenefitRequest benefit) {
 		benefitRepository.save(BenefitFactory.fromRequest(benefit));
 	}
 

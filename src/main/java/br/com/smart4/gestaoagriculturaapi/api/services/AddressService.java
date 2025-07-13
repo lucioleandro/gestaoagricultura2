@@ -25,7 +25,7 @@ public class AddressService {
 	}
 
 	@Transactional
-	public Address atualiza(AddressRequest address) {
+	public Address update(AddressRequest address) {
 		return addressRepository.save(AddressFactory.fromRequest(address));
 	}
 

@@ -38,12 +38,12 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	public User atualiza(User user) {
+	public User update(User user) {
 		return USerRepository.save(user);
 	}
 
 	@Transactional
-	public User atualiza(UserRequest user) {
+	public User update(UserRequest user) {
 		return USerRepository.save(UserFactory.fromRequest(user));
 	}
 	

@@ -34,15 +34,15 @@ public class NeighborhoodController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraNeighborhood(@RequestBody @Valid NeighborhoodRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid NeighborhoodRequest request) {
         limpaTodosOsCaches();
         return ResponseEntity.created(null).body(neighborhoodService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaNeighborhood(@RequestBody @Valid NeighborhoodRequest request) {
+    public ResponseEntity<?> update(@RequestBody @Valid NeighborhoodRequest request) {
         limpaTodosOsCaches();
-        return ResponseEntity.ok().body(neighborhoodService.atualiza(request));
+        return ResponseEntity.ok().body(neighborhoodService.update(request));
     }
 
     private void limpaTodosOsCaches() {
@@ -52,18 +52,18 @@ public class NeighborhoodController {
 
     @GetMapping
     @Cacheable(value = "listaDeNeighborhoods")
-    public List<Neighborhood> getListaNeighborhoods() {
+    public List<Neighborhood> getList() {
         return neighborhoodService.findAll();
     }
 
     @GetMapping("/city")
     @Cacheable(value = "listaDeNeighborhoodsPorMunicipio")
-    public List<Neighborhood> getListaNeighborhoodsByMunicipio(@Param(value = "city") String municipio) {
+    public List<Neighborhood> getListByCity(@Param(value = "city") String municipio) {
         return neighborhoodService.findByMunicipioNome(municipio);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeNeighborhood(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<Neighborhood> neighborhood = neighborhoodService.findById(id);
 
         if (neighborhood.isPresent()) {

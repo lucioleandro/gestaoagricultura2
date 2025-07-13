@@ -32,7 +32,7 @@ public class EconomicActivityFarmerController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraEconomicActivityFarmer(@RequestBody @Valid EconomicActivityFarmerRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid EconomicActivityFarmerRequest request) {
 //        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
 //            return ResponseEntity.badRequest()
 //                    .body(new ResponseMessage("Já existe uma atividade como principal"));
@@ -54,34 +54,34 @@ public class EconomicActivityFarmerController {
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaEconomicActivityFarmer(@RequestBody @Valid EconomicActivityFarmerRequest request) {
+    public ResponseEntity<?> update(@RequestBody @Valid EconomicActivityFarmerRequest request) {
 //        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
 //            return ResponseEntity.badRequest()
 //                    .body(new ResponseMessage("Já existe uma atividade como principal"));
 //        }
         // TODO revisar acima
 
-        return ResponseEntity.ok().body(economicActivityFarmerService.atualiza(request));
+        return ResponseEntity.ok().body(economicActivityFarmerService.update(request));
     }
 
     @GetMapping
-    public List<EconomicActivityFarmer> getListaEconomicActivity() {
+    public List<EconomicActivityFarmer> getList() {
         return economicActivityFarmerService.findAll();
     }
 
     @GetMapping("/farmer")
-    public List<EconomicActivityFarmer> getListaAtividadeByFarmer(@Param(value = "id") Long id) {
+    public List<EconomicActivityFarmer> getListByFarmer(@Param(value = "id") Long id) {
         return economicActivityFarmerService.findByFarmer(id);
     }
 
     @GetMapping("/property")
     @ResponseBody
-    public List<EconomicActivityFarmer> getListaAtividadeByProperty(@Param(value = "id") Long id) {
+    public List<EconomicActivityFarmer> getListByProperty(@Param(value = "id") Long id) {
         return economicActivityFarmerService.findByProperty(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeEconomicActivityFarmer(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         try {
             Optional<EconomicActivityFarmer> economicActivityFarmer = economicActivityFarmerService.findById(id);
 

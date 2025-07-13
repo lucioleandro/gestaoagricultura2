@@ -25,7 +25,7 @@ public class StandardResponseService {
 	}
 
 	@Transactional
-	public StandardResponse atualiza(StandardResponseRequest respostaPadrao) {
+	public StandardResponse update(StandardResponseRequest respostaPadrao) {
 		return respostaPadraoRepository.save(StandardResponseFactory.fromRequest(respostaPadrao));
 	}
 	

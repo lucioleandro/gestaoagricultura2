@@ -38,7 +38,7 @@ public class ProductImageController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraProductImage(
+    public ResponseEntity<?> create(
             @RequestParam("arquivo") MultipartFile arquivo,
             @RequestParam("extensao") String extensao,
             @RequestParam("product") Long idProduct) throws IOException {
@@ -55,22 +55,22 @@ public class ProductImageController {
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaProductImage(@RequestBody @Valid ProductImageRequest request) {
-        return ResponseEntity.ok().body(productImageService.atualiza(request));
+    public ResponseEntity<?> update(@RequestBody @Valid ProductImageRequest request) {
+        return ResponseEntity.ok().body(productImageService.update(request));
     }
 
     @GetMapping
-    public List<ProductImage> getListaProductImages() {
+    public List<ProductImage> getList() {
         return productImageService.findAll();
     }
 
     @GetMapping("/product")
-    public List<ProductImage> getListaProductImagesByMunicipio(@Param(value = "id") Long id) {
+    public List<ProductImage> getListByCity(@Param(value = "id") Long id) {
         return productImageService.findByProductId(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeProductImage(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<ProductImage> productImage = productImageService.findById(id);
 
         if (productImage.isPresent()) {

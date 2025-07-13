@@ -25,7 +25,7 @@ public class LivestockActivityService {
 	}
 
 	@Transactional
-	public LivestockActivity atualiza(LivestockActivityRequest livestockActivity) {
+	public LivestockActivity update(LivestockActivityRequest livestockActivity) {
 		return livestockActivityRepository.save(LivestockActivityFactory.fromRequest(livestockActivity));
 	}
 

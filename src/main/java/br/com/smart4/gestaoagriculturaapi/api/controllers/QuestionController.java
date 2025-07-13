@@ -40,15 +40,15 @@ public class QuestionController {
 
     @PostMapping
     @CacheEvict(value = "{listaDeQuestionsAtivas, listaDeQuestions}", allEntries = true)
-    public ResponseEntity<?> cadastraQuestion(@RequestBody @Valid QuestionRequest request) {
+    public ResponseEntity<?> create(@RequestBody @Valid QuestionRequest request) {
         limpaTodosOsCaches();
         return ResponseEntity.created(null).body(perguntaService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaQuestion(@RequestBody @Valid QuestionRequest request) {
+    public ResponseEntity<?> update(@RequestBody @Valid QuestionRequest request) {
         limpaTodosOsCaches();
-        return ResponseEntity.ok().body(perguntaService.atualiza(request));
+        return ResponseEntity.ok().body(perguntaService.update(request));
     }
 
     private void limpaTodosOsCaches() {
@@ -64,12 +64,12 @@ public class QuestionController {
 
     @GetMapping("/actives")
     @Cacheable(value = "listaDeQuestionsAtivas")
-    public List<Question> getListaQuestionsAtivas() {
+    public List<Question> getList() {
         return perguntaService.findQuestionsAtivas();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeQuestion(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
         Optional<Question> pergunta = perguntaService.findById(id);
 
         if (pergunta.isPresent()) {

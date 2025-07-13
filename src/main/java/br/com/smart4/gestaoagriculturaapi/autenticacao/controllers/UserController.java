@@ -53,7 +53,7 @@ public class UserController {
 //        request.setSenha(senhaCriptografada);
         // TODO Resolver acima
 
-        return ResponseEntity.ok().body(userService.atualiza(request));
+        return ResponseEntity.ok().body(userService.update(request));
     }
 
     @PatchMapping
@@ -73,7 +73,7 @@ public class UserController {
         }
 
         return ResponseEntity.ok()
-                .body(userService.atualiza(usuario));
+                .body(userService.update(usuario));
     }
 
     @GetMapping
@@ -115,7 +115,7 @@ public class UserController {
             if (senhaAtualEhValida) {
                 usuario.setSenha(novaSenhaCriptografada);
 
-                return ResponseEntity.ok().body(userService.atualiza(usuario));
+                return ResponseEntity.ok().body(userService.update(usuario));
             }
 
             return ResponseEntity.badRequest().body(new ResponseMessage("A senha atual informada está incorreta"));

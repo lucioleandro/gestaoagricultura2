@@ -25,7 +25,7 @@ public class PropertyService {
 	}
 
 	@Transactional
-	public Property atualiza(PropertyRequest property) {
+	public Property update(PropertyRequest property) {
 		return propertyRepository.save(PropertyFactory.fromRequest(property));
 	}
 	
