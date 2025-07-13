@@ -30,93 +30,113 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "aut_user", schema = "smartagrodb",
-uniqueConstraints = { 
-		@UniqueConstraint(name = "login_unique", columnNames = {"login"}),
-		@UniqueConstraint(name = "cpf_unique", columnNames = {"cpf"})
-})
+        uniqueConstraints = {
+                @UniqueConstraint(name = "login_unique", columnNames = {"login"}),
+                @UniqueConstraint(name = "cpf_unique", columnNames = {"cpf"})
+        })
 public class User implements UserDetails {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@Setter
-	@Column(nullable = false)
-	private String nome;
+    @Setter
+    @Column(nullable = false)
+    private String nome;
 
-	@Setter
-	@Column(nullable = false)
-	private String email;
+    @Setter
+    @Column(nullable = false)
+    private String email;
 
-	@Setter
-	@Column(nullable = false)
-	private String login;
+    @Setter
+    @Column(nullable = false)
+    private String login;
 
-	@Setter
-	@Column(nullable = false)
-	private String senha;
-	
-	@Column(nullable = false)
-	private String cpf;
-	
-	private String telefone;
-	
-	private String telefoneAlternativo;
-	
-	@Enumerated(EnumType.STRING)
-	private UserTypeEnum tipo;
+    @Setter
+    @Column(nullable = false)
+    private String senha;
+
+    @Column(nullable = false)
+    private String cpf;
+
+    private String telefone;
+
+    private String telefoneAlternativo;
+
+    @Enumerated(EnumType.STRING)
+    private UserTypeEnum tipo;
 
 //  =========================================== JUNÇÕES 1-N
 
 //  ===========================================
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		return authorities;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        return authorities;
+    }
 
-	@Override
-	public String getPassword() {
-		return this.senha;
-	}
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
 
-	@Override
-	public String getUsername() {
-		return this.login;
-	}
+    @Override
+    public String getUsername() {
+        return this.login;
+    }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", version=" + version + ", nome=" + nome + ", email=" + email + ", login=" + login
-				+ ", senha=" + senha + ", tipo=" + tipo + "]";
-	}
-	
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(login, cpf);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        User other = (User) obj;
+        return java.util.Objects.equals(login, other.login) &&
+                java.util.Objects.equals(cpf, other.cpf);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", login='" + login + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", tipo=" + tipo +
+                '}';
+    }
+
 }

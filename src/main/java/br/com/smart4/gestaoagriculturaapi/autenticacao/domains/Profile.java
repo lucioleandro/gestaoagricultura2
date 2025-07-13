@@ -26,41 +26,62 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "aut_profile", schema="smartagrodb")
+@Table(name = "aut_profile", schema = "smartagrodb")
 public class Profile implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-//  =========================================== CAMPOS PARTICULARES DA CLASSE
+    private static final long serialVersionUID = 1L;
+
+    //  =========================================== CAMPOS PARTICULARES DA CLASSE
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Version
     private int version;
-    
+
     private String nome;
-    
+
     private String descricao;
-    
+
     @Enumerated(EnumType.STRING)
     private ProfileTypeEnum tipo;
-    
+
     @Enumerated(EnumType.STRING)
     private SistemasMBEnum sistema;
-    
+
 
 //  =========================================== RELACIONAMENTOS
 
     @OneToMany(targetEntity = Permission.class, mappedBy = "perfil",
-    		cascade = {CascadeType.REMOVE})
+            cascade = {CascadeType.REMOVE})
     private List<Permission> permissoes;
-    
+
 //  ===========================================
-    
-	@Override
-	public String toString() {
-		return "Perfil [nome=" + nome + ", descricao=" + descricao + "]";
-	}
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(nome, sistema);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Profile that = (Profile) o;
+        return java.util.Objects.equals(nome, that.nome) &&
+                sistema == that.sistema;
+    }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", tipo=" + tipo +
+                ", sistema=" + sistema +
+                '}';
+    }
+
 
 }

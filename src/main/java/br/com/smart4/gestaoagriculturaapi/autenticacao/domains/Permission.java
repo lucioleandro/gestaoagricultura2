@@ -26,41 +26,57 @@ import java.io.Serializable;
 @Table(name = "aut_permission", schema = "smartagrodb")
 public class Permission implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-//  =========================================== CAMPOS PARTICULARES DA CLASSE
+    private static final long serialVersionUID = 1L;
+
+    //  =========================================== CAMPOS PARTICULARES DA CLASSE
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Version
     private int version;
-    
+
     private String componente;
-    
+
     private boolean ativo;
-    
+
     private boolean atalho;
-    
+
     private boolean somenteLeitura;
-    
+
 //  =========================================== RELACIONAMENTOS
-    
+
     @Setter
     @ManyToOne
     private Profile perfil;
-    
+
 //  ===========================================
-    
-	@JsonIgnore
-	@JsonProperty(access = Access.WRITE_ONLY)
-	public Profile getPerfil() {
-		return perfil;
-	}
 
     @Override
-	public String toString() {
-		return "Permissao [componente=" + componente + ", ativo=" + ativo + ", perfil=" + perfil + "]";
-	}
-    
+    public int hashCode() {
+        return java.util.Objects.hash(componente, perfil);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Permission that = (Permission) o;
+        return java.util.Objects.equals(componente, that.componente) &&
+                java.util.Objects.equals(perfil, that.perfil);
+    }
+
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "id=" + id +
+                ", componente='" + componente + '\'' +
+                ", ativo=" + ativo +
+                ", atalho=" + atalho +
+                ", somenteLeitura=" + somenteLeitura +
+                ", perfil=" + (perfil != null ? perfil.getDescricao() : "null") +
+                '}';
+    }
+
 }

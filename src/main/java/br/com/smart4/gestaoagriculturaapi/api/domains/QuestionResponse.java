@@ -24,36 +24,55 @@ import java.io.Serializable;
 @Table(name = "agro_question_response", schema = "smartagrodb")
 public class QuestionResponse implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@Column(nullable = false)
-	private String descricao;
+    @Column(nullable = false)
+    private String descricao;
 
 //  =========================================== JUNÇÕES 1-1
 
-	@ManyToOne
-	@JoinColumn(name = "question_id")
-	private Question question;
-	
-	@ManyToOne
-	@JoinColumn(name = "farmer_id")
-	private Farmer farmer;
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
+
+    @ManyToOne
+    @JoinColumn(name = "farmer_id")
+    private Farmer farmer;
 
 //  ===========================================
 
-	@Override
-	public String toString() {
-		return "ResponseQuestion [descricao=" + descricao + ", question=" + question + ", farmer=" + farmer
-				+ "]";
-	}
-	
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(descricao, question, farmer);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuestionResponse that = (QuestionResponse) o;
+        return java.util.Objects.equals(descricao, that.descricao) &&
+                java.util.Objects.equals(question, that.question) &&
+                java.util.Objects.equals(farmer, that.farmer);
+    }
+
+    @Override
+    public String toString() {
+        return "QuestionResponse{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                ", question=" + (question != null ? question.getDescricao() : "null") +
+                ", farmer=" + (farmer != null ? farmer.getNome() : "null") +
+                '}';
+    }
+
 }

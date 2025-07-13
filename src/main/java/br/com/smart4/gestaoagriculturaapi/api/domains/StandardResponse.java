@@ -23,30 +23,48 @@ import java.io.Serializable;
 @Table(name = "agro_standard_response")
 public class StandardResponse implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@Column(nullable = false)
-	private String descricao;
+    @Column(nullable = false)
+    private String descricao;
 
 //  =========================================== JUNÇÕES 1-1
 
-	@ManyToOne
-	Question question;
+    @ManyToOne
+    Question question;
 
 //  ===========================================
 
-	@Override
-	public String toString() {
-		return "StandardResponse [descricao=" + descricao + ", question=" + question + "]";
-	}
-	
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(descricao, question);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StandardResponse that = (StandardResponse) o;
+        return java.util.Objects.equals(descricao, that.descricao) &&
+                java.util.Objects.equals(question, that.question);
+    }
+
+    @Override
+    public String toString() {
+        return "StandardResponse{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                ", question=" + (question != null ? question.getDescricao() : "null") +
+                '}';
+    }
+
 }

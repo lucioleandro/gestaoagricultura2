@@ -58,7 +58,26 @@ public class Address implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "neighborhood_id")
 	private Neighborhood neighborhood;
-	
+
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hash(logradouro, numero, cep, complemento, tipoLogradouro, city, neighborhood);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null || getClass() != obj.getClass()) return false;
+		Address other = (Address) obj;
+		return java.util.Objects.equals(logradouro, other.logradouro)
+				&& java.util.Objects.equals(numero, other.numero)
+				&& java.util.Objects.equals(cep, other.cep)
+				&& java.util.Objects.equals(complemento, other.complemento)
+				&& tipoLogradouro == other.tipoLogradouro
+				&& java.util.Objects.equals(city, other.city)
+				&& java.util.Objects.equals(neighborhood, other.neighborhood);
+	}
+
 	public String toString() {
 		String resultado = "";
 

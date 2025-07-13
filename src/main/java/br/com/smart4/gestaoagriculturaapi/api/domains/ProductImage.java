@@ -23,26 +23,51 @@ import java.io.Serializable;
 @Table(name = "agro_product_image", schema = "smartagrodb")
 public class ProductImage implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-//  =========================================== CAMPOS PARTICULARES DA CLASSE
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    //  =========================================== CAMPOS PARTICULARES DA CLASSE
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@Lob
-	private byte[] arquivo;
-	
-	private String extensao;
+    @Lob
+    private byte[] arquivo;
+
+    private String extensao;
 
 //  =========================================== RELACIONAMENTOS
 
-	@ManyToOne
-	private Product product;
+    @ManyToOne
+    private Product product;
 
 //  ===========================================
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(extensao, product);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        ProductImage other = (ProductImage) obj;
+        return java.util.Objects.equals(extensao, other.extensao) &&
+                java.util.Objects.equals(product, other.product);
+    }
+
+    @Override
+    public String toString() {
+        return "ProductImage{" +
+                "id=" + id +
+                ", extensao='" + extensao + '\'' +
+                ", product=" + (product != null ? product.getId() : null) +
+                '}';
+    }
+
 
 }

@@ -26,37 +26,56 @@ import java.io.Serializable;
 @Table(name = "agro_question", schema = "smartagrodb")
 public class Question implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@Column(nullable = false)
-	private String descricao;
+    @Column(nullable = false)
+    private String descricao;
 
-	@Column(nullable = false)
-	private Boolean ativa;
-	
-	@Column(nullable = false)
-	private Boolean obrigatoria;
+    @Column(nullable = false)
+    private Boolean ativa;
 
-	@Enumerated(EnumType.STRING)
-	private QuestionTypeEnum tipoQuestion;
+    @Column(nullable = false)
+    private Boolean obrigatoria;
+
+    @Enumerated(EnumType.STRING)
+    private QuestionTypeEnum tipoQuestion;
 
 //  =========================================== JUNÇÕES 1-N
 
 //  ===========================================
 
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(descricao, tipoQuestion);
+    }
 
-	@Override
-	public String toString() {
-		return "Question [descricao=" + descricao + ", tipoQuestion=" + tipoQuestion + "]";
-	}
-	
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question that = (Question) o;
+        return java.util.Objects.equals(descricao, that.descricao) &&
+                tipoQuestion == that.tipoQuestion;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                ", ativa=" + ativa +
+                ", obrigatoria=" + obrigatoria +
+                ", tipoQuestion=" + tipoQuestion +
+                '}';
+    }
+
 }

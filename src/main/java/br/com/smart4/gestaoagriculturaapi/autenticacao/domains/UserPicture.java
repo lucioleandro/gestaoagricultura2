@@ -25,33 +25,54 @@ import java.io.Serializable;
 @Table(name = "aut_user_picture", schema = "smartagrodb")
 public class UserPicture implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@Lob
-	@Setter
-	private String fotoPerfil;
+    @Lob
+    @Setter
+    private String fotoPerfil;
 
 //  =========================================== RELACIONAMENTOS
 
-	@OneToOne
-	@JoinColumn(unique = true)
-	@Setter
-	private User usuario;
+    @OneToOne
+    @JoinColumn(unique = true)
+    @Setter
+    private User usuario;
 
-	public UserPicture(String fotoPerfil, User user) {
-		this.fotoPerfil = fotoPerfil;
-		this.usuario = user;
-	}
+    public UserPicture(String fotoPerfil, User user) {
+        this.fotoPerfil = fotoPerfil;
+        this.usuario = user;
+    }
 
 //  ===========================================
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(usuario);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        UserPicture other = (UserPicture) obj;
+        return java.util.Objects.equals(usuario, other.usuario);
+    }
+
+    @Override
+    public String toString() {
+        return "UserPicture{" +
+                "id=" + id +
+                ", usuario=" + (usuario != null ? usuario.getLogin() : "null") +
+                '}';
+    }
 
 }

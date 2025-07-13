@@ -22,34 +22,54 @@ import java.io.Serializable;
 @Table(name = "aut_user_profile", schema = "smartagrodb")
 public class UserProfile implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-//  =========================================== CAMPOS PARTICULARES DA CLASSE
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    //  =========================================== CAMPOS PARTICULARES DA CLASSE
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	private boolean ativo;
+    private boolean ativo;
 
-	private boolean administrador;
+    private boolean administrador;
 
 //  =========================================== RELACIONAMENTOS
 
-	@ManyToOne
-	private Profile perfil;
+    @ManyToOne
+    private Profile perfil;
 
-	@ManyToOne
-	private User usuario;
+    @ManyToOne
+    private User usuario;
 
 //  ===========================================
 
-	@Override
-	public String toString() {
-		return "UsuarioPerfil [ativo=" + ativo + ", administrador=" + administrador + ", perfil=" + perfil
-				+ ", usuario=" + usuario + "]";
-	}
-	
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(usuario, perfil);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        UserProfile other = (UserProfile) obj;
+        return java.util.Objects.equals(usuario, other.usuario) &&
+                java.util.Objects.equals(perfil, other.perfil);
+    }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" +
+                "id=" + id +
+                ", usuario=" + (usuario != null ? usuario.getLogin() : "null") +
+                ", perfil=" + (perfil != null ? perfil.getNome() : "null") +
+                ", administrador=" + administrador +
+                ", ativo=" + ativo +
+                '}';
+    }
+
+
 }

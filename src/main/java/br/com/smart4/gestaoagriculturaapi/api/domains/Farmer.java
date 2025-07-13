@@ -23,46 +23,67 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "agro_farmer", schema = "smartagrodb",
-		uniqueConstraints = { @UniqueConstraint(name = "cpf_unique", columnNames = {"cpf"})})
+        uniqueConstraints = {@UniqueConstraint(name = "cpf_unique", columnNames = {"cpf"})})
 public class Farmer implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@Column(nullable = false)
-	private String nome;
+    @Column(nullable = false)
+    private String nome;
 
-	@Column(nullable = false)
-	private String cpf;
+    @Column(nullable = false)
+    private String cpf;
 
-	@Column(nullable = false)
-	private String rg;
-	
-	@Column(name = "orgao_expeditor")
-	private String orgaoExpeditor;
-	
-	private String apelido;
+    @Column(nullable = false)
+    private String rg;
 
-	@Column(nullable = false)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-	private LocalDate dataNascimento;
+    @Column(name = "orgao_expeditor")
+    private String orgaoExpeditor;
+
+    private String apelido;
+
+    @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate dataNascimento;
 
 //  =========================================== JUNÇÕES 1-N
 
 //  ===========================================
 
-	@Override
-	public String toString() {
-		return "Farmer [nome=" + nome + ", apelido=" + apelido
-				+ "]";
-	}
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(cpf, rg);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Farmer farmer = (Farmer) o;
+
+        return java.util.Objects.equals(cpf, farmer.cpf) &&
+                java.util.Objects.equals(rg, farmer.rg);
+    }
+
+    @Override
+    public String toString() {
+        return "Farmer{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", apelido='" + apelido + '\'' +
+                ", cpf='" + cpf + '\'' +
+                '}';
+    }
+
 
 }

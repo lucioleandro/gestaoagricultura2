@@ -25,19 +25,19 @@ import java.time.LocalDateTime;
 public class Benefit implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	
+
 	@Version
 	private int version;
-	
+
 	@Column(nullable = false)
 	private String descricao;
-	
+
 	@Column(nullable = false)
 	private LocalDateTime dataConcedimento;
 
@@ -46,10 +46,32 @@ public class Benefit implements Serializable {
 	private Farmer beneficiado;
 
 //  ===========================================
-	
+
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hash(descricao, dataConcedimento, beneficiado);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Benefit that = (Benefit) o;
+
+		return java.util.Objects.equals(descricao, that.descricao)
+				&& java.util.Objects.equals(dataConcedimento, that.dataConcedimento)
+				&& java.util.Objects.equals(beneficiado, that.beneficiado);
+	}
+
 	@Override
 	public String toString() {
-		return "Benefit [descricao=" + descricao + "]";
+		return "Benefit{" +
+				"id=" + id +
+				", descricao='" + descricao + '\'' +
+				", dataConcedimento=" + dataConcedimento +
+				", beneficiado=" + (beneficiado != null ? beneficiado.getId() : null) +
+				'}';
 	}
-	
+
 }

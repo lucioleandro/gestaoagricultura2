@@ -28,42 +28,74 @@ import java.time.LocalDate;
 @Table(name = "agro_agriculture_activity", schema = "smartagrodb")
 public class AgricultureActivity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-//  =========================================== CAMPOS PARTICULARES DA CLASSE
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    //  =========================================== CAMPOS PARTICULARES DA CLASSE
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-	private LocalDate dataPlantio;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate dataPlantio;
 
-	private String variedade;
+    private String variedade;
 
-	private double areaPlantada;
+    private double areaPlantada;
 
-	private Integer quantidadePlantas;
+    private Integer quantidadePlantas;
 
-	private double producaoAnual;
+    private double producaoAnual;
 
-	@Enumerated(EnumType.STRING)
-	private IrrigationMethodEnum metodoIrrigacao;
-	
-	@Enumerated(EnumType.STRING)
-	private WaterSourceEnum fonteAgua;
+    @Enumerated(EnumType.STRING)
+    private IrrigationMethodEnum metodoIrrigacao;
+
+    @Enumerated(EnumType.STRING)
+    private WaterSourceEnum fonteAgua;
 //  =========================================== RELACIONAMENTOS
 
-	@Getter
+    @Getter
     @ManyToOne
-	private Property property;
+    private Property property;
 
-	@ManyToOne
-	private Product product;
+    @ManyToOne
+    private Product product;
 
 //  ===========================================
 
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(dataPlantio, variedade, property, product);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AgricultureActivity that = (AgricultureActivity) o;
+
+        return java.util.Objects.equals(dataPlantio, that.dataPlantio)
+                && java.util.Objects.equals(variedade, that.variedade)
+                && java.util.Objects.equals(property, that.property)
+                && java.util.Objects.equals(product, that.product);
+    }
+
+    @Override
+    public String toString() {
+        return "AgricultureActivity{" +
+                "dataPlantio=" + dataPlantio +
+                ", variedade='" + variedade + '\'' +
+                ", areaPlantada=" + areaPlantada +
+                ", quantidadePlantas=" + quantidadePlantas +
+                ", producaoAnual=" + producaoAnual +
+                ", metodoIrrigacao=" + metodoIrrigacao +
+                ", fonteAgua=" + fonteAgua +
+                ", property=" + (property != null ? property.getId() : null) +
+                ", product=" + (product != null ? product.getId() : null) +
+                '}';
+    }
 
 }

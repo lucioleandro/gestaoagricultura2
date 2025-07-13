@@ -18,9 +18,10 @@ import java.util.Comparator;
 
 /**
  * Descrição:
- * 
+ *
  * @author Lúcio Leandro
- * @version 2.0 **/
+ * @version 2.0
+ **/
 @Builder
 @Getter
 @NoArgsConstructor
@@ -29,67 +30,65 @@ import java.util.Comparator;
 @Table(name = "agro_economic_activity", schema = "smartagrodb")
 public class EconomicActivity implements Comparator<Object>, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@Column(length = 15, unique = true)
-	private String codigocnae;
+    @Column(length = 15, unique = true)
+    private String codigocnae;
 
-	@Column(length = 500)
-	private String observacao;
-	
-	@Basic
-	private String descricao;
+    @Column(length = 500)
+    private String observacao;
 
-	@Basic
-	private Boolean situacao;
+    @Basic
+    private String descricao;
 
-	@Column(precision = 2, columnDefinition = "double default 0")
-	private Double aliquota;
+    @Basic
+    private Boolean situacao;
 
-	@Column(precision = 2, columnDefinition = "double default 0")
-	private Double valor;
+    @Column(precision = 2, columnDefinition = "double default 0")
+    private Double aliquota;
 
-	@Basic
-	private boolean isentoiss;
-	
-	@Basic
-	private Boolean atividadeDeServico;
-	
-	@Override
-	public int compare(Object o1, Object o2) {
+    @Column(precision = 2, columnDefinition = "double default 0")
+    private Double valor;
 
-		return 0;
-	}
+    @Basic
+    private boolean isentoiss;
 
-	public String toLogger() {
-		String cadena;
+    @Basic
+    private Boolean atividadeDeServico;
 
-		cadena = "";
+    @Override
+    public int compare(Object o1, Object o2) {
 
-		if (id != null)
-			cadena = "id: " + id;
-		cadena = cadena + ", version: " + version;
-		if (codigocnae != null)
-			cadena = cadena + ", codigocnae: " + codigocnae;
-		if (observacao != null)
-			cadena = cadena + ", observacao: " + observacao;
-		cadena = cadena + ", situacao: " + situacao;
-		if (aliquota != null)
-			cadena = cadena + ", aliquota: " + aliquota;
-		if (valor != null)
-			cadena = cadena + ", valor: " + valor;
+        return 0;
+    }
 
-		return cadena;
-	}
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(codigocnae, descricao, situacao);
+    }
 
-	public String toString() {
-		return codigocnae;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EconomicActivity that = (EconomicActivity) o;
+
+        return java.util.Objects.equals(codigocnae, that.codigocnae) &&
+                java.util.Objects.equals(descricao, that.descricao) &&
+                java.util.Objects.equals(situacao, that.situacao);
+    }
+
+    @Override
+    public String toString() {
+        return codigocnae;
+    }
+
 }

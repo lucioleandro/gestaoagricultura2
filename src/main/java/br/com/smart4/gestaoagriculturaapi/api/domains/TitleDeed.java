@@ -29,37 +29,65 @@ import java.time.LocalDateTime;
 @Table(name = "agro_title_deed", schema = "smartagrodb")
 public class TitleDeed implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	private String titulo;
+    private String titulo;
 
-	@Column(length = 2000)
-	private String observacao;
+    @Column(length = 2000)
+    private String observacao;
 
-	private LocalDateTime dataAdicao;
+    private LocalDateTime dataAdicao;
 
-	@Lob
-	@JsonIgnore
-	private byte[] bytes;
+    @Lob
+    @JsonIgnore
+    private byte[] bytes;
 
-	private String extensao;
+    private String extensao;
 
-	@Enumerated(EnumType.STRING)
-	private TitleDeedEnum documento;
+    @Enumerated(EnumType.STRING)
+    private TitleDeedEnum documento;
 //  =========================================== RELACIONAMENTOS
 
-	@ManyToOne
-	private Property property;
+    @ManyToOne
+    private Property property;
 
 //  ===========================================
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(titulo, dataAdicao, documento, property);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TitleDeed that = (TitleDeed) o;
+        return java.util.Objects.equals(titulo, that.titulo) &&
+                java.util.Objects.equals(dataAdicao, that.dataAdicao) &&
+                java.util.Objects.equals(documento, that.documento) &&
+                java.util.Objects.equals(property, that.property);
+    }
+
+    @Override
+    public String toString() {
+        return "TitleDeed{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", documento=" + documento +
+                ", dataAdicao=" + dataAdicao +
+                ", propriedade=" + (property != null ? property.getNome() : "null") +
+                '}';
+    }
 
 }

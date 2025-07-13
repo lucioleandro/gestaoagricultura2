@@ -39,10 +39,32 @@ public class Neighborhood implements Serializable {
 	
 	@ManyToOne
 	private City city;
-	
+
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hash(nome, zona, city);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null || getClass() != obj.getClass()) return false;
+
+		Neighborhood that = (Neighborhood) obj;
+		return java.util.Objects.equals(nome, that.nome) &&
+				java.util.Objects.equals(zona, that.zona) &&
+				java.util.Objects.equals(city, that.city);
+	}
+
 	@Override
 	public String toString() {
-		return "Neighborhood [nome=" + nome + ", city=" + city + "]";
+		return "Neighborhood{" +
+				"nome='" + nome + '\'' +
+				", zona='" + zona + '\'' +
+				", city=" + (city != null ? city.getNome() : null) +
+				'}';
 	}
-	
+
+
+
 }

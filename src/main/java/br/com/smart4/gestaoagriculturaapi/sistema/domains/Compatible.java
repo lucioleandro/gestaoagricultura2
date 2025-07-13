@@ -21,36 +21,53 @@ import java.io.Serializable;
 @Table(name = "system_compatible", schema = "smartagrodb")
 public class Compatible implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	//  =========================================== CAMPOS PARTICULARES DA CLASSE
+    //  =========================================== CAMPOS PARTICULARES DA CLASSE
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Version
     private int version;
-    
+
     private Integer codSistema;
-    
+
     private String senhaDeLiberacao;
-    
+
     private String versaoLiberada;
 
 //  ===========================================
-    
-	public void setSenhaDeLiberacao(String senhaDeLiberacao) {
-		this.senhaDeLiberacao = senhaDeLiberacao;
-	}
 
-	public String getVersaoLiberada() {
-		return versaoLiberada;
-	}
+    public void setSenhaDeLiberacao(String senhaDeLiberacao) {
+        this.senhaDeLiberacao = senhaDeLiberacao;
+    }
 
-	@Override
-	public String toString() {
-		return "Compativeis [senhaDeLiberacao=" + senhaDeLiberacao + ", versaoLiberada=" + versaoLiberada + "]";
-	}
-    
-    
+    public String getVersaoLiberada() {
+        return versaoLiberada;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(codSistema, versaoLiberada);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Compatible other = (Compatible) obj;
+        return java.util.Objects.equals(codSistema, other.codSistema) &&
+                java.util.Objects.equals(versaoLiberada, other.versaoLiberada);
+    }
+
+    @Override
+    public String toString() {
+        return "Compatible{" +
+                "id=" + id +
+                ", codSistema=" + codSistema +
+                ", versaoLiberada='" + versaoLiberada + '\'' +
+                '}';
+    }
+
 }

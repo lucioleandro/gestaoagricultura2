@@ -25,32 +25,55 @@ import java.io.Serializable;
 @Table(name = "agro_livestock_activity", schema = "smartagrodb")
 public class LivestockActivity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	  	@Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
+    private static final long serialVersionUID = 1L;
 
-	    @Version
-	    private int version;
-	    
-	    @Enumerated(EnumType.STRING)
-	    private SpeciesEnum especie;
-	    
-	    private Integer quantidade;
-	    
-	    private String raca;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	//  =========================================== RELACIONAMENTOS
-	    
-	    @ManyToOne
-	    private Property property;
-	    
-	//  ===========================================
+    @Version
+    private int version;
 
-		@Override
-		public String toString() {
-			return "LivestockActivity [especie=" + especie + ", quantidade=" + quantidade
-					+ "]";
-		}
+    @Enumerated(EnumType.STRING)
+    private SpeciesEnum especie;
+
+    private Integer quantidade;
+
+    private String raca;
+
+    //  =========================================== RELACIONAMENTOS
+
+    @ManyToOne
+    private Property property;
+
+    //  ===========================================
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(especie, raca, quantidade, property);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        LivestockActivity that = (LivestockActivity) obj;
+        return java.util.Objects.equals(especie, that.especie) &&
+                java.util.Objects.equals(raca, that.raca) &&
+                java.util.Objects.equals(quantidade, that.quantidade) &&
+                java.util.Objects.equals(property, that.property);
+    }
+
+    @Override
+    public String toString() {
+        return "LivestockActivity{" +
+                "especie=" + especie +
+                ", raca='" + raca + '\'' +
+                ", quantidade=" + quantidade +
+                ", property=" + (property != null ? property.getId() : null) +
+                '}';
+    }
+
+
 }

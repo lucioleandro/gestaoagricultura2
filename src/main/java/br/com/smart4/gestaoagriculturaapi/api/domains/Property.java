@@ -29,57 +29,84 @@ import java.io.Serializable;
 @Table(name = "agro_property", schema = "farmer")
 public class Property implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-	@Version
-	private int version;
-	
-	private String nome;
+    @Version
+    private int version;
 
-	private String itr;
+    private String nome;
 
-	private String incra;
+    private String itr;
 
-	@Column(nullable = false)
-	private String latitude;
+    private String incra;
 
-	@Column(nullable = false)
-	private String longitude;
+    @Column(nullable = false)
+    private String latitude;
 
-	private Double areaTotal;
+    @Column(nullable = false)
+    private String longitude;
 
-	private Double areaAgricola;
+    private Double areaTotal;
 
-	private Double reservaLegal;
+    private Double areaAgricola;
 
-	private String tipoResidencia;
-	
-	@Enumerated(EnumType.STRING)
-	private LandRegularizationEnum regularizacaoFundiaria;
+    private Double reservaLegal;
+
+    private String tipoResidencia;
+
+    @Enumerated(EnumType.STRING)
+    private LandRegularizationEnum regularizacaoFundiaria;
 
 //  =========================================== RELACIONAMENTOS
 
-	@ManyToOne
-	@JoinColumn(name = "farmer_id")
-	private Farmer farmer;
+    @ManyToOne
+    @JoinColumn(name = "farmer_id")
+    private Farmer farmer;
 
 //  =========================================== JUNÇÕES 1-1
 
-	@OneToOne
-	@JoinColumn(unique = true, name = "address_id")
-	private Address address;
+    @OneToOne
+    @JoinColumn(unique = true, name = "address_id")
+    private Address address;
 
 //  ===========================================
 
-	@Override
-	public String toString() {
-		return "Property [nome=" + nome + ", farmer=" + farmer + ", address=" + address + "]";
-	}
-	
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(nome, latitude, longitude, farmer);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property that = (Property) o;
+        return java.util.Objects.equals(nome, that.nome) &&
+                java.util.Objects.equals(latitude, that.latitude) &&
+                java.util.Objects.equals(longitude, that.longitude) &&
+                java.util.Objects.equals(farmer, that.farmer);
+    }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", areaTotal=" + areaTotal +
+                ", areaAgricola=" + areaAgricola +
+                ", reservaLegal=" + reservaLegal +
+                ", regularizacaoFundiaria=" + regularizacaoFundiaria +
+                ", farmer=" + (farmer != null ? farmer.getId() : null) +
+                '}';
+    }
+
+
 }

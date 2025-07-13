@@ -21,30 +21,51 @@ import java.io.Serializable;
 @Table(name = "agro_product", schema = "smartagrodb")
 public class Product implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 //  =========================================== CAMPOS PARTICULARES DA CLASSE
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	private String descricao;
+    private String descricao;
 
-	private String unidadeMedida;
+    private String unidadeMedida;
 
-	private String siglaUnidadeMedida;
+    private String siglaUnidadeMedida;
 
 //  =========================================== RELACIONAMENTOS
 
 //  ===========================================
 
-	@Override
-	public String toString() {
-		return "Product [descricao=" + descricao + "]";
-	}
-	
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(descricao, unidadeMedida, siglaUnidadeMedida);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Product other = (Product) obj;
+        return java.util.Objects.equals(descricao, other.descricao) &&
+                java.util.Objects.equals(unidadeMedida, other.unidadeMedida) &&
+                java.util.Objects.equals(siglaUnidadeMedida, other.siglaUnidadeMedida);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "descricao='" + descricao + '\'' +
+                ", unidadeMedida='" + unidadeMedida + '\'' +
+                ", siglaUnidadeMedida='" + siglaUnidadeMedida + '\'' +
+                '}';
+    }
+
+
 }

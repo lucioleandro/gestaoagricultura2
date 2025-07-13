@@ -26,30 +26,49 @@ import java.io.Serializable;
 @Table(name = "agro_farming_system", schema = "smartagrodb")
 public class FarmingSystem implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-//  =========================================== CAMPOS PARTICULARES DA CLASSE
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    //  =========================================== CAMPOS PARTICULARES DA CLASSE
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@Basic
-	private String descricao;
+    @Basic
+    private String descricao;
 
-	@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     FarmSystemEnum ramoAtividade;
 
 //  =========================================== RELACIONAMENTOS
 
 //  ===========================================
 
-	@Override
-	public String toString() {
-		return "FarmingSystem [descricao=" + descricao + ", ramoAtividade=" + ramoAtividade + "]";
-	}
-	
-	
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(descricao, ramoAtividade);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        FarmingSystem that = (FarmingSystem) obj;
+        return java.util.Objects.equals(descricao, that.descricao) &&
+                ramoAtividade == that.ramoAtividade;
+    }
+
+    @Override
+    public String toString() {
+        return "FarmingSystem{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                ", ramoAtividade=" + ramoAtividade +
+                '}';
+    }
+
+
 }
