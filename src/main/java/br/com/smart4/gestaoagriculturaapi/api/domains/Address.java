@@ -12,17 +12,25 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_address", schema = "smartagrodb")
 public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
+	@Setter
+    @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
@@ -51,35 +59,6 @@ public class Address implements Serializable {
 	@JoinColumn(name = "neighborhood_id")
 	private Neighborhood neighborhood;
 	
-	public Address() { }
-
-	public Address(Long id, int version, String logradouro, String numero, String cep, String complemento,
-                   StreetTypeEnum tipoLogradouro, City city, Neighborhood neighborhood) {
-		this.id = id;
-		this.version = version;
-		this.logradouro = logradouro;
-		this.numero = numero;
-		this.cep = cep;
-		this.complemento = complemento;
-		this.tipoLogradouro = tipoLogradouro;
-		this.city = city;
-		this.neighborhood = neighborhood;
-	}
-	
-
-
-	public Address(String logradouro, String numero, String cep, String complemento, StreetTypeEnum tipoLogradouro,
-			City city, Neighborhood neighborhood) {
-		this.logradouro = logradouro;
-		this.numero = numero;
-		this.cep = cep;
-		this.complemento = complemento;
-		this.tipoLogradouro = tipoLogradouro;
-		this.city = city;
-		this.neighborhood = neighborhood;
-	}
-
-
 	public String toString() {
 		String resultado = "";
 
@@ -96,78 +75,6 @@ public class Address implements Serializable {
 
 		resultado = resultado + ".";
 		return resultado;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public String getComplemento() {
-		return complemento;
-	}
-
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-
-	public StreetTypeEnum getTipoLogradouro() {
-		return tipoLogradouro;
-	}
-
-	public void setTipoLogradouro(StreetTypeEnum tipoLogradouro) {
-		this.tipoLogradouro = tipoLogradouro;
-	}
-
-	public City getCity() {
-		return city;
-	}
-
-	public void setCity(City city) {
-		this.city = city;
-	}
-
-	public Neighborhood getNeighborhood() {
-		return neighborhood;
-	}
-
-	public void setNeighborhood(Neighborhood neighborhood) {
-		this.neighborhood = neighborhood;
 	}
 
 }

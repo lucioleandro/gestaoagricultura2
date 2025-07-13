@@ -12,12 +12,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_agriculture_activity", schema = "smartagrodb")
 public class AgricultureActivity implements Serializable {
@@ -50,7 +56,8 @@ public class AgricultureActivity implements Serializable {
 	private WaterSourceEnum fonteAgua;
 //  =========================================== RELACIONAMENTOS
 
-	@ManyToOne
+	@Getter
+    @ManyToOne
 	private Property property;
 
 	@ManyToOne
@@ -58,81 +65,5 @@ public class AgricultureActivity implements Serializable {
 
 //  ===========================================
 
-	public AgricultureActivity() {
-	}
 
-	public AgricultureActivity(Long id, int version, LocalDate dataPlantio, String variedade, double areaPlantada,
-							   Integer quantidadePlantas, double producaoAnual, IrrigationMethodEnum metodoIrrigacao,
-							   WaterSourceEnum fonteAgua, Property property, Product product) {
-		this.id = id;
-		this.version = version;
-		this.dataPlantio = dataPlantio;
-		this.variedade = variedade;
-		this.areaPlantada = areaPlantada;
-		this.quantidadePlantas = quantidadePlantas;
-		this.producaoAnual = producaoAnual;
-		this.metodoIrrigacao = metodoIrrigacao;
-		this.fonteAgua = fonteAgua;
-		this.property = property;
-		this.product = product;
-	}
-
-	public AgricultureActivity(Product product, LocalDate dataPlantio, String variedade, double areaPlantada,
-							   Integer quantidadePlantas, double producaoAnual, IrrigationMethodEnum metodoIrrigacao,
-							   WaterSourceEnum fonteAgua, Property property) {
-		this.product = product;
-		this.dataPlantio = dataPlantio;
-		this.variedade = variedade;
-		this.areaPlantada = areaPlantada;
-		this.quantidadePlantas = quantidadePlantas;
-		this.producaoAnual = producaoAnual;
-		this.metodoIrrigacao = metodoIrrigacao;
-		this.fonteAgua = fonteAgua;
-		this.property = property;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public LocalDate getDataPlantio() {
-		return dataPlantio;
-	}
-
-	public String getVariedade() {
-		return variedade;
-	}
-
-	public double getAreaPlantada() {
-		return areaPlantada;
-	}
-
-	public Integer getQuantidadePlantas() {
-		return quantidadePlantas;
-	}
-
-	public double getProducaoAnual() {
-		return producaoAnual;
-	}
-
-	public IrrigationMethodEnum getMetodoIrrigacao() {
-		return metodoIrrigacao;
-	}
-
-	public WaterSourceEnum getFonteAgua() {
-		return fonteAgua;
-	}
-
-	public Property getProperty() {
-		return property;
-	}
-
-	public Product getProduct() {
-		return product;
-	}
-	
 }

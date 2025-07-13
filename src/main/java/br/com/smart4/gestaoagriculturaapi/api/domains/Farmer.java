@@ -9,12 +9,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_farmer", schema = "smartagrodb",
 		uniqueConstraints = { @UniqueConstraint(name = "cpf_unique", columnNames = {"cpf"})})
@@ -52,64 +58,6 @@ public class Farmer implements Serializable {
 //  =========================================== JUNÇÕES 1-N
 
 //  ===========================================
-
-	public Farmer() {
-	}
-
-	public Farmer(Long id, int version, String nome, String cpf, String rg, String orgaoExpeditor, String apelido,
-			LocalDate dataNascimento) {
-		this.id = id;
-		this.version = version;
-		this.nome = nome;
-		this.cpf = cpf;
-		this.rg = rg;
-		this.orgaoExpeditor = orgaoExpeditor;
-		this.apelido = apelido;
-		this.dataNascimento = dataNascimento;
-	}
-
-
-	public Farmer(String nome, String cpf, String rg, String orgaoExpeditor, String apelido,
-			LocalDate dataNascimento) {
-		this.nome = nome;
-		this.cpf = cpf;
-		this.rg = rg;
-		this.orgaoExpeditor = orgaoExpeditor;
-		this.apelido = apelido;
-		this.dataNascimento = dataNascimento;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public String getOrgaoExpeditor() {	
-		return orgaoExpeditor;
-	}
-
-	public String getApelido() {
-		return apelido;
-	}
-
-	public LocalDate getDataNascimento() {
-		return dataNascimento;
-	}
 
 	@Override
 	public String toString() {

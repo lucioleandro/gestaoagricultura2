@@ -6,9 +6,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "system_compatible", schema = "smartagrodb")
 public class Compatible implements Serializable {
@@ -31,46 +39,12 @@ public class Compatible implements Serializable {
 
 //  ===========================================
     
-    public Compatible() { }
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	public Integer getCodSistema() {
-		return codSistema;
-	}
-
-	public void setCodSistema(Integer codSistema) {
-		this.codSistema = codSistema;
-	}
-
-	public String getSenhaDeLiberacao() {
-		return senhaDeLiberacao;
-	}
-
 	public void setSenhaDeLiberacao(String senhaDeLiberacao) {
 		this.senhaDeLiberacao = senhaDeLiberacao;
 	}
 
 	public String getVersaoLiberada() {
 		return versaoLiberada;
-	}
-
-	public void setVersaoLiberada(String versaoLiberada) {
-		this.versaoLiberada = versaoLiberada;
 	}
 
 	@Override

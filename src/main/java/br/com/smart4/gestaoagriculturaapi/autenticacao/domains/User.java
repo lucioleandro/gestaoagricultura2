@@ -13,6 +13,9 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +25,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Builder
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "aut_user", schema = "smartagrodb",
@@ -42,15 +47,19 @@ public class User implements UserDetails {
 	@Version
 	private int version;
 
+	@Setter
 	@Column(nullable = false)
 	private String nome;
 
+	@Setter
 	@Column(nullable = false)
 	private String email;
 
+	@Setter
 	@Column(nullable = false)
 	private String login;
 
+	@Setter
 	@Column(nullable = false)
 	private String senha;
 	
@@ -68,103 +77,20 @@ public class User implements UserDetails {
 
 //  ===========================================
 
-	public User(String nome, String email, String login, String senha, UserTypeEnum tipo) {
-		this.nome = nome;
-		this.email = email;
-		this.login = login;
-		this.senha = senha;
-		this.tipo = tipo;
-	}
-
-	public User() {
-	}
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		return authorities;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-	
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-	
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
 	@Override
 	public String getPassword() {
 		return this.senha;
-	}
-	
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 	@Override
 	public String getUsername() {
 		return this.login;
-	}
-	
-	public String getCpf() {
-		return cpf;
-	}
-	
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	
-	public String getTelefone() {
-		return telefone;
-	}
-	
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-	
-	public String getTelefoneAlternativo() {
-		return telefoneAlternativo;
-	}
-	
-	public void setTelefoneAlternativo(String telefoneAlternativo) {
-		this.telefoneAlternativo = telefoneAlternativo;
-	}
-	
-	public UserTypeEnum getTipo() {
-		return tipo;
 	}
 
 	@Override

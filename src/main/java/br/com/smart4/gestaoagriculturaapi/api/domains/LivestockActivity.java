@@ -10,11 +10,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_livestock_activity", schema = "smartagrodb")
 public class LivestockActivity implements Serializable {
@@ -42,51 +48,6 @@ public class LivestockActivity implements Serializable {
 	    
 	//  ===========================================
 
-	    public LivestockActivity() { }
-	    
-	    public LivestockActivity(Long id, int version, SpeciesEnum especie, Integer quantidade, String raca,
-                                 Property property) {
-	    	this.id = id;
-	    	this.version = version;
-	    	this.especie = especie;
-	    	this.quantidade = quantidade;
-	    	this.raca = raca;
-	    	this.property = property;
-	    }
-
-		public LivestockActivity(SpeciesEnum especie, Integer quantidade, String raca,
-                                 Property property) {
-			this.especie = especie;
-			this.quantidade = quantidade;
-			this.raca = raca;
-			this.property = property;
-		}
-
-		public Long getId() {
-			return id;
-		}
-
-		public int getVersion() {
-			return version;
-		}
-
-		public SpeciesEnum getEspecie() {
-			return especie;
-		}
-
-		public Integer getQuantidade() {
-			return quantidade;
-		}
-
-		public String getRaca() {
-			return raca;
-		}
-
-		public Property getProperty() {
-			return property;
-		}
-	    
-		
 		@Override
 		public String toString() {
 			return "LivestockActivity [especie=" + especie + ", quantidade=" + quantidade

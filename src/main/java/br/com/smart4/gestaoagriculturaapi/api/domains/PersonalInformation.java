@@ -10,11 +10,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_personal_information", schema = "smartagrodb")
 public class PersonalInformation implements Serializable {
@@ -52,67 +58,6 @@ public class PersonalInformation implements Serializable {
 	private Farmer farmer;
 
 //  ===========================================
-
-	public PersonalInformation() {
-	}
-
-	public PersonalInformation(Long id, int version, String apelido, String mae, String pai, MaritalStatusEnum maritalStatus,
-			String nomeConjugue, Farmer farmer) {
-		this.id = id;
-		this.version = version;
-		this.apelido = apelido;
-		this.mae = mae;
-		this.pai = pai;
-		this.maritalStatus = maritalStatus;
-		this.nomeConjugue = nomeConjugue;
-		this.farmer = farmer;
-	}
-
-	public PersonalInformation(String apelido, String mae, String pai, MaritalStatusEnum maritalStatusEnum, String nomeConjugue,
-							   Farmer farmer) {
-		this.apelido = apelido;
-		this.mae = mae;
-		this.pai = pai;
-		this.maritalStatus = maritalStatusEnum;
-		this.nomeConjugue = nomeConjugue;
-		this.farmer = farmer;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getApelido() {
-		return apelido;
-	}
-
-	public String getMae() {
-		return mae;
-	}
-
-	public String getPai() {
-		return pai;
-	}
-
-	public MaritalStatusEnum getMaritalStatus() {
-		return maritalStatus;
-	}
-
-	public String getNomeConjugue() {
-		return nomeConjugue;
-	}
-
-	public Farmer getFarmer() {
-		return farmer;
-	}
 
 	@Override
 	public String toString() {

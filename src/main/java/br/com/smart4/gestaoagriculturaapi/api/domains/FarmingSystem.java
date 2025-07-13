@@ -11,11 +11,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_farming_system", schema = "smartagrodb")
 public class FarmingSystem implements Serializable {
@@ -39,37 +45,6 @@ public class FarmingSystem implements Serializable {
 //  =========================================== RELACIONAMENTOS
 
 //  ===========================================
-
-	public FarmingSystem() {
-	}
-
-	public FarmingSystem(Long id, int version, String descricao, FarmSystemEnum ramoAtividade) {
-		this.id = id;
-		this.version = version;
-		this.descricao = descricao;
-		this.ramoAtividade = ramoAtividade;
-	}
-
-	public FarmingSystem(String descricao, FarmSystemEnum ramoAtividade) {
-		this.descricao = descricao;
-		this.ramoAtividade = ramoAtividade;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public FarmSystemEnum getRamoAtividade() {
-		return ramoAtividade;
-	}
 
 	@Override
 	public String toString() {

@@ -15,11 +15,15 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Builder
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "aut_profile", schema="smartagrodb")
@@ -54,64 +58,6 @@ public class Profile implements Serializable {
     
 //  ===========================================
     
-    public Profile() { }
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public ProfileTypeEnum getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(ProfileTypeEnum tipo) {
-		this.tipo = tipo;
-	}
-
-	public SistemasMBEnum getSistema() {
-		return sistema;
-	}
-
-	public void setSistema(SistemasMBEnum sistema) {
-		this.sistema = sistema;
-	}
-
-	public List<Permission> getPermissoes() {
-		return permissoes;
-	}
-
-	public void serPermissoes(List<Permission> permission) {
-		this.permissoes = permission;
-	}
-
 	@Override
 	public String toString() {
 		return "Perfil [nome=" + nome + ", descricao=" + descricao + "]";

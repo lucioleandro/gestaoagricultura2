@@ -8,7 +8,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -19,6 +22,9 @@ import java.util.Comparator;
  * @author Lúcio Leandro
  * @version 2.0 **/
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_economic_activity", schema = "smartagrodb")
 public class EconomicActivity implements Comparator<Object>, Serializable {
@@ -56,63 +62,6 @@ public class EconomicActivity implements Comparator<Object>, Serializable {
 	@Basic
 	private Boolean atividadeDeServico;
 	
-	public EconomicActivity() { }
-
-	public EconomicActivity(Long id, int version, String codigocnae, String observacao, String descricao,
-			Boolean situacao, Double aliquota, Double valor, boolean isentoiss, Boolean atividadeDeServico) {
-		this.id = id;
-		this.version = version;
-		this.codigocnae = codigocnae;
-		this.observacao = observacao;
-		this.descricao = descricao;
-		this.situacao = situacao;
-		this.aliquota = aliquota;
-		this.valor = valor;
-		this.isentoiss = isentoiss;
-		this.atividadeDeServico = atividadeDeServico;
-	}
-	
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getCodigocnae() {
-		return codigocnae;
-	}
-
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public Boolean getSituacao() {
-		return situacao;
-	}
-
-	public Double getAliquota() {
-		return aliquota;
-	}
-
-	public Double getValor() {
-		return valor;
-	}
-
-	public boolean isIsentoiss() {
-		return isentoiss;
-	}
-
-	public Boolean getAtividadeDeServico() {
-		return atividadeDeServico;
-	}
-
 	@Override
 	public int compare(Object o1, Object o2) {
 

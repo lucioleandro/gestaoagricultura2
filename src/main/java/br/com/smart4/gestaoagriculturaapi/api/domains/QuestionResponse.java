@@ -11,10 +11,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "agro_question_response", schema = "smartagrodb")
@@ -45,38 +49,6 @@ public class QuestionResponse implements Serializable {
 	private Farmer farmer;
 
 //  ===========================================
-
-	public QuestionResponse() {
-	}
-
-	public QuestionResponse(String descricao, Question question) {
-		this.descricao = descricao;
-		this.question = question;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public Question getQuestion() {
-		return question;
-	}
-	
-	public Farmer getFarmer() {
-		return farmer;
-	}
 
 	@Override
 	public String toString() {

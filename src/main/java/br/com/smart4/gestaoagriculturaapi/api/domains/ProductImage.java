@@ -8,11 +8,17 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_product_image", schema = "smartagrodb")
 public class ProductImage implements Serializable {
@@ -38,43 +44,5 @@ public class ProductImage implements Serializable {
 	private Product product;
 
 //  ===========================================
-
-	public ProductImage() {
-	}
-
-	public ProductImage(Long id, int version, byte[] arquivo, String extensao,
-			Product product) {
-		this.id = id;
-		this.version = version;
-		this.arquivo = arquivo;
-		this.extensao = extensao;
-		this.product = product;
-	}
-
-	public ProductImage(byte[] arquivo,  String extensao, Product product) {
-		this.arquivo = arquivo;
-		this.extensao = extensao;
-		this.product = product;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public byte[] getArquivo() {
-		return arquivo;
-	}
-
-	public String getExtensao() {
-		return extensao;
-	}
-
-	public Product getProduct() {
-		return product;
-	}
 
 }

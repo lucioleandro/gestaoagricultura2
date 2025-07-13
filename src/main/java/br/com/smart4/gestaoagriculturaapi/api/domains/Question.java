@@ -13,10 +13,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "agro_question", schema = "smartagrodb")
@@ -49,48 +53,6 @@ public class Question implements Serializable {
 
 //  ===========================================
 
-	public Question() {
-	}
-
-	public Question(Long id, int version, String descricao, Boolean ativa, QuestionTypeEnum tipoQuestion, Boolean obrigatoria) {
-		this.id = id;
-		this.version = version;
-		this.descricao = descricao;
-		this.ativa = ativa;
-		this.tipoQuestion = tipoQuestion;
-		this.obrigatoria = obrigatoria;
-	}
-
-	public Question(String descricao, Boolean ativa, QuestionTypeEnum tipoQuestion, Boolean obrigatoria) {
-		this.descricao = descricao;
-		this.ativa = ativa;
-		this.tipoQuestion = tipoQuestion;
-		this.obrigatoria = obrigatoria;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public Boolean getAtiva() {
-		return ativa;
-	}
-
-	public QuestionTypeEnum getTipoQuestion() {
-		return tipoQuestion;
-	}
-	
-	public Boolean getObrigatoria() {
-		return obrigatoria;
-	}
 
 	@Override
 	public String toString() {

@@ -8,11 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "agro_standard_response")
 public class StandardResponse implements Serializable {
@@ -37,37 +43,6 @@ public class StandardResponse implements Serializable {
 	Question question;
 
 //  ===========================================
-
-	public StandardResponse() {
-	}
-
-	public StandardResponse(Long id, int version, String descricao, Question question) {
-		this.id = id;
-		this.version = version;
-		this.descricao = descricao;
-		this.question = question;
-	}
-
-	public StandardResponse(String descricao, Question question) {
-		this.descricao = descricao;
-		this.question = question;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public Question getQuestion() {
-		return question;
-	}
 
 	@Override
 	public String toString() {

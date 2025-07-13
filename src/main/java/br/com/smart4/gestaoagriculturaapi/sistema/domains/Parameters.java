@@ -7,9 +7,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "system_parameters", schema = "smartagrodb")
 public class Parameters implements Serializable {
@@ -64,87 +72,5 @@ public class Parameters implements Serializable {
 //  =========================================== RELACIONAMENTOS
 
 //  ===========================================
-    
-    public Parameters() { }
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public String getTipoLogradouro() {
-		return tipoLogradouro;
-	}
-
-	public String getAcod() {
-		return acod;
-	}
-
-	public String getNeighborhood() {
-		return neighborhood;
-	}
-
-	public byte[] getBrasao() {
-		return brasao;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public String getCodfebraban() {
-		return codfebraban;
-	}
-
-	public Integer getCodigoPM() {
-		return codigoPM;
-	}
-
-	public String getFax() {
-		return fax;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public String getOrdenadorPrincipal() {
-		return ordenadorPrincipal;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public String getUf() {
-		return uf;
-	}
-
-	public String getInscestadual() {
-		return inscestadual;
-	}
-
-	public String getInscmunicipal() {
-		return inscmunicipal;
-	}
     
 }

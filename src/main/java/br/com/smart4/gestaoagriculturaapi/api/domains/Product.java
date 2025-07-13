@@ -8,11 +8,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -39,36 +41,6 @@ public class Product implements Serializable {
 //  =========================================== RELACIONAMENTOS
 
 //  ===========================================
-
-	public Product(Long id, int version, String descricao) {
-		this.id = id;
-		this.version = version;
-	}
-
-	public Product(String descricao, String unidadeMedida, String siglaUnidadeMedida) {
-		this.unidadeMedida = unidadeMedida;
-		this.siglaUnidadeMedida = siglaUnidadeMedida;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public String getUnidadeMedida() {
-		return unidadeMedida;
-	}
-
-	public String getSiglaUnidadeMedida() {
-		return siglaUnidadeMedida;
-	}
 
 	@Override
 	public String toString() {

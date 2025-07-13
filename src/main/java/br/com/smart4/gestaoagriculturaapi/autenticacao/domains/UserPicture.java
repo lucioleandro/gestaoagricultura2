@@ -9,11 +9,18 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "aut_user_picture", schema = "smartagrodb")
 public class UserPicture implements Serializable {
@@ -30,53 +37,21 @@ public class UserPicture implements Serializable {
 	private int version;
 
 	@Lob
+	@Setter
 	private String fotoPerfil;
 
 //  =========================================== RELACIONAMENTOS
 
 	@OneToOne
 	@JoinColumn(unique = true)
+	@Setter
 	private User usuario;
 
+	public UserPicture(String fotoPerfil, User user) {
+		this.fotoPerfil = fotoPerfil;
+		this.usuario = user;
+	}
+
 //  ===========================================
-
-	public UserPicture() {
-	}
-
-	public UserPicture(Long id, int version, String fotoPerfil, User usuario) {
-		this.id = id;
-		this.version = version;
-		this.fotoPerfil = fotoPerfil;
-		this.usuario = usuario;
-	}
-
-	public UserPicture(String fotoPerfil, User usuario) {
-		this.fotoPerfil = fotoPerfil;
-		this.usuario = usuario;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public String getFotoPerfil() {
-		return fotoPerfil;
-	}
-	
-	public void setFotoPerfil(String fotoPerfil) {
-		this.fotoPerfil = fotoPerfil;
-	}
-
-	public User getUsuario() {
-		return usuario;
-	}
-	
-	public void setUsuario(User usuario) {
-		this.usuario = usuario;
-	}
 
 }
