@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.enums.MaritalStatus;
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.MaritalStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +40,7 @@ public class PersonalInformation implements Serializable {
 	private String pai;
 
 	@Column(nullable = false)
-	private MaritalStatus maritalStatus;
+	private MaritalStatusEnum maritalStatus;
 
 	@Column(name = "conjugue")
 	private String nomeConjugue;
@@ -56,7 +56,7 @@ public class PersonalInformation implements Serializable {
 	public PersonalInformation() {
 	}
 
-	public PersonalInformation(Long id, int version, String apelido, String mae, String pai, MaritalStatus maritalStatus,
+	public PersonalInformation(Long id, int version, String apelido, String mae, String pai, MaritalStatusEnum maritalStatus,
 			String nomeConjugue, Farmer farmer) {
 		this.id = id;
 		this.version = version;
@@ -68,12 +68,12 @@ public class PersonalInformation implements Serializable {
 		this.farmer = farmer;
 	}
 
-	public PersonalInformation(String apelido, String mae, String pai, MaritalStatus maritalStatus, String nomeConjugue,
-			Farmer farmer) {
+	public PersonalInformation(String apelido, String mae, String pai, MaritalStatusEnum maritalStatusEnum, String nomeConjugue,
+							   Farmer farmer) {
 		this.apelido = apelido;
 		this.mae = mae;
 		this.pai = pai;
-		this.maritalStatus = maritalStatus;
+		this.maritalStatus = maritalStatusEnum;
 		this.nomeConjugue = nomeConjugue;
 		this.farmer = farmer;
 	}
@@ -102,7 +102,7 @@ public class PersonalInformation implements Serializable {
 		return pai;
 	}
 
-	public MaritalStatus getMaritalStatus() {
+	public MaritalStatusEnum getMaritalStatus() {
 		return maritalStatus;
 	}
 

@@ -1,15 +1,12 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains.enums;
 
-public enum EnumIrrigationMethod {
+public enum BirdEnum {
 	
-	S("Sulco"),
-	AC("Aspersão Convencional"),
-	MA("Microaspersão"),
-	PV("Pivô Central"),
-	SI("Sub-Irrigação"),
-	B("Bacia"),
-	GT("Gotejamento");
-	
+	Galinha("Galinha"),
+	GALINHA_ANGOLA("Galinha Angola"),
+	PERU("PERU"),
+	CODORNA("CODORNA"),
+	OUTROS("OUTROS");
 	
 	private final String nome;
 	
@@ -21,7 +18,7 @@ public enum EnumIrrigationMethod {
     	return nome;
     }
 
-	EnumIrrigationMethod(String nome) {
+	BirdEnum(String nome) {
 		this.nome = nome;
 	}
 }

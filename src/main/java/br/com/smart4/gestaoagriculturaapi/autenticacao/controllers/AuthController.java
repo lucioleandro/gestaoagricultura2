@@ -31,7 +31,7 @@ public class AuthController {
 		this.tokenProvider = tokenProvider;
 	}
 
-	@PostMapping("/sigin")
+	@PostMapping
 	public ResponseEntity<?> autenticaUsuario(@Valid @RequestBody LoginDTO request) {
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));

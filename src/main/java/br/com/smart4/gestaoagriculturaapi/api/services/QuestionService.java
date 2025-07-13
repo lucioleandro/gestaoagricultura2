@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.QuestionRequest;
 import br.com.smart4.gestaoagriculturaapi.api.factories.QuestionFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.QuestionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class QuestionService {
 		this.perguntaRepository = perguntaRepository;
 	}
 
+	@Transactional
 	public Question create(QuestionRequest pergunta) {
 		return perguntaRepository.save(QuestionFactory.fromRequest(pergunta));
 	}
 
+	@Transactional
 	public Question atualiza(QuestionRequest pergunta) {
 		return perguntaRepository.save(QuestionFactory.fromRequest(pergunta));
 	}
@@ -37,7 +40,8 @@ public class QuestionService {
 	public List<Question> findQuestionsAtivas() {
 		return perguntaRepository.findQuestionsAtivas();
 	}
-	
+
+	@Transactional
 	public void remove(Question pergunta) {
 		perguntaRepository.delete(pergunta);
 	}

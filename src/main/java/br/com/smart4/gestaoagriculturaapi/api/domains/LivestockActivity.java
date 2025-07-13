@@ -1,5 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.SpeciesEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,7 +29,7 @@ public class LivestockActivity implements Serializable {
 	    private int version;
 	    
 	    @Enumerated(EnumType.STRING)
-	    private br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumSpecies especie;
+	    private SpeciesEnum especie;
 	    
 	    private Integer quantidade;
 	    
@@ -43,7 +44,7 @@ public class LivestockActivity implements Serializable {
 
 	    public LivestockActivity() { }
 	    
-	    public LivestockActivity(Long id, int version, br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumSpecies especie, Integer quantidade, String raca,
+	    public LivestockActivity(Long id, int version, SpeciesEnum especie, Integer quantidade, String raca,
                                  Property property) {
 	    	this.id = id;
 	    	this.version = version;
@@ -53,7 +54,7 @@ public class LivestockActivity implements Serializable {
 	    	this.property = property;
 	    }
 
-		public LivestockActivity(br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumSpecies especie, Integer quantidade, String raca,
+		public LivestockActivity(SpeciesEnum especie, Integer quantidade, String raca,
                                  Property property) {
 			this.especie = especie;
 			this.quantidade = quantidade;
@@ -69,7 +70,7 @@ public class LivestockActivity implements Serializable {
 			return version;
 		}
 
-		public br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumSpecies getEspecie() {
+		public SpeciesEnum getEspecie() {
 			return especie;
 		}
 

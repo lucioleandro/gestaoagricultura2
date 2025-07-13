@@ -4,7 +4,6 @@ import br.com.smart4.gestaoagriculturaapi.api.domains.EconomicActivityFarmer;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.EconomicActivityFarmerRequest;
 import br.com.smart4.gestaoagriculturaapi.api.services.EconomicActivityFarmerService;
-import br.com.smart4.gestaoagriculturaapi.api.utils.ResponseMessage;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/economicactivityfarmer")
+@RequestMapping("/economic-activities-farmer")
 public class EconomicActivityFarmerController {
 
     private final EconomicActivityFarmerService economicActivityFarmerService;
@@ -32,7 +31,7 @@ public class EconomicActivityFarmerController {
         this.economicActivityFarmerService = economicActivityFarmerService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraEconomicActivityFarmer(@RequestBody @Valid EconomicActivityFarmerRequest request) {
 //        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
 //            return ResponseEntity.badRequest()
@@ -54,7 +53,7 @@ public class EconomicActivityFarmerController {
         return false;
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaEconomicActivityFarmer(@RequestBody @Valid EconomicActivityFarmerRequest request) {
 //        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
 //            return ResponseEntity.badRequest()
@@ -65,23 +64,23 @@ public class EconomicActivityFarmerController {
         return ResponseEntity.ok().body(economicActivityFarmerService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<EconomicActivityFarmer> getListaEconomicActivity() {
         return economicActivityFarmerService.findAll();
     }
 
-    @GetMapping("/listabyfarmer")
+    @GetMapping("/farmer")
     public List<EconomicActivityFarmer> getListaAtividadeByFarmer(@Param(value = "id") Long id) {
         return economicActivityFarmerService.findByFarmer(id);
     }
 
-    @GetMapping("/listabyproperty")
+    @GetMapping("/property")
     @ResponseBody
     public List<EconomicActivityFarmer> getListaAtividadeByProperty(@Param(value = "id") Long id) {
         return economicActivityFarmerService.findByProperty(id);
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeEconomicActivityFarmer(@PathVariable Long id) {
         try {
             Optional<EconomicActivityFarmer> economicActivityFarmer = economicActivityFarmerService.findById(id);

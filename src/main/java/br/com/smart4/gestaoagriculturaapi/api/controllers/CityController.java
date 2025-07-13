@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/city")
+@RequestMapping("/cities")
 public class CityController {
 
     private final CityService municipioService;
@@ -29,25 +29,25 @@ public class CityController {
         this.municipioService = municipioService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
     public ResponseEntity<?> cadastraMunicipio(@RequestBody @Valid CityRequest request) {
         return ResponseEntity.created(null).body(municipioService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
     public ResponseEntity<?> atualizaMunicipio(@RequestBody @Valid CityRequest request) {
         return ResponseEntity.ok().body(municipioService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     @Cacheable(value = "listaDeMunicipios")
     public List<City> getListaMunicipioes() {
         return municipioService.findAll();
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
     public ResponseEntity<?> removeMunicipio(@PathVariable Long id) {
         Optional<City> municipio = municipioService.findById(id);

@@ -18,7 +18,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/profile")
+@RequestMapping("/profiles")
 public class ProfileController {
 
     private final ProfileService profileService;
@@ -27,23 +27,23 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraPerfil(@RequestBody Profile request) {
         return ResponseEntity.created(null).body(profileService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaPerfil(@RequestBody Profile request) {
         return ResponseEntity.ok().body(profileService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<Profile> getListaPerfil() {
         return profileService.findAll();
     }
 
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removePerfil(@PathVariable Long id) {
         Optional<Profile> perfil = profileService.findById(id);
 

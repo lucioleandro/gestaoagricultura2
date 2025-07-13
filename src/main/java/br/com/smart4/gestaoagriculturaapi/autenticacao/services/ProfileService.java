@@ -3,6 +3,7 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.ProfileRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,18 +17,16 @@ public class ProfileService {
 		this.profileRepository = profileRepository;
 	}
 
+	@Transactional
 	public Profile create(Profile perfil) {
 		return profileRepository.saveAndFlush(perfil);
 	}
-	
+
+	@Transactional
 	public Profile atualiza(Profile perfil) {
 		return profileRepository.save(perfil);
 	}
 	
-	public void atualizaPerfil(Profile perfil) {
-		profileRepository.save(perfil);
-	}
-
 	public List<Profile> findAll() {
 		return profileRepository.findAll();
 	}
@@ -40,6 +39,7 @@ public class ProfileService {
 		return profileRepository.findByUserId(id);
 	}
 
+	@Transactional
 	public void remove(Profile perfil) {
 		profileRepository.delete(perfil);
 	}

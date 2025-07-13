@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.repositories;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.ResponseQuestion;
+import br.com.smart4.gestaoagriculturaapi.api.domains.QuestionResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface ResponseQuestionRepository extends JpaRepository<ResponseQuestion, Long> {
+public interface QuestionResponseRepository extends JpaRepository<QuestionResponse, Long> {
 
-	List<ResponseQuestion> findByQuestionId(Long id);
+	List<QuestionResponse> findByQuestionId(Long id);
 
-	List<ResponseQuestion> findByFarmerId(Long id);
+	List<QuestionResponse> findByFarmerId(Long id);
 
 	@Modifying
 	@Transactional

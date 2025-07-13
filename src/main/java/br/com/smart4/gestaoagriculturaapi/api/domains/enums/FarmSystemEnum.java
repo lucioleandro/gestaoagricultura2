@@ -1,5 +1,5 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains.enums;
 
-public enum MaritalStatus {
-
+public enum FarmSystemEnum {
+	IRRIGADA, SEQUEIRO, PECUARIA
 }

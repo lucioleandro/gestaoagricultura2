@@ -1,7 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumQuestionType;
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.QuestionTypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -43,7 +43,7 @@ public class Question implements Serializable {
 	private Boolean obrigatoria;
 
 	@Enumerated(EnumType.STRING)
-	private EnumQuestionType tipoQuestion;
+	private QuestionTypeEnum tipoQuestion;
 
 //  =========================================== JUNÇÕES 1-N
 
@@ -52,7 +52,7 @@ public class Question implements Serializable {
 	public Question() {
 	}
 
-	public Question(Long id, int version, String descricao, Boolean ativa, br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumQuestionType tipoQuestion, Boolean obrigatoria) {
+	public Question(Long id, int version, String descricao, Boolean ativa, QuestionTypeEnum tipoQuestion, Boolean obrigatoria) {
 		this.id = id;
 		this.version = version;
 		this.descricao = descricao;
@@ -61,7 +61,7 @@ public class Question implements Serializable {
 		this.obrigatoria = obrigatoria;
 	}
 
-	public Question(String descricao, Boolean ativa, br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumQuestionType tipoQuestion, Boolean obrigatoria) {
+	public Question(String descricao, Boolean ativa, QuestionTypeEnum tipoQuestion, Boolean obrigatoria) {
 		this.descricao = descricao;
 		this.ativa = ativa;
 		this.tipoQuestion = tipoQuestion;
@@ -84,7 +84,7 @@ public class Question implements Serializable {
 		return ativa;
 	}
 
-	public br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumQuestionType getTipoQuestion() {
+	public QuestionTypeEnum getTipoQuestion() {
 		return tipoQuestion;
 	}
 	

@@ -17,8 +17,8 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "agro_response_question", schema = "smartagrodb")
-public class ResponseQuestion implements Serializable {
+@Table(name = "agro_question_response", schema = "smartagrodb")
+public class QuestionResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,10 +46,10 @@ public class ResponseQuestion implements Serializable {
 
 //  ===========================================
 
-	public ResponseQuestion() {
+	public QuestionResponse() {
 	}
 
-	public ResponseQuestion(String descricao, Question question) {
+	public QuestionResponse(String descricao, Question question) {
 		this.descricao = descricao;
 		this.question = question;
 	}

@@ -1,6 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
 
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.FarmSystemEnum;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,7 +34,7 @@ public class FarmingSystem implements Serializable {
 	private String descricao;
 
 	@Enumerated(EnumType.STRING)
-	br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumFarmSystem ramoAtividade;
+    FarmSystemEnum ramoAtividade;
 
 //  =========================================== RELACIONAMENTOS
 
@@ -42,14 +43,14 @@ public class FarmingSystem implements Serializable {
 	public FarmingSystem() {
 	}
 
-	public FarmingSystem(Long id, int version, String descricao, br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumFarmSystem ramoAtividade) {
+	public FarmingSystem(Long id, int version, String descricao, FarmSystemEnum ramoAtividade) {
 		this.id = id;
 		this.version = version;
 		this.descricao = descricao;
 		this.ramoAtividade = ramoAtividade;
 	}
 
-	public FarmingSystem(String descricao, br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumFarmSystem ramoAtividade) {
+	public FarmingSystem(String descricao, FarmSystemEnum ramoAtividade) {
 		this.descricao = descricao;
 		this.ramoAtividade = ramoAtividade;
 	}
@@ -66,7 +67,7 @@ public class FarmingSystem implements Serializable {
 		return descricao;
 	}
 
-	public br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumFarmSystem getRamoAtividade() {
+	public FarmSystemEnum getRamoAtividade() {
 		return ramoAtividade;
 	}
 

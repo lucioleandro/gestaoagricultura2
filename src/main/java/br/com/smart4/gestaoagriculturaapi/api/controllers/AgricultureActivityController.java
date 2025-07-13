@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/agricultureactivity")
+@RequestMapping("/agriculture-activities")
 public class AgricultureActivityController {
 
     private final AgricultureActivityService agricultureActivityService;
@@ -29,29 +28,28 @@ public class AgricultureActivityController {
         this.agricultureActivityService = agricultureActivityService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraAgricultureActivity(@RequestBody @Valid AgricultureActivityRequest request) {
         return ResponseEntity.created(null).body(agricultureActivityService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaAgricultureActivity(@RequestBody @Valid AgricultureActivityRequest request) {
         agricultureActivityService.atualiza(request);
         return ResponseEntity.ok().body("");
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<AgricultureActivity> getListaAgricultureActivity() {
         return agricultureActivityService.findAll();
     }
 
-    @GetMapping("/listabyproperty")
-    @ResponseBody
+    @GetMapping
     public List<AgricultureActivity> getListaAgricultureActivityByProperty(@Param(value = "id") Long id) {
         return agricultureActivityService.findByProperty(id);
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeAgricultureActivity(@PathVariable Long id) {
         Optional<AgricultureActivity> agricultureActivity = agricultureActivityService.findById(id);
 

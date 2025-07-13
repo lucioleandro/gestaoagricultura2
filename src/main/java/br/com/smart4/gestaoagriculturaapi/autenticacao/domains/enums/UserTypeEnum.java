@@ -1,5 +1,5 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.domains.enums;
 
-public enum EnumUserType {
+public enum UserTypeEnum {
 	Administrador, Comum
 }

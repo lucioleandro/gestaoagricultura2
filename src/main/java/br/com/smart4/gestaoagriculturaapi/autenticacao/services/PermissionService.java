@@ -3,6 +3,7 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Permission;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.PermissionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,18 +17,16 @@ public class PermissionService {
 		this.permissionRepository = permissionRepository;
 	}
 
+	@Transactional
 	public Permission create(Permission permission) {
 		return permissionRepository.saveAndFlush(permission);
 	}
-	
+
+	@Transactional
 	public Permission atualiza(Permission permission) {
 		return permissionRepository.save(permission);
 	}
-	
-	public void atualizaPermissao(Permission permission) {
-		permissionRepository.save(permission);
-	}
-	
+
 	public List<Permission> findAll() {
 		return permissionRepository.findAll();
 	}
@@ -40,6 +39,7 @@ public class PermissionService {
 		return permissionRepository.findByPerfilId(perfilId);
 	}
 
+	@Transactional
 	public void remove(Permission permission) {
 		permissionRepository.delete(permission);
 	}

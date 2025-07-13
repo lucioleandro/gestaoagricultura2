@@ -1,8 +1,8 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.ResponseQuestion;
+import br.com.smart4.gestaoagriculturaapi.api.domains.QuestionResponse;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.ResponseQuestionRequest;
-import br.com.smart4.gestaoagriculturaapi.api.services.ResponseQuestionService;
+import br.com.smart4.gestaoagriculturaapi.api.services.QuestionResponseService;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -19,21 +19,21 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/respostapergunta")
-public class ResponseQuestionController {
+@RequestMapping("/question-responses")
+public class QuestionResponseController {
 
-    private final ResponseQuestionService respostaQuestionService;
+    private final QuestionResponseService respostaQuestionService;
 
-    public ResponseQuestionController(ResponseQuestionService respostaQuestionService) {
+    public QuestionResponseController(QuestionResponseService respostaQuestionService) {
         this.respostaQuestionService = respostaQuestionService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraResponseQuestion(@RequestBody @Valid ResponseQuestionRequest request) {
         return ResponseEntity.created(null).body(respostaQuestionService.create(request));
     }
 
-    @PostMapping("/cadastrarespostas")
+    @PostMapping
     public ResponseEntity<?> cadastraRespostasQuestion(@RequestBody @Valid  List<ResponseQuestionRequest> request) {
 //        Long idFarmer = request.get(0).getFarmer().getId();
 //        this.DeletaRespostasMultiplaEscolhaByFarmer(idFarmer);
@@ -50,24 +50,24 @@ public class ResponseQuestionController {
         respostaQuestionService.removeRespostasMultiplaEscolhaByFarmer(id);
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaResponseQuestion(@RequestBody @Valid ResponseQuestionRequest request) {
         return ResponseEntity.ok().body(respostaQuestionService.atualiza(request));
     }
 
-    @GetMapping("/lista")
-    public List<ResponseQuestion> getListaResponseQuestiones() {
+    @GetMapping
+    public List<QuestionResponse> getListaResponseQuestiones() {
         return respostaQuestionService.findAll();
     }
 
-    @GetMapping("/listabyfarmer")
-    public List<ResponseQuestion> getListaResponseQuestionByQuestion(@Param(value = "id") Long id) {
-        return respostaQuestionService.findByFarmerId(id);
+    @GetMapping("/farmer")
+    public List<QuestionResponse> getListaResponseQuestionByQuestion(@Param(value = "id") Long farmerId) {
+        return respostaQuestionService.findByFarmerId(farmerId);
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeResponseQuestion(@PathVariable Long id) {
-        Optional<ResponseQuestion> respostaQuestion = respostaQuestionService.findById(id);
+        Optional<QuestionResponse> respostaQuestion = respostaQuestionService.findById(id);
 
         if (respostaQuestion.isPresent()) {
             respostaQuestionService.remove(respostaQuestion.get());

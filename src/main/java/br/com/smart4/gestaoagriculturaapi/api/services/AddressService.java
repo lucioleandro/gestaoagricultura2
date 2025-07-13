@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.AddressRequest;
 import br.com.smart4.gestaoagriculturaapi.api.factories.AddressFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.AddressRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class AddressService {
 		this.addressRepository = addressRepository;
 	}
 
+	@Transactional
 	public Address create(AddressRequest address) {
 		return addressRepository.save(AddressFactory.fromRequest(address));
 	}
 
+	@Transactional
 	public Address atualiza(AddressRequest address) {
 		return addressRepository.save(AddressFactory.fromRequest(address));
 	}
@@ -34,6 +37,7 @@ public class AddressService {
 		return addressRepository.findAll();
 	}
 
+	@Transactional
 	public void remove(Address address) {
 		addressRepository.delete(address);
 	}

@@ -1,5 +1,5 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains.enums;
 
-public enum ActivityType {
-	
+public enum MaritalStatusEnum {
+
 }

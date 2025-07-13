@@ -22,7 +22,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/userpicture")
+@RequestMapping("/user-pictures")
 public class UserPictureController {
 
     private final UserPictureService userPictureService;
@@ -34,12 +34,12 @@ public class UserPictureController {
         this.userService = userService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraUsuarioFoto(@RequestBody UserPicture request) {
         return ResponseEntity.created(null).body(userPictureService.create(request));
     }
 
-    @PatchMapping("/atualiza")
+    @PatchMapping
     public ResponseEntity<?> atualizaUsuarioFoto(@RequestParam("fotoPerfil") String fotoPerfil,
                                                  @RequestParam("login") String login) {
 
@@ -61,13 +61,13 @@ public class UserPictureController {
         return ResponseEntity.ok().body(userPictureService.createOrAtualiza(userPicture));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<UserPicture> getListaUsuarioFoto() {
         return userPictureService.findAll();
     }
 
-    @GetMapping("/fotobyusuario")
-    public UserPicture getFotoByUsuario(@Param(value = "login") String login) {
+    @GetMapping("usuario")
+    public UserPicture getFotoByUsuario(@Param(value = "id") String login) {
         Optional<UserPicture> usuarioOptional = userPictureService.findByUsuarioLogin(login);
 
         if (usuarioOptional.isPresent()) {
@@ -76,7 +76,7 @@ public class UserPictureController {
         return null;
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeUsuarioFoto(@PathVariable Long id) {
         Optional<UserPicture> usuarioFoto = userPictureService.findById(id);
 

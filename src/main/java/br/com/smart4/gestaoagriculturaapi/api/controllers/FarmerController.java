@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/farmer")
+@RequestMapping("/farmers")
 public class FarmerController {
 
     private final FarmerService farmerService;
@@ -32,7 +32,7 @@ public class FarmerController {
         this.farmerService = farmerService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraFarmer(@RequestBody @Valid FarmerRequest request,
                                             UriComponentsBuilder uriBuilder) throws InvalidStateException {
         new CPFValidator().assertValid(request.getCpf());
@@ -44,19 +44,19 @@ public class FarmerController {
 
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaFarmer(@RequestBody @Valid FarmerRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 
         return ResponseEntity.ok().body(farmerService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<Farmer> getListaFarmeres() {
         return farmerService.findAll();
     }
 
-    @GetMapping("/getbycpf")
+    @GetMapping
     public Farmer getFarmerByCpf(@Param(value = "cpf") String cpf) {
         Optional<Farmer> farmer = farmerService.findByCpf(cpf);
 
@@ -67,7 +67,7 @@ public class FarmerController {
         return null;
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeFarmer(@PathVariable Long id) {
         Optional<Farmer> farmer = farmerService.findById(id);
 

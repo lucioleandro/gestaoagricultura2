@@ -3,6 +3,7 @@ package br.com.smart4.gestaoagriculturaapi.sistema.services;
 import br.com.smart4.gestaoagriculturaapi.sistema.domains.Compatible;
 import br.com.smart4.gestaoagriculturaapi.sistema.repositories.CompatibleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,14 +17,17 @@ public class CompatibleService {
 		this.compatibleRepository = compatibleRepository;
 	}
 
+	@Transactional
 	public Compatible create(Compatible compatible) {
 		return compatibleRepository.save(compatible);
 	}
 
+	@Transactional
 	public Compatible atualiza(Compatible compatible) {
 		return compatibleRepository.save(compatible);
 	}
 
+	@Transactional
 	public void remove(Compatible compatible) {
 		compatibleRepository.delete(compatible);
 	}

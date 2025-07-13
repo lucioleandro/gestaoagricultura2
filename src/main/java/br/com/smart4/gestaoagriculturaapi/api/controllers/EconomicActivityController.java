@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/economicactivity")
+@RequestMapping("/economic-activities")
 public class EconomicActivityController {
 
     private final EconomicActivityService economicActivityService;
@@ -29,25 +29,25 @@ public class EconomicActivityController {
         this.economicActivityService = economicActivityService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
     public ResponseEntity<?> cadastraEconomicActivity(@RequestBody @Valid EconomicActivityRequest request) {
         return ResponseEntity.created(null).body(economicActivityService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
     public ResponseEntity<?> atualizaEconomicActivity(@RequestBody @Valid EconomicActivityRequest request) {
         return ResponseEntity.ok().body(economicActivityService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     @Cacheable(value = "listaDeAtividadesEconomicas")
     public List<EconomicActivity> getListaEconomicActivityes() {
         return economicActivityService.findAll();
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
     public ResponseEntity<?> removeEconomicActivity(@PathVariable Long id) {
         Optional<EconomicActivity> economicActivity = economicActivityService.findById(id);

@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.ProductImageRequest;
 import br.com.smart4.gestaoagriculturaapi.api.factories.ProductImageFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.ProductImageRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class ProductImageService {
 		this.productImageRepository = productImageRepository;
 	}
 
+	@Transactional
 	public ProductImage create(ProductImageRequest productImage) {
 		return productImageRepository.save(ProductImageFactory.fromRequest(productImage));
 	}
 
+	@Transactional
 	public ProductImage atualiza(ProductImageRequest productImage) {
 		return productImageRepository.save(ProductImageFactory.fromRequest(productImage));
 	}
@@ -38,6 +41,7 @@ public class ProductImageService {
 		return productImageRepository.findByProductId(id);
 	}
 
+	@Transactional
 	public void remove(ProductImage productImage) {
 		productImageRepository.delete(productImage);
 	}

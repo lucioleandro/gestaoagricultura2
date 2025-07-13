@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/livestockactivity")
+@RequestMapping("/livestock-activities")
 public class LivestockActivityController {
 
     private final LivestockActivityService livestockActivityService;
@@ -28,27 +28,27 @@ public class LivestockActivityController {
         this.livestockActivityService = livestockActivityService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraLivestockActivity(@RequestBody @Valid LivestockActivityRequest request) {
         return ResponseEntity.created(null).body(livestockActivityService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaLivestockActivity(@RequestBody @Valid LivestockActivityRequest request) {
         return ResponseEntity.ok().body(livestockActivityService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<LivestockActivity> getListaLivestockActivity() {
         return livestockActivityService.findAll();
     }
 
-    @GetMapping("/listabyproperty")
-    public List<LivestockActivity> getListaLivestockActivityByProperty(@Param(value = "id") Long id) {
-        return livestockActivityService.findByPropertyId(id);
+    @GetMapping("/property")
+    public List<LivestockActivity> getListaLivestockActivityByProperty(@Param(value = "id") Long propertyId) {
+        return livestockActivityService.findByPropertyId(propertyId);
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeLivestockActivity(@PathVariable Long id) {
         Optional<LivestockActivity> livestockActivity = livestockActivityService.findById(id);
 

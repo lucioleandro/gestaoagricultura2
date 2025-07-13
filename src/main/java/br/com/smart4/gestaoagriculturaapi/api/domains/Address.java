@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.enums.StreetType;
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.StreetTypeEnum;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,7 +41,7 @@ public class Address implements Serializable {
 	private String complemento;
 	
 	@Enumerated(EnumType.STRING)
-	private StreetType tipoLogradouro;
+	private StreetTypeEnum tipoLogradouro;
 	
 	@ManyToOne
 	@JoinColumn(name = "city_id")
@@ -54,7 +54,7 @@ public class Address implements Serializable {
 	public Address() { }
 
 	public Address(Long id, int version, String logradouro, String numero, String cep, String complemento,
-			StreetType tipoLogradouro, City city, Neighborhood neighborhood) {
+                   StreetTypeEnum tipoLogradouro, City city, Neighborhood neighborhood) {
 		this.id = id;
 		this.version = version;
 		this.logradouro = logradouro;
@@ -68,7 +68,7 @@ public class Address implements Serializable {
 	
 
 
-	public Address(String logradouro, String numero, String cep, String complemento, StreetType tipoLogradouro,
+	public Address(String logradouro, String numero, String cep, String complemento, StreetTypeEnum tipoLogradouro,
 			City city, Neighborhood neighborhood) {
 		this.logradouro = logradouro;
 		this.numero = numero;
@@ -146,11 +146,11 @@ public class Address implements Serializable {
 		this.complemento = complemento;
 	}
 
-	public StreetType getTipoLogradouro() {
+	public StreetTypeEnum getTipoLogradouro() {
 		return tipoLogradouro;
 	}
 
-	public void setTipoLogradouro(StreetType tipoLogradouro) {
+	public void setTipoLogradouro(StreetTypeEnum tipoLogradouro) {
 		this.tipoLogradouro = tipoLogradouro;
 	}
 

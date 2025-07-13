@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/address")
+@RequestMapping("/addresses")
 public class AddressController {
 
     private final AddressService addressService;
@@ -27,22 +27,22 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraAddress(@RequestBody @Valid AddressRequest request) {
         return ResponseEntity.created(null).body(addressService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaAddress(@RequestBody AddressRequest request) {
         return ResponseEntity.ok().body(addressService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<Address> getListaAddresses() {
         return addressService.findAll();
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeAddress(@PathVariable Long id) {
         Optional<Address> address = addressService.findById(id);
 

@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumTitleDeed;
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.TitleDeedEnum;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import br.com.smart4.gestaoagriculturaapi.api.domains.TitleDeed;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.TitleDeedRequest;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/titledeed")
+@RequestMapping("/title-deeds")
 public class TitleDeedController {
 
     private final TitleDeedService titleDeedService;
@@ -44,27 +44,27 @@ public class TitleDeedController {
         this.propertyService = propertyService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraDocumentosProperty(@RequestBody @Valid TitleDeedRequest request) throws IOException {
         return ResponseEntity.created(null).body(titleDeedService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaDocumentosProperty(@RequestBody @Valid TitleDeedRequest request) throws IOException {
         return ResponseEntity.ok().body(titleDeedService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<TitleDeed> getListaDocumentosPropertys() {
         return titleDeedService.findAll();
     }
 
-    @GetMapping("/listabyproperty")
-    public List<TitleDeed> getListaDocumentosPropertysbyproperty(@Param(value = "id") Long id) {
-        return titleDeedService.findByProperty(id);
+    @GetMapping("/property")
+    public List<TitleDeed> getListaDocumentosPropertysbyproperty(@Param(value = "id") Long propertyId) {
+        return titleDeedService.findByProperty(propertyId);
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeDocumentosProperty(@PathVariable Long id) {
         Optional<TitleDeed> documentosProperty = titleDeedService.findById(id);
 
@@ -83,7 +83,7 @@ public class TitleDeedController {
             @RequestParam("observacao") String observacao,
             @RequestParam("bytes") MultipartFile arquivoMult,
             @RequestParam("extensao") String extensao,
-            @RequestParam("documento") EnumTitleDeed documento,
+            @RequestParam("documento") TitleDeedEnum documento,
             @RequestParam("property") Long idProperty) throws IOException {
 
 

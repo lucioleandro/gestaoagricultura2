@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.LivestockActivityReq
 import br.com.smart4.gestaoagriculturaapi.api.factories.LivestockActivityFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.LivestockActivityRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class LivestockActivityService {
 		this.livestockActivityRepository = livestockActivityRepository;
 	}
 
+	@Transactional
 	public LivestockActivity create(LivestockActivityRequest livestockActivity) {
 		return livestockActivityRepository.save(LivestockActivityFactory.fromRequest(livestockActivity));
 	}
 
+	@Transactional
 	public LivestockActivity atualiza(LivestockActivityRequest livestockActivity) {
 		return livestockActivityRepository.save(LivestockActivityFactory.fromRequest(livestockActivity));
 	}
@@ -38,6 +41,7 @@ public class LivestockActivityService {
 		return livestockActivityRepository.findByPropertyId(id);
 	}
 
+	@Transactional
 	public void remove(LivestockActivity livestockActivity) {
 		livestockActivityRepository.delete(livestockActivity);
 	}

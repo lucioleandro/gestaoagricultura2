@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/parametros")
+@RequestMapping("/parameters")
 public class ParametersController {
 
     private final ParametersService parametersService;
@@ -27,22 +27,22 @@ public class ParametersController {
         this.parametersService = parametersService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraParametros(@Valid @RequestBody Parameters request) {
         return ResponseEntity.created(null).body(parametersService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaParametros(@RequestBody Parameters request) {
         return ResponseEntity.ok().body(parametersService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<Parameters> getListaParametroses() {
         return parametersService.findAll();
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeParametros(@PathVariable Long id) {
         Optional<Parameters> parametros = parametersService.findById(id);
 

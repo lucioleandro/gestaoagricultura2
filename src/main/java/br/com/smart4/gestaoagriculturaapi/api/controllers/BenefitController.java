@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/benefit")
+@RequestMapping("/benefits")
 public class BenefitController {
 
 	private final BenefitService benefitService;

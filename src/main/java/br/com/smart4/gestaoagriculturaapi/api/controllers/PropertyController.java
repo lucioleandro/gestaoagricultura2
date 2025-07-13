@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/property")
+@RequestMapping("/properties")
 public class PropertyController {
 
     private final PropertyService propertyService;
@@ -43,7 +43,7 @@ public class PropertyController {
         this.addressService = addressService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraProperty(@RequestBody @Valid PropertyRequest request) {
         Coordinates coordenadas = this.buscaCoordenadas(request.getAddress());
 
@@ -102,7 +102,7 @@ public class PropertyController {
         }
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaProperty(@RequestBody @Valid PropertyRequest request) {
         Coordinates coordenadas = this.buscaCoordenadas(request.getAddress());
         request.setLatitude(coordenadas.getLatitude());
@@ -113,17 +113,17 @@ public class PropertyController {
         return ResponseEntity.ok().body(propertyService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<Property> getListaPropertyes() {
         return propertyService.findAll();
     }
 
-    @GetMapping("/listabyfarmer")
-    public List<Property> getListaPropertyesByFarmer(@Param(value = "id") Long id) {
-        return propertyService.findByFarmer(id);
+    @GetMapping("/farmer")
+    public List<Property> getListaPropertyesByFarmer(@Param(value = "id") Long farmerId) {
+        return propertyService.findByFarmer(farmerId);
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeProperty(@PathVariable Long id) {
         Optional<Property> property = propertyService.findById(id);
 

@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.ProductRequest;
 import br.com.smart4.gestaoagriculturaapi.api.factories.ProductFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class ProductService {
 		this.productRepository = productRepository;
 	}
 
+	@Transactional
 	public Product create(ProductRequest product) {
 		return productRepository.save(ProductFactory.fromRequest(product));
 	}
 
+	@Transactional
 	public Product atualiza(ProductRequest product) {
 		return productRepository.save(ProductFactory.fromRequest(product));
 	}
@@ -33,7 +36,8 @@ public class ProductService {
 	public List<Product> findAll() {
 		return productRepository.findAll();
 	}
-	
+
+	@Transactional
 	public void remove(Product product) {
 		productRepository.delete(product);
 	}

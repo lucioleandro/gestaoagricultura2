@@ -1,12 +1,10 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains.enums;
 
-public enum EnumBird {
-	
-	Galinha("Galinha"),
-	GALINHA_ANGOLA("Galinha Angola"),
-	PERU("PERU"),
-	CODORNA("CODORNA"),
-	OUTROS("OUTROS");
+public enum QuestionTypeEnum {
+
+	ME("Multipla Escolha"),
+	A("Aberta"),
+	UE("Única Escolha");
 	
 	private final String nome;
 	
@@ -18,7 +16,7 @@ public enum EnumBird {
     	return nome;
     }
 
-	EnumBird(String nome) {
+	QuestionTypeEnum(String nome) {
 		this.nome = nome;
 	}
 }

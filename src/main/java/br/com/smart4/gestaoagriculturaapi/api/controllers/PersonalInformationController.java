@@ -6,6 +6,7 @@ import br.com.smart4.gestaoagriculturaapi.api.services.PersonalInformationServic
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/personalinformation")
+@RequestMapping("/personal-information")
 public class PersonalInformationController {
 
     private final PersonalInformationService personalInformationService;
@@ -24,23 +25,23 @@ public class PersonalInformationController {
         this.personalInformationService = personalInformationService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraPersonalInformation(@RequestBody @Valid PersonalInformationRequest request) {
         return ResponseEntity.created(null).body(personalInformationService.create(request));
     }
 
-    @PostMapping("/atualiza")
+    @PostMapping
     public ResponseEntity<?> atualizaPersonalInformation(@RequestBody @Valid PersonalInformationRequest request) {
         return ResponseEntity.ok().body(personalInformationService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<PersonalInformation> getListaPersonalInformationes() {
         return personalInformationService.findAll();
     }
 
-    @PostMapping("/remove")
-    public ResponseEntity<?> removePersonalInformation(@Valid @RequestBody Long id) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> removePersonalInformation(@Valid @PathVariable Long id) {
         Optional<PersonalInformation> personalInformation = personalInformationService.findById(id);
 
         if (personalInformation.isPresent()) {

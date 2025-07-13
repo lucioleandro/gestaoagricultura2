@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.EconomicActivityFarm
 import br.com.smart4.gestaoagriculturaapi.api.factories.EconomicActivityFarmerFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.EconomicActivityFarmerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class EconomicActivityFarmerService {
 		this.economicActivityRepository = economicActivityRepository;
 	}
 
+	@Transactional
 	public EconomicActivityFarmer create(EconomicActivityFarmerRequest municipio) {
 		return economicActivityRepository.save(EconomicActivityFarmerFactory.fromRequest(municipio));
 	}
 
+	@Transactional
 	public EconomicActivityFarmer atualiza(EconomicActivityFarmerRequest municipio) {
 		return economicActivityRepository.save(EconomicActivityFarmerFactory.fromRequest(municipio));
 	}
@@ -42,6 +45,7 @@ public class EconomicActivityFarmerService {
 		return economicActivityRepository.findByPropertyId(id);
 	}
 
+	@Transactional
 	public void remove(EconomicActivityFarmer municipio) {
 		economicActivityRepository.delete(municipio);
 	}

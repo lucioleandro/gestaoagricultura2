@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.NeighborhoodRequest;
 import br.com.smart4.gestaoagriculturaapi.api.factories.NeighborhoodFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.NeighborhoodRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class NeighborhoodService {
 		this.neighborhoodRepository = neighborhoodRepository;
 	}
 
+	@Transactional
 	public Neighborhood create(NeighborhoodRequest neighborhood) {
 		return neighborhoodRepository.save(NeighborhoodFactory.fromRequest(neighborhood));
 	}
 
+	@Transactional
 	public Neighborhood atualiza(NeighborhoodRequest neighborhood) {
 		return neighborhoodRepository.save(NeighborhoodFactory.fromRequest(neighborhood));
 	}
@@ -37,7 +40,8 @@ public class NeighborhoodService {
 	public List<Neighborhood> findByMunicipioNome(String municipio) {
 		return neighborhoodRepository.findByCityNome(municipio);
 	}
-	
+
+	@Transactional
 	public void remove(Neighborhood neighborhood) {
 		neighborhoodRepository.delete(neighborhood);
 	}

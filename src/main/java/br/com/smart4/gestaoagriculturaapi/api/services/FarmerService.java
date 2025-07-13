@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.FarmerRequest;
 import br.com.smart4.gestaoagriculturaapi.api.factories.FarmerFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.FarmerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class FarmerService {
 		this.farmerRepository = farmerRepository;
 	}
 
+	@Transactional
 	public Farmer create(FarmerRequest farmer) {
 		return farmerRepository.save(FarmerFactory.fromRequest(farmer));
 	}
 
+	@Transactional
 	public Farmer atualiza(FarmerRequest farmer) {
 		return farmerRepository.save(FarmerFactory.fromRequest(farmer));
 	}
@@ -38,6 +41,7 @@ public class FarmerService {
 		return farmerRepository.findByCpf(cpf);
 	}
 
+	@Transactional
 	public void remove(Farmer farmer) {
 		farmerRepository.delete(farmer);
 	}

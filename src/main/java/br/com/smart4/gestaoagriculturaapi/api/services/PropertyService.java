@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.PropertyRequest;
 import br.com.smart4.gestaoagriculturaapi.api.factories.PropertyFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.PropertyRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class PropertyService {
 		this.propertyRepository = propertyRepository;
 	}
 
+	@Transactional
 	public Property create(PropertyRequest property) {
 		return propertyRepository.save(PropertyFactory.fromRequest(property));
 	}
-	
+
+	@Transactional
 	public Property atualiza(PropertyRequest property) {
 		return propertyRepository.save(PropertyFactory.fromRequest(property));
 	}
@@ -37,7 +40,8 @@ public class PropertyService {
 	public List<Property> findByFarmer(Long id) {
 		return propertyRepository.findByFarmerId(id);
 	}
-	
+
+	@Transactional
 	public void remove(Property property) {
 		propertyRepository.delete(property);
 	}

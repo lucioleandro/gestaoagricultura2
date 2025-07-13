@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumTitleDeed;
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.TitleDeedEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,7 +48,7 @@ public class TitleDeed implements Serializable {
 	private String extensao;
 
 	@Enumerated(EnumType.STRING)
-	private EnumTitleDeed documento;
+	private TitleDeedEnum documento;
 //  =========================================== RELACIONAMENTOS
 
 	@ManyToOne
@@ -60,7 +60,7 @@ public class TitleDeed implements Serializable {
 	}
 
 	public TitleDeed(Long id, int version, String titulo, String observacao, LocalDateTime dataAdicao,
-					 byte[] bytes, String extensao, EnumTitleDeed documento, Property property) {
+                     byte[] bytes, String extensao, TitleDeedEnum documento, Property property) {
 		this.id = id;
 		this.version = version;
 		this.titulo = titulo;
@@ -73,7 +73,7 @@ public class TitleDeed implements Serializable {
 	}
 
 	public TitleDeed(String titulo, String observacao, LocalDateTime dataAdicao, byte[] bytes,
-					 String extensao, EnumTitleDeed ducumento, Property property) {
+                     String extensao, TitleDeedEnum ducumento, Property property) {
 		this.titulo = titulo;
 		this.observacao = observacao;
 		this.dataAdicao = dataAdicao;
@@ -111,7 +111,7 @@ public class TitleDeed implements Serializable {
 		return extensao;
 	}
 
-	public EnumTitleDeed getDocumento() {
+	public TitleDeedEnum getDocumento() {
 		return documento;
 	}
 

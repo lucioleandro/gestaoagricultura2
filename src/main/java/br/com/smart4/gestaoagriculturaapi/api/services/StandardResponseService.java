@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.StandardResponseRequ
 import br.com.smart4.gestaoagriculturaapi.api.factories.StandardResponseFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.StandardResponseRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class StandardResponseService {
 		this.respostaPadraoRepository = respostaPadraoRepository;
 	}
 
+	@Transactional
 	public StandardResponse create(StandardResponseRequest respostaPadrao) {
 		return respostaPadraoRepository.save(StandardResponseFactory.fromRequest(respostaPadrao));
 	}
-	
+
+	@Transactional
 	public StandardResponse atualiza(StandardResponseRequest respostaPadrao) {
 		return respostaPadraoRepository.save(StandardResponseFactory.fromRequest(respostaPadrao));
 	}
@@ -37,7 +40,8 @@ public class StandardResponseService {
 	public List<StandardResponse> findByQuestionId(Long id) {
 		return respostaPadraoRepository.findByQuestionId(id);
 	}
-	
+
+	@Transactional
 	public void remove(StandardResponse respostaPadrao) {
 		respostaPadraoRepository.delete(respostaPadrao);
 	}

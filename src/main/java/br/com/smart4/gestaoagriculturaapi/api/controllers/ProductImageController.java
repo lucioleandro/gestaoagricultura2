@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/productimage")
+@RequestMapping("/product-images")
 public class ProductImageController {
 
     private final ProductImageService productImageService;
@@ -37,7 +37,7 @@ public class ProductImageController {
         this.productService = productService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraProductImage(
             @RequestParam("arquivo") MultipartFile arquivo,
             @RequestParam("extensao") String extensao,
@@ -54,22 +54,22 @@ public class ProductImageController {
         }
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaProductImage(@RequestBody @Valid ProductImageRequest request) {
         return ResponseEntity.ok().body(productImageService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<ProductImage> getListaProductImages() {
         return productImageService.findAll();
     }
 
-    @GetMapping("/listabyproduct")
+    @GetMapping("/product")
     public List<ProductImage> getListaProductImagesByMunicipio(@Param(value = "id") Long id) {
         return productImageService.findByProductId(id);
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeProductImage(@PathVariable Long id) {
         Optional<ProductImage> productImage = productImageService.findById(id);
 

@@ -38,22 +38,22 @@ public class CompatibleController {
         this.parametersService = parametersService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraCompativeis(@Valid @RequestBody Compatible request) {
         return ResponseEntity.created(null).body(compatibleService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaCompativeis(@RequestBody Compatible request) {
         return ResponseEntity.ok().body(compatibleService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<Compatible> getListaCompativeises() {
         return compatibleService.findAll();
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeCompativeis(@PathVariable Long id) {
         Optional<Compatible> compativeis = compatibleService.findById(id);
 
@@ -67,7 +67,7 @@ public class CompatibleController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @GetMapping("/verificacompatibilidadeaplicacaoebase")
+    @GetMapping("/check")
     public ResponseEntity<?> verificaSeaplicacaoEBaseCompativeis(@Param(value = "versaoFront") String versaoFront) {
         Compatible compatible = compatibleService.findAll().get(0);
 
@@ -92,7 +92,7 @@ public class CompatibleController {
         return false;
     }
 
-    @GetMapping("/verificaseestainadimplente")
+    @GetMapping("/check-defaulter")
     public ResponseEntity<?> verificaSeEstaInadimplente() throws ParseException {
         Compatible compatible = compatibleService.findAll().get(0);
 

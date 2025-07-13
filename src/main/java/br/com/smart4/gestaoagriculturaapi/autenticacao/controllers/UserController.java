@@ -23,7 +23,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -32,7 +32,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraUsuario(@RequestBody User request) {
         new CPFValidator().assertValid(request.getCpf());
 
@@ -42,7 +42,7 @@ public class UserController {
         return ResponseEntity.created(null).body(userService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaUsuario(@RequestBody User request) {
         new CPFValidator().assertValid(request.getCpf());
 
@@ -52,7 +52,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.atualiza(request));
     }
 
-    @PatchMapping("/atualizaprofile")
+    @PatchMapping
     public ResponseEntity<?> atualizaUsuario(@RequestParam("nome") String nome,
                                              @RequestParam("login") String login,
                                              @RequestParam("novologin") String novoLogin,
@@ -72,12 +72,12 @@ public class UserController {
                 .body(userService.atualiza(usuario));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<User> getListaUsuarioes() {
         return userService.findAll();
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeUsuario(@PathVariable Long id) {
         Optional<User> usuario = userService.findById(id);
 
@@ -91,7 +91,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PatchMapping("/atualizasenhausuario")
+    @PatchMapping
     public ResponseEntity<?> atualizaSenhaUsuario(@RequestParam("senhaAtual") String senhaAtual,
                                                   @RequestParam("novaSenha") String novaSenha,
                                                   @RequestParam("login") String login) {

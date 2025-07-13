@@ -343,13 +343,13 @@ CREATE TABLE `agro_standard_response` (
 
 
 --
--- Table structure for table `agro_response_question`
+-- Table structure for table `agro_question_response`
 --
 
-DROP TABLE IF EXISTS `agro_response_question`;
+DROP TABLE IF EXISTS `agro_question_response`;
 
 
-CREATE TABLE `agro_response_question` (
+CREATE TABLE `agro_question_response` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `descricao` varchar(255) NOT NULL,
   `version` int(11) NOT NULL,

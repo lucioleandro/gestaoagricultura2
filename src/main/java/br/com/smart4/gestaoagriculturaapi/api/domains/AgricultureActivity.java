@@ -1,5 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.IrrigationMethodEnum;
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.WaterSourceEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -42,10 +44,10 @@ public class AgricultureActivity implements Serializable {
 	private double producaoAnual;
 
 	@Enumerated(EnumType.STRING)
-	private br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumIrrigationMethod metodoIrrigacao;
+	private IrrigationMethodEnum metodoIrrigacao;
 	
 	@Enumerated(EnumType.STRING)
-	private br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumWaterSource fonteAgua;
+	private WaterSourceEnum fonteAgua;
 //  =========================================== RELACIONAMENTOS
 
 	@ManyToOne
@@ -60,8 +62,8 @@ public class AgricultureActivity implements Serializable {
 	}
 
 	public AgricultureActivity(Long id, int version, LocalDate dataPlantio, String variedade, double areaPlantada,
-                               Integer quantidadePlantas, double producaoAnual, br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumIrrigationMethod metodoIrrigacao,
-                               br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumWaterSource fonteAgua, Property property, Product product) {
+							   Integer quantidadePlantas, double producaoAnual, IrrigationMethodEnum metodoIrrigacao,
+							   WaterSourceEnum fonteAgua, Property property, Product product) {
 		this.id = id;
 		this.version = version;
 		this.dataPlantio = dataPlantio;
@@ -76,8 +78,8 @@ public class AgricultureActivity implements Serializable {
 	}
 
 	public AgricultureActivity(Product product, LocalDate dataPlantio, String variedade, double areaPlantada,
-                               Integer quantidadePlantas, double producaoAnual, br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumIrrigationMethod metodoIrrigacao,
-                               br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumWaterSource fonteAgua, Property property) {
+							   Integer quantidadePlantas, double producaoAnual, IrrigationMethodEnum metodoIrrigacao,
+							   WaterSourceEnum fonteAgua, Property property) {
 		this.product = product;
 		this.dataPlantio = dataPlantio;
 		this.variedade = variedade;
@@ -117,11 +119,11 @@ public class AgricultureActivity implements Serializable {
 		return producaoAnual;
 	}
 
-	public br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumIrrigationMethod getMetodoIrrigacao() {
+	public IrrigationMethodEnum getMetodoIrrigacao() {
 		return metodoIrrigacao;
 	}
 
-	public br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumWaterSource getFonteAgua() {
+	public WaterSourceEnum getFonteAgua() {
 		return fonteAgua;
 	}
 

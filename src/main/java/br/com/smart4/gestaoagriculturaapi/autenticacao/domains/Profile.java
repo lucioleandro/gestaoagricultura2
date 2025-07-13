@@ -1,8 +1,8 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.domains;
 
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.enums.EnumSistemasMB;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.enums.EnumProfileType;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.enums.SistemasMBEnum;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.enums.ProfileTypeEnum;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -40,10 +40,10 @@ public class Profile implements Serializable {
     private String descricao;
     
     @Enumerated(EnumType.STRING)
-    private EnumProfileType tipo;
+    private ProfileTypeEnum tipo;
     
     @Enumerated(EnumType.STRING)
-    private EnumSistemasMB sistema;
+    private SistemasMBEnum sistema;
     
 
 //  =========================================== RELACIONAMENTOS
@@ -88,19 +88,19 @@ public class Profile implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public EnumProfileType getTipo() {
+	public ProfileTypeEnum getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(EnumProfileType tipo) {
+	public void setTipo(ProfileTypeEnum tipo) {
 		this.tipo = tipo;
 	}
 
-	public EnumSistemasMB getSistema() {
+	public SistemasMBEnum getSistema() {
 		return sistema;
 	}
 
-	public void setSistema(EnumSistemasMB sistema) {
+	public void setSistema(SistemasMBEnum sistema) {
 		this.sistema = sistema;
 	}
 

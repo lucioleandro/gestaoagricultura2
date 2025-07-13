@@ -3,6 +3,7 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.UserProfile;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.UserProfileRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,16 +17,14 @@ public class UserProfileService {
 		this.usuarioFotoRepository = usuarioFotoRepository;
 	}
 
+	@Transactional
 	public UserProfile create(UserProfile usuarioFoto) {
 		return usuarioFotoRepository.saveAndFlush(usuarioFoto);
 	}
-	
+
+	@Transactional
 	public UserProfile atualiza(UserProfile usuarioFoto) {
 		return usuarioFotoRepository.save(usuarioFoto);
-	}
-	
-	public void atualizaUsuarioPerfil(UserProfile usuarioFoto) {
-		usuarioFotoRepository.save(usuarioFoto);
 	}
 	
 	public List<UserProfile> findAll() {
@@ -40,6 +39,7 @@ public class UserProfileService {
 		return usuarioFotoRepository.findByUsuarioId(id);
 	}
 
+	@Transactional
 	public void remove(UserProfile usuarioFoto) {
 		usuarioFotoRepository.delete(usuarioFoto);
 	}

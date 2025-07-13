@@ -1,6 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains;
 
 
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.LandRegularizationEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -54,7 +55,7 @@ public class Property implements Serializable {
 	private String tipoResidencia;
 	
 	@Enumerated(EnumType.STRING)
-	private br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumLandRegularization regularizacaoFundiaria;
+	private LandRegularizationEnum regularizacaoFundiaria;
 
 //  =========================================== RELACIONAMENTOS
 
@@ -75,7 +76,7 @@ public class Property implements Serializable {
 
 	public Property(Long id, int version, String nome, String itr, String incra, String latitude, String longitude,
                     Double areaTotal, Double areaAgricola, Double reservaLegal, String tipoResidencia,
-                    br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumLandRegularization regularizacaoFundiaria, Farmer farmer, Address address) {
+                    LandRegularizationEnum regularizacaoFundiaria, Farmer farmer, Address address) {
 		this.id = id;
 		this.version = version;
 		this.nome = nome;
@@ -94,7 +95,7 @@ public class Property implements Serializable {
 
 	public Property(String nome, String itr, String incra, String latitude, String longitude, Double areaTotal,
                     Double areaAgricola, Double reservaLegal, String tipoResidencia,
-                    br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumLandRegularization regularizacaoFundiaria, Farmer farmer, Address address) {
+                    LandRegularizationEnum regularizacaoFundiaria, Farmer farmer, Address address) {
 		this.nome = nome;
 		this.itr = itr;
 		this.incra = incra;
@@ -161,7 +162,7 @@ public class Property implements Serializable {
 		return tipoResidencia;
 	}
 
-	public br.com.smart4.gestaoagriculturaapi.api.domains.enums.EnumLandRegularization getRegularizacaoFundiaria() {
+	public LandRegularizationEnum getRegularizacaoFundiaria() {
 		return regularizacaoFundiaria;
 	}
 

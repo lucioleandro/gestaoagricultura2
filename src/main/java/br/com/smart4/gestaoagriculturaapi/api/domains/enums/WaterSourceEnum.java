@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.domains.enums;
 
-public enum EnumWaterSource {
+public enum WaterSourceEnum {
 	
 	IP("Irrigação Pública"),
 	R("Rio"),
@@ -21,7 +21,7 @@ public enum EnumWaterSource {
     	return nome;
     }
 
-	EnumWaterSource(String nome) {
+	WaterSourceEnum(String nome) {
 		this.nome = nome;
 	}
 

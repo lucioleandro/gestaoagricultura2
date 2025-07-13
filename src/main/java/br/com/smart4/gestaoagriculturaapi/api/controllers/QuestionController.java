@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/pergunta")
+@RequestMapping("/questions")
 public class QuestionController {
 
     private final QuestionService perguntaService;
@@ -38,14 +38,14 @@ public class QuestionController {
         this.cacheManager = cacheManager;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     @CacheEvict(value = "{listaDeQuestionsAtivas, listaDeQuestions}", allEntries = true)
     public ResponseEntity<?> cadastraQuestion(@RequestBody @Valid QuestionRequest request) {
         limpaTodosOsCaches();
         return ResponseEntity.created(null).body(perguntaService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaQuestion(@RequestBody @Valid QuestionRequest request) {
         limpaTodosOsCaches();
         return ResponseEntity.ok().body(perguntaService.atualiza(request));
@@ -56,19 +56,19 @@ public class QuestionController {
         cacheManager.getCache("listaDeQuestionsAtivas").clear();
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     @Cacheable(value = "listaDeQuestions")
     public List<Question> getListaQuestions() {
         return perguntaService.findAll();
     }
 
-    @GetMapping("/listaperguntasativas")
+    @GetMapping("/actives")
     @Cacheable(value = "listaDeQuestionsAtivas")
     public List<Question> getListaQuestionsAtivas() {
         return perguntaService.findQuestionsAtivas();
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeQuestion(@PathVariable Long id) {
         Optional<Question> pergunta = perguntaService.findById(id);
 

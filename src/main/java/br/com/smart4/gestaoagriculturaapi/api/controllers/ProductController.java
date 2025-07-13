@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
 
@@ -26,22 +26,22 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraProduct(@RequestBody @Valid ProductRequest request) {
         return ResponseEntity.created(null).body(productService.create(request));
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaProduct(@RequestBody @Valid ProductRequest request) {
         return ResponseEntity.ok().body(productService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<Product> getListaProductes() {
         return productService.findAll();
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeProduct(@PathVariable Long id) {
         Optional<Product> product = productService.findById(id);
 

@@ -19,7 +19,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/userprofile")
+@RequestMapping("/user-profiles")
 public class UserProfileController {
 
     private final UserProfileService userProfileService;
@@ -28,22 +28,22 @@ public class UserProfileController {
         this.userProfileService = userProfileService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraUsuarioPerfil(@RequestBody UserProfile request) {
         return ResponseEntity.created(null).body(userProfileService.create(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<UserProfile> getListaUsuarioPerfil() {
         return userProfileService.findAll();
     }
 
-    @GetMapping("/listabyusuario")
-    public List<UserProfile> getListaUsuarioPerfiByUsuario(@Param(value = "id") Long id) {
-        return userProfileService.findByUsuarioId(id);
+    @GetMapping("/user")
+    public List<UserProfile> getListaUsuarioPerfiByUsuario(@Param(value = "id") Long userId) {
+        return userProfileService.findByUsuarioId(userId);
     }
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeUsuarioPerfil(@PathVariable Long id) {
         Optional<UserProfile> usuarioPerfil = userProfileService.findById(id);
 
@@ -57,7 +57,7 @@ public class UserProfileController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaUsuarioPerfil(@RequestBody UserProfile request) {
         return ResponseEntity.ok().body(userProfileService.atualiza(request));
     }

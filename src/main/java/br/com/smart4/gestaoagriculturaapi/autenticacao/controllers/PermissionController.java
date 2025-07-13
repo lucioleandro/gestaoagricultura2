@@ -21,7 +21,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/permission")
+@RequestMapping("/permissions")
 public class PermissionController {
 
     private final PermissionService permissionService;
@@ -30,7 +30,7 @@ public class PermissionController {
         this.permissionService = permissionService;
     }
 
-    @PostMapping("/cadastra")
+    @PostMapping
     public ResponseEntity<?> cadastraPermissao(@RequestBody Permission request) {
         if (componenteJaCadastradoParaOPerfil(request.getComponente(), request.getPerfil())) {
             return ResponseEntity.badRequest()
@@ -51,7 +51,7 @@ public class PermissionController {
         return false;
     }
 
-    @PutMapping("/atualiza")
+    @PutMapping
     public ResponseEntity<?> atualizaPermissao(@RequestBody Permission request) {
         if (componenteJaCadastradoParaOPerfil(request.getComponente(), request.getPerfil())) {
             return ResponseEntity.badRequest().body(
@@ -60,18 +60,18 @@ public class PermissionController {
         return ResponseEntity.ok().body(permissionService.atualiza(request));
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public List<Permission> getListaPermissao() {
         return permissionService.findAll();
     }
 
-    @GetMapping("/listabyperfil")
-    public List<Permission> getListaPermissao(@Param(value = "id") Long id) {
-        return permissionService.findByPerfilId(id);
+    @GetMapping("/profile")
+    public List<Permission> getListaPermissao(@Param(value = "id") Long profileId) {
+        return permissionService.findByPerfilId(profileId);
     }
 
 
-    @DeleteMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removePermissao(@PathVariable Long id) {
         Optional<Permission> permissao = permissionService.findById(id);
 

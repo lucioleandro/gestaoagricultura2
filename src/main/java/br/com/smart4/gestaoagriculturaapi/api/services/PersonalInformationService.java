@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.PersonalInformationR
 import br.com.smart4.gestaoagriculturaapi.api.factories.PersonalInformationFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.PersonalInformationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class PersonalInformationService {
 		this.personalInformationRepository = personalInformationRepository;
 	}
 
+	@Transactional
 	public PersonalInformation create(PersonalInformationRequest personalInformation) {
 		return personalInformationRepository.save(PersonalInformationFactory.fromRequest(personalInformation));
 	}
 
+	@Transactional
 	public PersonalInformation atualiza(PersonalInformationRequest personalInformation) {
 		return personalInformationRepository.save(PersonalInformationFactory.fromRequest(personalInformation));
 	}
@@ -33,7 +36,8 @@ public class PersonalInformationService {
 	public List<PersonalInformation> findAll() {
 		return personalInformationRepository.findAll();
 	}
-	
+
+	@Transactional
 	public void remove(PersonalInformation personalInformation) {
 		personalInformationRepository.delete(personalInformation);
 	}

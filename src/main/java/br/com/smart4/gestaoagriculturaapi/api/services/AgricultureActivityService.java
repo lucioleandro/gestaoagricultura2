@@ -5,6 +5,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.AgricultureActivityR
 import br.com.smart4.gestaoagriculturaapi.api.factories.AgricultureActivityFactory;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.AgricultureActivityRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ public class AgricultureActivityService {
 		this.atividadeAgriculaRepository = atividadeAgriculaRepository;
 	}
 
+	@Transactional
 	public AgricultureActivity create(AgricultureActivityRequest atividadeAgricula) {
 		return atividadeAgriculaRepository.save(AgricultureActivityFactory.fromRequest(atividadeAgricula));
 	}
 
+	@Transactional
 	public void atualiza(AgricultureActivityRequest atividadeAgricula) {
 		atividadeAgriculaRepository.save(AgricultureActivityFactory.fromRequest(atividadeAgricula));
 	}
@@ -37,7 +40,8 @@ public class AgricultureActivityService {
 	public List<AgricultureActivity> findByProperty(Long id) {
 		return atividadeAgriculaRepository.findByPropertyId(id);
 	}
-	
+
+	@Transactional
 	public void remove(AgricultureActivity atividadeAgricula) {
 		atividadeAgriculaRepository.delete(atividadeAgricula);
 	}

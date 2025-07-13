@@ -1,6 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.domains;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.enums.EnumUserType;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.enums.UserTypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -62,13 +62,13 @@ public class User implements UserDetails {
 	private String telefoneAlternativo;
 	
 	@Enumerated(EnumType.STRING)
-	private EnumUserType tipo;
+	private UserTypeEnum tipo;
 
 //  =========================================== JUNÇÕES 1-N
 
 //  ===========================================
 
-	public User(String nome, String email, String login, String senha, EnumUserType tipo) {
+	public User(String nome, String email, String login, String senha, UserTypeEnum tipo) {
 		this.nome = nome;
 		this.email = email;
 		this.login = login;
@@ -163,7 +163,7 @@ public class User implements UserDetails {
 		this.telefoneAlternativo = telefoneAlternativo;
 	}
 	
-	public EnumUserType getTipo() {
+	public UserTypeEnum getTipo() {
 		return tipo;
 	}
 
