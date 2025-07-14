@@ -1,6 +1,5 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 
-import br.com.smart4.gestaoagriculturaapi.api.exceptions.ResourceNotFoundException;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.User;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.UserPicture;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.UserPictureRequest;

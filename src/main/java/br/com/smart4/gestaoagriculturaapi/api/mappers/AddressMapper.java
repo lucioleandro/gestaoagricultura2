@@ -4,7 +4,6 @@ import br.com.smart4.gestaoagriculturaapi.api.domains.Address;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.AddressResponse;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AddressMapper {
 

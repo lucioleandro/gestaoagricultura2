@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Agriculture Activities", description = "Endpoints for managing agriculture activities")
@@ -38,9 +40,20 @@ public class AgricultureActivityController {
             @ApiResponse(responseCode = "400", description = "Invalid request data")
     })
     @PostMapping
-    public ResponseEntity<AgricultureActivityResponse> create(@RequestBody @Valid AgricultureActivityRequest request) {
-        return ResponseEntity.created(null).body(agricultureActivityService.create(request));
+    public ResponseEntity<AgricultureActivityResponse> create(
+            @RequestBody @Valid AgricultureActivityRequest request) {
+
+        AgricultureActivityResponse created = agricultureActivityService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(created);
     }
+
 
     @Operation(summary = "Update an agriculture activity", description = "Updates the activity with the specified ID.")
     @ApiResponses(value = {

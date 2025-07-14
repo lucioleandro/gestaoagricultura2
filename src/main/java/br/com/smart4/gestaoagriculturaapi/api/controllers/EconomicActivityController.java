@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Economic Activities", description = "Endpoints for managing economic activities")
@@ -40,8 +42,18 @@ public class EconomicActivityController {
     })
     @PostMapping
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<EconomicActivityResponse> create(@RequestBody @Valid EconomicActivityRequest request) {
-        return ResponseEntity.created(null).body(economicActivityService.create(request));
+    public ResponseEntity<EconomicActivityResponse> create(
+            @RequestBody @Valid EconomicActivityRequest request) {
+
+        EconomicActivityResponse created = economicActivityService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(created);
     }
 
     @Operation(summary = "Update an economic activity", description = "Updates an existing economic activity by ID.")

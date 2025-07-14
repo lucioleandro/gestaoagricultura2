@@ -12,7 +12,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Cities", description = "Endpoints for managing cities")
@@ -34,8 +36,17 @@ public class CityController {
     @PostMapping
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
     public ResponseEntity<CityResponse> create(@RequestBody @Valid CityRequest request) {
-        return ResponseEntity.created(null).body(service.create(request));
+        CityResponse created = service.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(created);
     }
+
 
     @Operation(summary = "Update a city", description = "Updates the city with the given ID.")
     @ApiResponses(value = {

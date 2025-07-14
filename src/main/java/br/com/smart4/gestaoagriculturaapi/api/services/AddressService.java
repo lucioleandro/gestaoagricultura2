@@ -36,7 +36,7 @@ public class AddressService {
     @Transactional
     public AddressResponse update(Long id, AddressRequest request) {
         Address existing = addressRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Address with id: " + id + " wasn't found"));
 
         var city = cityRepository.findById(request.getCityId())
                 .orElseThrow(() -> new EntityNotFoundException("City not found with id: " + request.getCityId()));

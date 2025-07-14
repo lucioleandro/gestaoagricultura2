@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Address", description = "Endpoints for managing address data")
@@ -38,7 +40,13 @@ public class AddressController {
     })
     @PostMapping
     public ResponseEntity<AddressResponse> create(@RequestBody @Valid AddressRequest request) {
-        return ResponseEntity.created(null).body(addressService.create(request));
+        AddressResponse created = addressService.create(request);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(created);
     }
 
     @Operation(summary = "Update an existing address", description = "Updates the address details for a given ID.")

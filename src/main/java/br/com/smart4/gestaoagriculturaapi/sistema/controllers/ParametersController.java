@@ -9,7 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Parameters", description = "Endpoints for managing system parameters")
@@ -25,9 +27,20 @@ public class ParametersController {
 
     @Operation(summary = "Create system parameters", description = "Creates a new set of system parameters")
     @PostMapping
-    public ResponseEntity<ParametersResponse> create(@Valid @RequestBody Parameters request) {
-        return ResponseEntity.created(null).body(parametersService.create(request));
+    public ResponseEntity<ParametersResponse> create(
+            @Valid @RequestBody Parameters request) {
+
+        ParametersResponse created = parametersService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(created);
     }
+
 
     @Operation(summary = "Update system parameters", description = "Updates existing system parameters")
     @PutMapping

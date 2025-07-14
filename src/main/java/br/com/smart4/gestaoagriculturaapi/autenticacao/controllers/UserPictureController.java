@@ -28,11 +28,9 @@ import java.util.List;
 public class UserPictureController {
 
     private final UserPictureService userPictureService;
-    private final UserService userService;
 
-    public UserPictureController(UserPictureService userPictureService, UserService userService) {
+    public UserPictureController(UserPictureService userPictureService) {
         this.userPictureService = userPictureService;
-        this.userService = userService;
     }
 
     @PostMapping

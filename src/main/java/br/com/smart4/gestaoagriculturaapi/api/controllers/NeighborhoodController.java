@@ -13,7 +13,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Neighborhood", description = "Endpoints for managing neighborhoods")
@@ -35,11 +37,21 @@ public class NeighborhoodController {
             @ApiResponse(responseCode = "400", description = "Invalid request data")
     })
     @PostMapping
-    public ResponseEntity<NeighborhoodResponse> create(@RequestBody @Valid NeighborhoodRequest request) {
+    public ResponseEntity<NeighborhoodResponse> create(
+            @RequestBody @Valid NeighborhoodRequest request) {
+
         limpaTodosOsCaches();
-        NeighborhoodResponse response = neighborhoodService.create(request);
-        return ResponseEntity.created(null).body(response);
+        NeighborhoodResponse created = neighborhoodService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(created);
     }
+
 
     @Operation(summary = "Update a neighborhood", description = "Updates the neighborhood with the given ID and clears related caches")
     @ApiResponses(value = {

@@ -40,7 +40,7 @@ class ProfileServiceTest {
         request = new ProfileRequest();
         request.setNome("Admin");
         request.setDescricao("Administrador");
-        request.setTipo(ProfileTypeEnum.Administrador);
+        request.setTipo(ProfileTypeEnum.ADMINISTRATOR);
         request.setSistema(SistemasMBEnum.SmartAgro);
 
         entity = new Profile();
@@ -72,7 +72,7 @@ class ProfileServiceTest {
         ProfileRequest updateReq = new ProfileRequest();
         updateReq.setNome("User");
         updateReq.setDescricao("System User");
-        updateReq.setTipo(ProfileTypeEnum.Comum);
+        updateReq.setTipo(ProfileTypeEnum.COMMON);
         updateReq.setSistema(SistemasMBEnum.SmartAgro);
 
         ProfileResponse response = service.update(id, updateReq);

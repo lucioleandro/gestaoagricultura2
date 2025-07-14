@@ -12,9 +12,17 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.List;
+import java.net.URI;
 
 @Tag(name = "Product", description = "Endpoints for managing products")
 @RestController
@@ -32,10 +40,20 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid request data")
     })
     @PostMapping
-    public ResponseEntity<ProductResponse> create(@RequestBody @Valid ProductRequest request) {
-        ProductResponse response = productService.create(request);
-        return ResponseEntity.created(null).body(response);
+    public ResponseEntity<ProductResponse> create(
+            @RequestBody @Valid ProductRequest request) {
+
+        ProductResponse created = productService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(created);
     }
+
 
     @Operation(summary = "Update a product", description = "Updates an existing product based on the provided ID")
     @ApiResponses(value = {
@@ -50,7 +68,7 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary  = "List all products",
+    @Operation(summary = "List all products",
             description = "Retrieves all registered products in a paged format")
     @ApiResponse(responseCode = "200", description = "Page retrieved successfully")
     @GetMapping

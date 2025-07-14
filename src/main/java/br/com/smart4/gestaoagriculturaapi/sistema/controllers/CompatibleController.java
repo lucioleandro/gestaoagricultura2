@@ -13,7 +13,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,9 +38,20 @@ public class CompatibleController {
 
     @Operation(summary = "Create a compatibility entry")
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Compatible request) {
-        return ResponseEntity.created(null).body(compatibleService.create(request));
+    public ResponseEntity<CompatibleResponse> create(
+            @Valid @RequestBody Compatible request) {
+
+        CompatibleResponse created = compatibleService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(created);
     }
+
 
     @Operation(summary = "Update a compatibility entry")
     @PutMapping

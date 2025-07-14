@@ -10,7 +10,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Personal Information", description = "Endpoints for managing personal information of individuals")
@@ -30,10 +32,20 @@ public class PersonalInformationController {
             @ApiResponse(responseCode = "400", description = "Invalid request data")
     })
     @PostMapping
-    public ResponseEntity<PersonalInformationResponse> create(@RequestBody @Valid PersonalInformationRequest request) {
-        PersonalInformationResponse response = personalInformationService.create(request);
-        return ResponseEntity.created(null).body(response);
+    public ResponseEntity<PersonalInformationResponse> create(
+            @RequestBody @Valid PersonalInformationRequest request) {
+
+        PersonalInformationResponse created = personalInformationService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(created);
     }
+
 
     @Operation(summary = "Update personal information", description = "Updates an existing personal information record by ID")
     @ApiResponses(value = {

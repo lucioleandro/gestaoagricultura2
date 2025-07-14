@@ -1,6 +1,5 @@
 package br.com.smart4.gestaoagriculturaapi.api.services;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.Address;
 import br.com.smart4.gestaoagriculturaapi.api.domains.City;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Farmer;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Neighborhood;
@@ -62,7 +61,7 @@ public class PropertyService {
     }
 
 	@Transactional
-	public PropertyResponse create(PropertyRequest request) throws IOException {
+	public PropertyResponse create(PropertyRequest request) {
 		// 1) Lookup coords
 		Coordinates coords = lookupCoordinates(request.getAddress());
 		request.setLatitude(coords.getLatitude());
@@ -77,8 +76,7 @@ public class PropertyService {
 	}
 
 	@Transactional
-	public PropertyResponse update(Long id, PropertyRequest request) throws IOException {
-		// 1) Recompute coords from the (possibly changed) address
+	public PropertyResponse update(Long id, PropertyRequest request) {
 		Coordinates coords = lookupCoordinates(request.getAddress());
 		request.setLatitude(coords.getLatitude());
 		request.setLongitude(coords.getLongitude());
@@ -177,8 +175,8 @@ public class PropertyService {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> location = (Map<String, Object>) geometry.get("location");
 
-		String lat = ((Number) location.get("lat")).toString();
-		String lng = ((Number) location.get("lng")).toString();
+		String lat = (location.get("lat")).toString();
+		String lng = ( location.get("lng")).toString();
 		return new Coordinates(lat, lng);
 	}
 

@@ -32,11 +32,9 @@ import java.util.List;
 public class PropertyController {
 
     private final PropertyService propertyService;
-    private final AddressService addressService;
 
-    public PropertyController(PropertyService propertyService, AddressService addressService) {
+    public PropertyController(PropertyService propertyService) {
         this.propertyService = propertyService;
-        this.addressService = addressService;
     }
 
     @Operation(summary = "Create a property", description = "Registers a new property and calculates coordinates based on the provided address")

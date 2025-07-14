@@ -10,7 +10,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Livestock Activity", description = "Endpoints for managing livestock activities")
@@ -30,9 +32,20 @@ public class LivestockActivityController {
             @ApiResponse(responseCode = "400", description = "Invalid request data")
     })
     @PostMapping
-    public ResponseEntity<LivestockActivityResponse> create(@RequestBody @Valid LivestockActivityRequest request) {
-        return ResponseEntity.created(null).body(livestockActivityService.create(request));
+    public ResponseEntity<LivestockActivityResponse> create(
+            @RequestBody @Valid LivestockActivityRequest request) {
+
+        LivestockActivityResponse created = livestockActivityService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(created);
     }
+
 
     @Operation(summary = "Update a livestock activity", description = "Updates an existing livestock activity based on ID")
     @ApiResponses(value = {
