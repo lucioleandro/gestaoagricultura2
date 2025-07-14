@@ -4,6 +4,7 @@ import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Farmer;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.FarmerRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.FarmerResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.FarmerService;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
@@ -33,8 +34,8 @@ public class FarmerController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid FarmerRequest request,
-                                            UriComponentsBuilder uriBuilder) throws InvalidStateException {
+    public ResponseEntity<FarmerResponse> create(@RequestBody @Valid FarmerRequest request,
+                                                 UriComponentsBuilder uriBuilder) throws InvalidStateException {
         new CPFValidator().assertValid(request.getCpf());
 
         URI uri = uriBuilder.path("/farmer/getbycpf?cpf={cpf}")
@@ -45,36 +46,39 @@ public class FarmerController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid FarmerRequest request) {
+    public ResponseEntity<FarmerResponse> update(@RequestBody @Valid FarmerRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 
         return ResponseEntity.ok().body(farmerService.update(request));
     }
 
     @GetMapping
-    public List<Farmer> getList() {
-        return farmerService.findAll();
+    public ResponseEntity<List<FarmerResponse>> getList() {
+        return ResponseEntity.ok(farmerService.findAll());
     }
 
     @GetMapping("/document")
-    public Farmer getByCpf(@Param(value = "cpf") String cpf) {
-        Optional<Farmer> farmer = farmerService.findByCpf(cpf);
+    public ResponseEntity<FarmerResponse> getByCpf(@Param(value = "cpf") String cpf) {
+//        Optional<Farmer> farmer = farmerService.findByCpf(cpf);
+//
+//        if (farmer.isPresent()) {
+//            return farmer.get();
+//        }
 
-        if (farmer.isPresent()) {
-            return farmer.get();
-        }
+        // TODO levar lógica para o service
 
         return null;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<Farmer> farmer = farmerService.findById(id);
-
-        if (farmer.isPresent()) {
-            farmerService.remove(farmer.get());
-            return ResponseEntity.ok().body("");
-        }
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+//        Optional<Farmer> farmer = farmerService.findById(id);
+//
+//        if (farmer.isPresent()) {
+//            farmerService.remove(farmer.get());
+//            return ResponseEntity.ok().body("");
+//        }
+        // TODO levar lógica service
         return ResponseEntity.notFound().build();
     }
 

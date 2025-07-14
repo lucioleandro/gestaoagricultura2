@@ -1,10 +1,9 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.LivestockActivity;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.LivestockActivityRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.LivestockActivityResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.LivestockActivityService;
 import jakarta.validation.Valid;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/livestock-activities")
@@ -29,33 +28,37 @@ public class LivestockActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid LivestockActivityRequest request) {
+    public ResponseEntity<LivestockActivityResponse> create(@RequestBody @Valid LivestockActivityRequest request) {
         return ResponseEntity.created(null).body(livestockActivityService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid LivestockActivityRequest request) {
+    public ResponseEntity<LivestockActivityResponse> update(@RequestBody @Valid LivestockActivityRequest request) {
         return ResponseEntity.ok().body(livestockActivityService.update(request));
     }
 
     @GetMapping
-    public List<LivestockActivity> getList() {
-        return livestockActivityService.findAll();
+    public ResponseEntity<List<LivestockActivityResponse>> getList() {
+        return ResponseEntity.ok(livestockActivityService.findAll());
     }
 
     @GetMapping("/property")
-    public List<LivestockActivity> getListByProperty(@Param(value = "id") Long propertyId) {
-        return livestockActivityService.findByPropertyId(propertyId);
+    public ResponseEntity<List<LivestockActivityResponse>> getListByProperty(@RequestParam("id") Long propertyId) {
+        List<LivestockActivityResponse> responses = livestockActivityService.findByPropertyId(propertyId);
+        return ResponseEntity.ok(responses);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<LivestockActivity> livestockActivity = livestockActivityService.findById(id);
+//        Optional<LivestockActivity> livestockActivity = livestockActivityService.findById(id);
+//
+//        if (livestockActivity.isPresent()) {
+//            livestockActivityService.remove(livestockActivity.get());
+//            return ResponseEntity.ok().body("");
+//        }
 
-        if (livestockActivity.isPresent()) {
-            livestockActivityService.remove(livestockActivity.get());
-            return ResponseEntity.ok().body("");
-        }
+        // TODO levar lógica para o service
         return ResponseEntity.notFound().build();
 
     }

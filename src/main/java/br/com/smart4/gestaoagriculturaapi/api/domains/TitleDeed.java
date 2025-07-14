@@ -48,7 +48,6 @@ public class TitleDeed implements Serializable {
     private LocalDateTime dataAdicao;
 
     @Lob
-    @JsonIgnore
     private byte[] bytes;
 
     private String extensao;

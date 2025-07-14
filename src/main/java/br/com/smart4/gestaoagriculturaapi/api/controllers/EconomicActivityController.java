@@ -2,6 +2,7 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.EconomicActivity;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.EconomicActivityRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.EconomicActivityResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.EconomicActivityService;
 import jakarta.validation.Valid;
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,31 +32,33 @@ public class EconomicActivityController {
 
     @PostMapping
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<?> create(@RequestBody @Valid EconomicActivityRequest request) {
+    public ResponseEntity<EconomicActivityResponse> create(@RequestBody @Valid EconomicActivityRequest request) {
         return ResponseEntity.created(null).body(economicActivityService.create(request));
     }
 
     @PutMapping
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<?> update(@RequestBody @Valid EconomicActivityRequest request) {
+    public ResponseEntity<EconomicActivityResponse> update(@RequestBody @Valid EconomicActivityRequest request) {
         return ResponseEntity.ok().body(economicActivityService.update(request));
     }
 
     @GetMapping
     @Cacheable(value = "listaDeAtividadesEconomicas")
-    public List<EconomicActivity> getList() {
-        return economicActivityService.findAll();
+    public ResponseEntity<List<EconomicActivityResponse>> getList() {
+        return ResponseEntity.ok(economicActivityService.findAll());
     }
 
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<EconomicActivity> economicActivity = economicActivityService.findById(id);
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+//        Optional<EconomicActivity> economicActivity = economicActivityService.findById(id);
+//
+//        if (economicActivity.isPresent()) {
+//            economicActivityService.remove(economicActivity.get());
+//            return ResponseEntity.ok().body("");
+//        }
 
-        if (economicActivity.isPresent()) {
-            economicActivityService.remove(economicActivity.get());
-            return ResponseEntity.ok().body("");
-        }
+//        TODO levar lógica para o service
         return ResponseEntity.notFound().build();
     }
 

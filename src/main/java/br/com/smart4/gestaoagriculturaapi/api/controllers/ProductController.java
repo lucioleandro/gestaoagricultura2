@@ -1,18 +1,11 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.Product;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.ProductRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.ProductResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,30 +20,33 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid ProductRequest request) {
-        return ResponseEntity.created(null).body(productService.create(request));
+    public ResponseEntity<ProductResponse> create(@RequestBody @Valid ProductRequest request) {
+        ProductResponse response = productService.create(request);
+        return ResponseEntity.created(null).body(response);
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid ProductRequest request) {
-        return ResponseEntity.ok().body(productService.update(request));
+    public ResponseEntity<ProductResponse> update(@RequestBody @Valid ProductRequest request) {
+        ProductResponse response = productService.update(request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public List<Product> getList() {
-        return productService.findAll();
+    public ResponseEntity<List<ProductResponse>> getList() {
+        List<ProductResponse> responses = productService.findAll();
+        return ResponseEntity.ok(responses);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<Product> product = productService.findById(id);
-
-        if (product.isPresent()) {
-            productService.remove(product.get());
-            return ResponseEntity.ok().body("");
-        }
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+//        Optional<ProductResponse> product = productService.findById(id);
+//
+//        if (product.isPresent()) {
+//            // TODO: mover lógica de remoção para o service
+//            productService.removeById(id);
+//            return ResponseEntity.ok().build();
+//        }
 
         return ResponseEntity.notFound().build();
     }
-
 }

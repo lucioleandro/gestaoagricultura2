@@ -2,6 +2,7 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Address;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.AddressRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.AddressResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.AddressService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -28,29 +29,24 @@ public class AddressController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid AddressRequest request) {
+    public ResponseEntity<AddressResponse> create(@RequestBody @Valid AddressRequest request) {
         return ResponseEntity.created(null).body(addressService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid AddressRequest request) {
+    public ResponseEntity<AddressResponse> update(@RequestBody @Valid AddressRequest request) {
         return ResponseEntity.ok().body(addressService.update(request));
     }
 
     @GetMapping
-    public List<Address> getList() {
-        return addressService.findAll();
+    public ResponseEntity<List<AddressResponse>> getList() {
+        return ResponseEntity.ok(addressService.findAll());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeAddress(@PathVariable Long id) {
-        Optional<Address> address = addressService.findById(id);
+    public ResponseEntity<Void> removeAddress(@PathVariable Long id) {
 
-        if (address.isPresent()) {
-            addressService.remove(address.get());
-            return ResponseEntity.ok().body("");
-        }
-
+        // TODO implementa este método levando a lógica para o service
         return ResponseEntity.notFound().build();
     }
 

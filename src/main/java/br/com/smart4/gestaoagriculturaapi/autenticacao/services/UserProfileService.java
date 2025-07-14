@@ -37,12 +37,12 @@ public class UserProfileService {
 		return UserProfileMapper.toListResponse(userProfileRepository.findAll());
 	}
 
-	public Optional<UserProfileResponse> findById(Long id) {
+	public Optional<UserProfileResponse> findByUserId(Long id) {
 		return userProfileRepository.findById(id)
 				.map(UserProfileMapper::toResponse);
 	}
 
-	public List<UserProfileResponse> findByUsuarioId(Long id) {
+	public List<UserProfileResponse> findListByUserId(Long id) {
 		return UserProfileMapper.toListResponse(userProfileRepository.findByUsuarioId(id));
 	}
 

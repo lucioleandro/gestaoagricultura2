@@ -1,6 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.sistema.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.sistema.domains.Compatible;
+import br.com.smart4.gestaoagriculturaapi.sistema.dto.responses.CompatibleResponse;
 import br.com.smart4.gestaoagriculturaapi.sistema.services.CompatibleService;
 import br.com.smart4.gestaoagriculturaapi.sistema.services.ParametersService;
 import jakarta.validation.Valid;
@@ -27,7 +28,7 @@ import java.util.Optional;
 @RequestMapping("/compatible")
 public class CompatibleController {
 
-    private String versaoApp = "1.0.0";
+    private String versaoApp = "1.0.0"; //TODO Buscar nas properties
 
     private final CompatibleService compatibleService;
 
@@ -39,7 +40,7 @@ public class CompatibleController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraCompativeis(@Valid @RequestBody Compatible request) {
+    public ResponseEntity<?> create(@Valid @RequestBody Compatible request) {
         return ResponseEntity.created(null).body(compatibleService.create(request));
     }
 
@@ -49,27 +50,28 @@ public class CompatibleController {
     }
 
     @GetMapping
-    public List<Compatible> getListaCompativeises() {
+    public List<CompatibleResponse> getListaCompativeises() {
         return compatibleService.findAll();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removeCompativeis(@PathVariable Long id) {
-        Optional<Compatible> compativeis = compatibleService.findById(id);
-
-        if (compativeis.isPresent()) {
-            compatibleService.remove(compativeis.get());
-            return ResponseEntity.ok().body("");
-        } else if (!compativeis.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
-        }
+//        Optional<CompatibleResponse> compativeis = compatibleService.findById(id);
+//
+//        if (compativeis.isPresent()) {
+//            compatibleService.remove(compativeis.get());
+//            return ResponseEntity.ok().body("");
+//        } else if (!compativeis.isPresent()) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
+//        }
+        //todo levar logica para o service
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @GetMapping("/check")
     public ResponseEntity<?> verificaSeaplicacaoEBaseCompativeis(@Param(value = "versaoFront") String versaoFront) {
-        Compatible compatible = compatibleService.findAll().get(0);
+        CompatibleResponse compatible = compatibleService.findAll().get(0);
 
         if (aplicacaoEBaseSaoCompativeis(compatible, versaoFront)) {
             return ResponseEntity.ok().body(true);
@@ -78,7 +80,7 @@ public class CompatibleController {
         return ResponseEntity.ok().body(false);
     }
 
-    private boolean aplicacaoEBaseSaoCompativeis(Compatible compatible, String versaoFront) {
+    private boolean aplicacaoEBaseSaoCompativeis(CompatibleResponse compatible, String versaoFront) {
         String versaoLiberada = compatible.getVersaoLiberada();
 
         String versaoDaBaseDeDados = versaoLiberada.substring(0, 3);
@@ -94,7 +96,7 @@ public class CompatibleController {
 
     @GetMapping("/check-defaulter")
     public ResponseEntity<?> verificaSeEstaInadimplente() throws ParseException {
-        Compatible compatible = compatibleService.findAll().get(0);
+        CompatibleResponse compatible = compatibleService.findAll().get(0);
 
         boolean senhaValida = this.verificarSenha(compatible.getCodSistema().toString());
 
@@ -119,7 +121,7 @@ public class CompatibleController {
         String senha = null;
         try {
             senha = compatibleService.findByCodSistema(Integer.valueOf(idsis))
-                    .getSenhaDeLiberacao();
+                    .get().getSenhaDeLiberacao();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -144,7 +146,7 @@ public class CompatibleController {
     private void atualizaSenha(String idSistema, String senhaDeLiberacao) {
         // ATUALIZAR A SENHA NA BASE DE DADOS E LIBERAR O SISTEMA
         Compatible compatibleAux = null;
-        compatibleAux = compatibleService.findByCodSistema(Integer.valueOf(idSistema));
+        compatibleAux = compatibleService.findByCodSistema(Integer.valueOf(idSistema)).get();
         if (!senhaDeLiberacao.equals("")) {
             compatibleAux.setSenhaDeLiberacao(senhaDeLiberacao);
             compatibleService.update(compatibleAux);

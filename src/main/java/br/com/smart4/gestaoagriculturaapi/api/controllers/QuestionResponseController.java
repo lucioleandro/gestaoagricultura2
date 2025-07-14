@@ -1,20 +1,14 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.QuestionResponse;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.ResponseQuestionRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.AnsweredQuestionResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.QuestionResponseService;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,50 +23,46 @@ public class QuestionResponseController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid ResponseQuestionRequest request) {
-        return ResponseEntity.created(null).body(respostaQuestionService.create(request));
+    public ResponseEntity<AnsweredQuestionResponse> create(@RequestBody @Valid ResponseQuestionRequest request) {
+        AnsweredQuestionResponse created = respostaQuestionService.create(request);
+        return ResponseEntity.created(URI.create("/question-responses/" + created.getId())).body(created);
     }
 
     @PostMapping("/list")
-    public ResponseEntity<?> createList(@RequestBody @Valid  List<ResponseQuestionRequest> request) {
-//        Long idFarmer = request.get(0).getFarmer().getId();
-//        this.DeletaRespostasMultiplaEscolhaByFarmer(idFarmer);
-        // TODO revisar isso aqui
+    public ResponseEntity<List<AnsweredQuestionResponse>> createList(@RequestBody @Valid List<ResponseQuestionRequest> request) {
+        // TODO revisar isso aqui - avaliar necessidade de limpar respostas anteriores do farmer
 
-        for (ResponseQuestionRequest resposta : request) {
-            respostaQuestionService.create(resposta);
-        }
+        List<AnsweredQuestionResponse> responses = request.stream()
+                .map(respostaQuestionService::create)
+                .toList();
 
-        return ResponseEntity.ok().body("");
-    }
-
-    private void DeletaRespostasMultiplaEscolhaByFarmer(Long id) {
-        respostaQuestionService.removeRespostasMultiplaEscolhaByFarmer(id);
+        return ResponseEntity.ok(responses);
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid ResponseQuestionRequest request) {
-        return ResponseEntity.ok().body(respostaQuestionService.update(request));
+    public ResponseEntity<AnsweredQuestionResponse> update(@RequestBody @Valid ResponseQuestionRequest request) {
+        return ResponseEntity.ok(respostaQuestionService.update(request));
     }
 
     @GetMapping
-    public List<QuestionResponse> getList() {
-        return respostaQuestionService.findAll();
+    public ResponseEntity<List<AnsweredQuestionResponse>> getList() {
+        return ResponseEntity.ok(respostaQuestionService.findAll());
     }
 
     @GetMapping("/farmer")
-    public List<QuestionResponse> getListByQuestion(@Param(value = "id") Long farmerId) {
-        return respostaQuestionService.findByFarmerId(farmerId);
+    public ResponseEntity<List<AnsweredQuestionResponse>> getListByQuestion(@Param("id") Long farmerId) {
+        return ResponseEntity.ok(respostaQuestionService.findByFarmerId(farmerId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<QuestionResponse> respostaQuestion = respostaQuestionService.findById(id);
-
-        if (respostaQuestion.isPresent()) {
-            respostaQuestionService.remove(respostaQuestion.get());
-            return ResponseEntity.ok().body("");
-        }
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+//        // TODO: mover essa lógica para o service
+//        Optional<AnsweredQuestionResponse> respostaQuestion = respostaQuestionService.findById(id);
+//
+//        if (respostaQuestion.isPresent()) {
+//            respostaQuestionService.remove(respostaQuestion.get());
+//            return ResponseEntity.ok().build();
+//        }
 
         return ResponseEntity.notFound().build();
     }

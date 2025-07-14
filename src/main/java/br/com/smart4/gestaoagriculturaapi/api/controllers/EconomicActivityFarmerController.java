@@ -3,6 +3,7 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 import br.com.smart4.gestaoagriculturaapi.api.domains.EconomicActivityFarmer;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.EconomicActivityFarmerRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.EconomicActivityFarmerResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.EconomicActivityFarmerService;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
@@ -32,7 +33,7 @@ public class EconomicActivityFarmerController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid EconomicActivityFarmerRequest request) {
+    public ResponseEntity<EconomicActivityFarmerResponse> create(@RequestBody @Valid EconomicActivityFarmerRequest request) {
 //        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
 //            return ResponseEntity.badRequest()
 //                    .body(new ResponseMessage("Já existe uma atividade como principal"));
@@ -43,9 +44,9 @@ public class EconomicActivityFarmerController {
     }
 
     private boolean existeAtividadePrincipal(Property property) {
-        List<EconomicActivityFarmer> atividades = economicActivityFarmerService
+        List<EconomicActivityFarmerResponse> atividades = economicActivityFarmerService
                 .findByProperty(property.getId());
-        for (EconomicActivityFarmer atv : atividades) {
+        for (EconomicActivityFarmerResponse atv : atividades) {
             if (atv.isPrincipal()) {
                 return true;
             }
@@ -54,7 +55,7 @@ public class EconomicActivityFarmerController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid EconomicActivityFarmerRequest request) {
+    public ResponseEntity<EconomicActivityFarmerResponse> update(@RequestBody @Valid EconomicActivityFarmerRequest request) {
 //        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
 //            return ResponseEntity.badRequest()
 //                    .body(new ResponseMessage("Já existe uma atividade como principal"));
@@ -65,30 +66,32 @@ public class EconomicActivityFarmerController {
     }
 
     @GetMapping
-    public List<EconomicActivityFarmer> getList() {
-        return economicActivityFarmerService.findAll();
+    public ResponseEntity<List<EconomicActivityFarmerResponse>> getList() {
+        return ResponseEntity.ok(economicActivityFarmerService.findAll());
     }
 
     @GetMapping("/farmer")
-    public List<EconomicActivityFarmer> getListByFarmer(@Param(value = "id") Long id) {
-        return economicActivityFarmerService.findByFarmer(id);
+    public ResponseEntity<List<EconomicActivityFarmerResponse>> getListByFarmer(@Param(value = "id") Long id) {
+        return ResponseEntity.ok(economicActivityFarmerService.findByFarmer(id));
     }
 
     @GetMapping("/property")
     @ResponseBody
-    public List<EconomicActivityFarmer> getListByProperty(@Param(value = "id") Long id) {
-        return economicActivityFarmerService.findByProperty(id);
+    public ResponseEntity<List<EconomicActivityFarmerResponse>> getListByProperty(@Param(value = "id") Long id) {
+        return ResponseEntity.ok(economicActivityFarmerService.findByProperty(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
         try {
-            Optional<EconomicActivityFarmer> economicActivityFarmer = economicActivityFarmerService.findById(id);
+//            Optional<EconomicActivityFarmer> economicActivityFarmer = economicActivityFarmerService.findById(id);
+//
+//            if (economicActivityFarmer.isPresent()) {
+//                economicActivityFarmerService.remove(economicActivityFarmer.get());
+//                return ResponseEntity.ok().body("");
+//            }
 
-            if (economicActivityFarmer.isPresent()) {
-                economicActivityFarmerService.remove(economicActivityFarmer.get());
-                return ResponseEntity.ok().body("");
-            }
+            // TODO Levar lógica para o service
 
             return ResponseEntity.notFound().build();
 

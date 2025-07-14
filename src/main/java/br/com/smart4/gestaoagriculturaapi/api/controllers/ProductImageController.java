@@ -1,26 +1,17 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.Product;
-import br.com.smart4.gestaoagriculturaapi.api.domains.ProductImage;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.ProductImageRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.ProductImageResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.ProductImageService;
 import br.com.smart4.gestaoagriculturaapi.api.services.ProductService;
 import br.com.smart4.gestaoagriculturaapi.api.utils.ResponseMessage;
 import jakarta.validation.Valid;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +20,6 @@ import java.util.Optional;
 public class ProductImageController {
 
     private final ProductImageService productImageService;
-
     private final ProductService productService;
 
     public ProductImageController(ProductImageService productImageService, ProductService productService) {
@@ -43,42 +33,51 @@ public class ProductImageController {
             @RequestParam("extensao") String extensao,
             @RequestParam("product") Long idProduct) throws IOException {
 
-        Optional<Product> product = productService.findById(idProduct);
+        // TODO levar para o service
+        Optional<ProductImageResponse> created = productService.findById(idProduct)
+                .map(product -> {
+                    ProductImageRequest request = null;
+                    try {
+                        request = new ProductImageRequest(arquivo.getBytes(), extensao, product.getId());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return productImageService.create(request);
+                });
 
-        if (product.isPresent()) {
-            return ResponseEntity.created(null).body(productImageService
-                    .create(new ProductImageRequest(arquivo.getBytes(),
-                            extensao, product.get().getId())));
-        } else {
-            return ResponseEntity.badRequest().body(new ResponseMessage("Este product não existe na base"));
-        }
+        return created
+                .map(response -> {
+                    URI location = URI.create("/product-images/" + response.getId()); // só use se houver getById
+                    return ResponseEntity.created(location).body(response);
+                })
+                .orElseGet(() -> ResponseEntity.badRequest().body(null));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid ProductImageRequest request) {
-        return ResponseEntity.ok().body(productImageService.update(request));
+    public ResponseEntity<ProductImageResponse> update(@RequestBody @Valid ProductImageRequest request) {
+        return ResponseEntity.ok(productImageService.update(request));
     }
 
     @GetMapping
-    public List<ProductImage> getList() {
-        return productImageService.findAll();
+    public ResponseEntity<List<ProductImageResponse>> getList() {
+        return ResponseEntity.ok(productImageService.findAll());
     }
 
     @GetMapping("/product")
-    public List<ProductImage> getListByCity(@Param(value = "id") Long id) {
-        return productImageService.findByProductId(id);
+    public ResponseEntity<List<ProductImageResponse>> getListByProductId(@RequestParam("id") Long productId) {
+        return ResponseEntity.ok(productImageService.findByProductId(productId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<ProductImage> productImage = productImageService.findById(id);
-
-        if (productImage.isPresent()) {
-            productImageService.remove(productImage.get());
-            return ResponseEntity.ok().body("");
-        }
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+//        Optional<ProductImageResponse> image = productImageService.findById(id);
+//
+//        if (image.isPresent()) {
+//            // TODO: mover lógica de remoção para o service
+//            productImageService.removeById(id);
+//            return ResponseEntity.ok().build();
+//        }
 
         return ResponseEntity.notFound().build();
     }
-
 }

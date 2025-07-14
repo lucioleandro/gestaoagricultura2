@@ -45,8 +45,7 @@ public class CompatibleService {
         return CompatibleMapper.toListResponse(compatibleRepository.findAll());
     }
 
-    public Optional<CompatibleResponse> findByCodSistema(Integer id) {
-        return compatibleRepository.findByIdSistema(id)
-                .map(CompatibleMapper::toResponse);
+    public Optional<Compatible> findByCodSistema(Integer id) {
+        return compatibleRepository.findByIdSistema(id);
     }
 }

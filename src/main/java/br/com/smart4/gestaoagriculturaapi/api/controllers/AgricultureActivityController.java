@@ -2,6 +2,7 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.AgricultureActivity;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.AgricultureActivityRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.AgricultureActivityResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.AgricultureActivityService;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
@@ -29,34 +30,34 @@ public class AgricultureActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid AgricultureActivityRequest request) {
+    public ResponseEntity<AgricultureActivityResponse> create(@RequestBody @Valid AgricultureActivityRequest request) {
         return ResponseEntity.created(null).body(agricultureActivityService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody @Valid AgricultureActivityRequest request) {
-        agricultureActivityService.update(request);
-        return ResponseEntity.ok().body("");
+    public ResponseEntity<AgricultureActivityResponse> update(@RequestBody @Valid AgricultureActivityRequest request) {
+        return ResponseEntity.ok().body(agricultureActivityService.update(request));
     }
 
     @GetMapping
-    public List<AgricultureActivity> getList() {
-        return agricultureActivityService.findAll();
+    public ResponseEntity<List<AgricultureActivityResponse>> getList() {
+        return ResponseEntity.ok(agricultureActivityService.findAll());
     }
 
     @GetMapping("/property")
-    public List<AgricultureActivity> getListByProperty(@Param(value = "id") Long id) {
-        return agricultureActivityService.findByProperty(id);
+    public ResponseEntity<List<AgricultureActivityResponse>> getListByProperty(@Param(value = "id") Long id) {
+        return ResponseEntity.ok(agricultureActivityService.findByProperty(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<AgricultureActivity> agricultureActivity = agricultureActivityService.findById(id);
-
-        if (agricultureActivity.isPresent()) {
-            agricultureActivityService.remove(agricultureActivity.get());
-            return ResponseEntity.ok().body("");
-        }
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+//        Optional<AgricultureActivity> agricultureActivity = agricultureActivityService.findById(id);
+//
+//        if (agricultureActivity.isPresent()) {
+//            agricultureActivityService.remove(agricultureActivity.get());
+//            return ResponseEntity.ok().body("");
+//        }
+        // TODO levar a lógica para o service
         return ResponseEntity.notFound().build();
     }
 

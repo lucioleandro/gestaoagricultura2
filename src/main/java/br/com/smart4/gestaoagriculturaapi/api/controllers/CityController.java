@@ -2,6 +2,7 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.City;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.CityRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.CityResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.CityService;
 import jakarta.validation.Valid;
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,30 +32,31 @@ public class CityController {
 
     @PostMapping
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
-    public ResponseEntity<?> create(@RequestBody @Valid CityRequest request) {
+    public ResponseEntity<CityResponse> create(@RequestBody @Valid CityRequest request) {
         return ResponseEntity.created(null).body(municipioService.create(request));
     }
 
     @PutMapping
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
-    public ResponseEntity<?> update(@RequestBody @Valid CityRequest request) {
+    public ResponseEntity<CityResponse> update(@RequestBody @Valid CityRequest request) {
         return ResponseEntity.ok().body(municipioService.update(request));
     }
 
     @GetMapping
     @Cacheable(value = "listaDeMunicipios")
-    public List<City> getList() {
-        return municipioService.findAll();
+    public ResponseEntity<List<CityResponse>> getList() {
+        return ResponseEntity.ok(municipioService.findAll());
     }
 
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<City> municipio = municipioService.findById(id);
-        if (municipio.isPresent()) {
-            municipioService.remove(municipio.get());
-            return ResponseEntity.ok().body("");
-        }
+    public ResponseEntity<CityResponse> remove(@PathVariable Long id) {
+//        Optional<CityResponse> municipio = municipioService.findById(id);
+//        if (municipio.isPresent()) {
+//            municipioService.remove(municipio.get());
+//            return ResponseEntity.ok().body("");
+//        }
+        // TODO: Levar lógica para os service
         return ResponseEntity.notFound().build();
     }
 

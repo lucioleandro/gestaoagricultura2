@@ -2,6 +2,7 @@ package br.com.smart4.gestaoagriculturaapi.api.dtos.responses;
 
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.enums.TitleDeedEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,5 +23,7 @@ public class TitleDeedResponse {
     private TitleDeedEnum documento;
     private Long propertyId;
     private String propertyNome;
+    @JsonIgnore
+    private byte[] bytes;
 }
 

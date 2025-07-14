@@ -1,25 +1,17 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Permission;
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.PermissionRequest;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.PermissionResponse;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.PermissionService;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/permissions")
@@ -32,60 +24,35 @@ public class PermissionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraPermissao(@RequestBody @Valid PermissionRequest request) {
-//        if (componenteJaCadastradoParaOPerfil(request.getComponente(), request.getPerfilId())) {
-//            return ResponseEntity.badRequest()
-//                    .body(new ResponseMessage("Este componente já está vinculado a este perfil !"));
-//        }
-        // TODO Revisar acima
-        return ResponseEntity.created(null).body(permissionService.create(request));
-    }
-
-    private boolean componenteJaCadastradoParaOPerfil(String componente, Profile perfil) {
-        List<Permission> perfis = permissionService.findByPerfilId(perfil.getId());
-
-        for (Permission perf : perfis) {
-            if (perf.getComponente().equals(componente)) {
-                return true;
-            }
-        }
-
-        return false;
+    public ResponseEntity<PermissionResponse> create(@RequestBody @Valid PermissionRequest request) {
+        PermissionResponse created = permissionService.create(request);
+        return ResponseEntity.created(URI.create("/permissions/" + created.getId())).body(created);
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaPermissao(@RequestBody @Valid PermissionRequest request) {
-//        if (componenteJaCadastradoParaOPerfil(request.getComponente(), request.getPerfil())) {
-//            return ResponseEntity.badRequest().body(
-//                    new ResponseMessage("Este componente já está vinculado a este perfil!"));
-//        }
-        // TODO Revisar acima
-        return ResponseEntity.ok().body(permissionService.update(request));
+    public ResponseEntity<PermissionResponse> update(@RequestBody @Valid PermissionRequest request) {
+        return ResponseEntity.ok(permissionService.update(request));
     }
 
     @GetMapping
-    public List<Permission> getListaPermissao() {
-        return permissionService.findAll();
+    public ResponseEntity<List<PermissionResponse>> getAll() {
+        return ResponseEntity.ok(permissionService.findAll());
     }
 
     @GetMapping("/profile")
-    public List<Permission> getListaPermissao(@Param(value = "id") Long profileId) {
-        return permissionService.findByPerfilId(profileId);
+    public ResponseEntity<List<PermissionResponse>> getByProfile(@Param("id") Long profileId) {
+        return ResponseEntity.ok(permissionService.findByPerfilId(profileId));
     }
-
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removePermissao(@PathVariable Long id) {
-        Optional<Permission> permissao = permissionService.findById(id);
-
-        if (permissao.isPresent()) {
-            permissionService.remove(permissao.get());
-            return ResponseEntity.ok().body("");
-        } else if (!permissao.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
-        }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        //TODO levar para o service
+//        return permissionService.findById(id)
+//                .map(p -> {
+//                    permissionService.remove(p);
+//                    return ResponseEntity.ok().build();
+//                })
+//                .orElseGet(() -> ResponseEntity.badRequest().body("Não existe esse registro no banco de dados"));
+        return null;
     }
-
 }

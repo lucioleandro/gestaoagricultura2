@@ -1,24 +1,15 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.UserProfile;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.UserProfileRequest;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.UserProfileResponse;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.UserProfileService;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/user-profiles")
@@ -31,37 +22,35 @@ public class UserProfileController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastraUsuarioPerfil(@RequestBody @Valid UserProfileRequest request) {
-        return ResponseEntity.created(null).body(userProfileService.create(request));
-    }
-
-    @GetMapping
-    public List<UserProfile> getListaUsuarioPerfil() {
-        return userProfileService.findAll();
-    }
-
-    @GetMapping("/user")
-    public List<UserProfile> getListaUsuarioPerfiByUsuario(@Param(value = "id") Long userId) {
-        return userProfileService.findByUsuarioId(userId);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeUsuarioPerfil(@PathVariable Long id) {
-        Optional<UserProfile> usuarioPerfil = userProfileService.findById(id);
-
-        if (usuarioPerfil.isPresent()) {
-            userProfileService.remove(usuarioPerfil.get());
-            return ResponseEntity.ok().body("");
-        } else if (!usuarioPerfil.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
-        }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ResponseEntity<UserProfileResponse> create(@RequestBody @Valid UserProfileRequest request) {
+        UserProfileResponse created = userProfileService.create(request);
+        return ResponseEntity.created(URI.create("/user-profiles/" + created.getId())).body(created);
     }
 
     @PutMapping
-    public ResponseEntity<?> atualizaUsuarioPerfil(@RequestBody @Valid UserProfileRequest request) {
-        return ResponseEntity.ok().body(userProfileService.update(request));
+    public ResponseEntity<UserProfileResponse> update(@RequestBody @Valid UserProfileRequest request) {
+        return ResponseEntity.ok(userProfileService.update(request));
     }
 
+    @GetMapping
+    public ResponseEntity<List<UserProfileResponse>> findAll() {
+        return ResponseEntity.ok(userProfileService.findAll());
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<UserProfileResponse>> findByUser(@Param(value = "id") Long userId) {
+        return ResponseEntity.ok(userProfileService.findListByUserId(userId));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        // TODO Levar lógica para o service
+//        return userProfileService.findByUserId(id)
+//                .map(up -> {
+//                    userProfileService.remove(up);
+//                    return ResponseEntity.ok().build();
+//                })
+//                .orElse(ResponseEntity.badRequest().body("Não existe esse registro no banco de dados"));
+        return null;
+    }
 }

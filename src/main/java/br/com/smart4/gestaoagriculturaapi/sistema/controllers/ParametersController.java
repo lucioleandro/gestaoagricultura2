@@ -1,6 +1,7 @@
 package br.com.smart4.gestaoagriculturaapi.sistema.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.sistema.domains.Parameters;
+import br.com.smart4.gestaoagriculturaapi.sistema.dto.responses.ParametersResponse;
 import br.com.smart4.gestaoagriculturaapi.sistema.services.ParametersService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -28,30 +29,32 @@ public class ParametersController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Parameters request) {
+    public ResponseEntity<ParametersResponse> create(@Valid @RequestBody Parameters request) {
         return ResponseEntity.created(null).body(parametersService.create(request));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody Parameters request) {
+    public ResponseEntity<ParametersResponse> update(@RequestBody Parameters request) {
         return ResponseEntity.ok().body(parametersService.update(request));
     }
 
     @GetMapping
-    public List<Parameters> getList() {
-        return parametersService.findAll();
+    public ResponseEntity<List<ParametersResponse>> getList() {
+        return ResponseEntity.ok(parametersService.findAll());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<Parameters> parametros = parametersService.findById(id);
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+//        Optional<Parameters> parametros = parametersService.findById(id);
+//
+//        if (parametros.isPresent()) {
+//            parametersService.remove(parametros.get());
+//            return ResponseEntity.ok().body("");
+//        } else if (!parametros.isPresent()) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
+//        }
 
-        if (parametros.isPresent()) {
-            parametersService.remove(parametros.get());
-            return ResponseEntity.ok().body("");
-        } else if (!parametros.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
-        }
+        //todo levar logica para o service
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 

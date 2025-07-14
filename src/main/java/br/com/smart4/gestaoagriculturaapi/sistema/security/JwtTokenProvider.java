@@ -2,6 +2,7 @@ package br.com.smart4.gestaoagriculturaapi.sistema.security;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.User;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.ProfileResponse;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.ProfileService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -46,7 +47,7 @@ public class JwtTokenProvider {
 
 		Map<String, Object> claims = new HashMap<>();
 		
-		List<Profile> perfis = profileService.findByIdUsuario(userPrincipal.getId());
+		List<ProfileResponse> perfis = profileService.findByIdUsuario(userPrincipal.getId());
 
 		claims.put("id", userPrincipal.getId());
 		claims.put("nome", userPrincipal.getNome());

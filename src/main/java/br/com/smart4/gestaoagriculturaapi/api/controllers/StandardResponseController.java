@@ -1,22 +1,16 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.StandardResponse;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.StandardResponseRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.StandardResponseDTO;
 import br.com.smart4.gestaoagriculturaapi.api.services.StandardResponseService;
 import jakarta.validation.Valid;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,36 +26,38 @@ public class StandardResponseController {
 
     @PostMapping
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
-    public ResponseEntity<?> create(@RequestBody @Valid StandardResponseRequest request) {
-        return ResponseEntity.created(null).body(respostaPadraoService.create(request));
+    public ResponseEntity<StandardResponseDTO> create(@RequestBody @Valid StandardResponseRequest request) {
+        StandardResponseDTO created = respostaPadraoService.create(request);
+        return ResponseEntity.created(URI.create("/standard-responses/" + created.getId())).body(created);
     }
 
     @PutMapping
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
-    public ResponseEntity<?> update(@RequestBody @Valid StandardResponseRequest request) {
+    public ResponseEntity<StandardResponseDTO> update(@RequestBody @Valid StandardResponseRequest request) {
         return ResponseEntity.ok().body(respostaPadraoService.update(request));
     }
 
     @GetMapping
-    public List<StandardResponse> getList() {
-        return respostaPadraoService.findAll();
+    public ResponseEntity<List<StandardResponseDTO>> getList() {
+        return ResponseEntity.ok(respostaPadraoService.findAll());
     }
 
     @GetMapping("/question")
     @Cacheable(value = "listaDeRespostasPadroesPorQuestion")
-    public List<StandardResponse> getListByQuestion(@Param(value = "id") Long questionId) {
-        return respostaPadraoService.findByQuestionId(questionId);
+    public ResponseEntity<List<StandardResponseDTO>> getListByQuestion(@Param("id") Long questionId) {
+        return ResponseEntity.ok(respostaPadraoService.findByQuestionId(questionId));
     }
 
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-        Optional<StandardResponse> respostaPadrao = respostaPadraoService.findById(id);
-
-        if (respostaPadrao.isPresent()) {
-            respostaPadraoService.remove(respostaPadrao.get());
-            return ResponseEntity.ok().body("");
-        }
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+//        // TODO: mover essa lógica de verificação para dentro do service
+//        Optional<StandardResponseDTO> respostaPadrao = respostaPadraoService.findById(id);
+//
+//        if (respostaPadrao.isPresent()) {
+//            respostaPadraoService.remove(respostaPadrao.get());
+//            return ResponseEntity.ok().build();
+//        }
 
         return ResponseEntity.notFound().build();
     }
