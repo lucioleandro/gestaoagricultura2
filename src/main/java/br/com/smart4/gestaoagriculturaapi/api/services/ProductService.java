@@ -7,6 +7,8 @@ import br.com.smart4.gestaoagriculturaapi.api.factories.ProductFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.ProductMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,8 +48,10 @@ public class ProductService {
 				.orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
 	}
 
-	public List<ProductResponse> findAll() {
-		return ProductMapper.toListResponse(productRepository.findAll());
+	public Page<ProductResponse> findAll(Pageable pageable) {
+		return productRepository
+				.findAll(pageable)
+				.map(ProductMapper::toResponse);
 	}
 
 	@Transactional

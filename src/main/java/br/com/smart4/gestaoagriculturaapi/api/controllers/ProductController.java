@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,12 +50,15 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "List all products", description = "Retrieves all registered products")
-    @ApiResponse(responseCode = "200", description = "List retrieved successfully")
+    @Operation(summary  = "List all products",
+            description = "Retrieves all registered products in a paged format")
+    @ApiResponse(responseCode = "200", description = "Page retrieved successfully")
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getList() {
-        List<ProductResponse> responses = productService.findAll();
-        return ResponseEntity.ok(responses);
+    public ResponseEntity<Page<ProductResponse>> getList(
+            @ParameterObject Pageable pageable
+    ) {
+        Page<ProductResponse> page = productService.findAll(pageable);
+        return ResponseEntity.ok(page);
     }
 
     @Operation(summary = "Delete a product", description = "Deletes a product by its ID")

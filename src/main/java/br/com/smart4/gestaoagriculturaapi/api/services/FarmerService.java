@@ -8,6 +8,8 @@ import br.com.smart4.gestaoagriculturaapi.api.factories.FarmerFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.FarmerMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.FarmerRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,8 +52,10 @@ public class FarmerService {
                 .orElseThrow(() -> new EntityNotFoundException("Farmer not found with id: " + id));
     }
 
-    public List<FarmerResponse> findAll() {
-        return FarmerMapper.toListResponse(farmerRepository.findAll());
+    public Page<FarmerResponse> findAll(Pageable pageable) {
+        return farmerRepository
+                .findAll(pageable)
+                .map(FarmerMapper::toResponse);
     }
 
     public FarmerResponse findByCpf(String cpf) {

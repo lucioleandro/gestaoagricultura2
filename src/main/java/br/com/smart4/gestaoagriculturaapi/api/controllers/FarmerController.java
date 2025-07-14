@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,11 +68,17 @@ public class FarmerController {
         return ResponseEntity.ok().body(farmerService.update(id, request));
     }
 
-    @Operation(summary = "List all farmers", description = "Retrieves a list of all registered farmers")
-    @ApiResponse(responseCode = "200", description = "List retrieved successfully")
+    @Operation(
+            summary = "List all farmers",
+            description = "Retrieves a page of all registered farmers"
+    )
+    @ApiResponse(responseCode = "200", description = "Page retrieved successfully")
     @GetMapping
-    public ResponseEntity<List<FarmerResponse>> getList() {
-        return ResponseEntity.ok(farmerService.findAll());
+    public ResponseEntity<Page<FarmerResponse>> getList(
+            @ParameterObject Pageable pageable
+    ) {
+        Page<FarmerResponse> page = farmerService.findAll(pageable);
+        return ResponseEntity.ok(page);
     }
 
     @Operation(summary = "Get farmer by CPF", description = "Retrieves a farmer by their CPF document")
