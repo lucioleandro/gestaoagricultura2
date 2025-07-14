@@ -2,7 +2,9 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Permission;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.PermissionRequest;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.PermissionResponse;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.factories.PermissionFactory;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.mappers.PermissionMapper;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.PermissionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,37 +15,47 @@ import java.util.Optional;
 @Service
 public class PermissionService {
 
-	private final PermissionRepository permissionRepository;
+    private final PermissionRepository permissionRepository;
 
-	public PermissionService(PermissionRepository permissionRepository) {
-		this.permissionRepository = permissionRepository;
-	}
+    public PermissionService(PermissionRepository permissionRepository) {
+        this.permissionRepository = permissionRepository;
+    }
 
-	@Transactional
-	public Permission create(PermissionRequest permission) {
-		return permissionRepository.saveAndFlush(PermissionFactory.fromRequest(permission));
-	}
+    @Transactional
+    public PermissionResponse create(PermissionRequest permission) {
+        Permission entity = permissionRepository.saveAndFlush(
+                PermissionFactory.fromRequest(permission)
+        );
+        return PermissionMapper.toResponse(entity);
+    }
 
-	@Transactional
-	public Permission update(PermissionRequest permission) {
-		return permissionRepository.save(PermissionFactory.fromRequest(permission));
-	}
+    @Transactional
+    public PermissionResponse update(PermissionRequest permission) {
+        Permission entity = permissionRepository.save(
+                PermissionFactory.fromRequest(permission)
+        );
+        return PermissionMapper.toResponse(entity);
+    }
 
-	public List<Permission> findAll() {
-		return permissionRepository.findAll();
-	}
+    public List<PermissionResponse> findAll() {
+        return PermissionMapper.toListResponse(
+                permissionRepository.findAll()
+        );
+    }
 
-	public Optional<Permission> findById(Long id) {
-		return permissionRepository.findById(id);
-	}
+    public Optional<PermissionResponse> findById(Long id) {
+        return permissionRepository.findById(id)
+                .map(PermissionMapper::toResponse);
+    }
 
-	public List<Permission> findByPerfilId(Long perfilId) {
-		return permissionRepository.findByPerfilId(perfilId);
-	}
+    public List<PermissionResponse> findByPerfilId(Long perfilId) {
+        return PermissionMapper.toListResponse(
+                permissionRepository.findByPerfilId(perfilId)
+        );
+    }
 
-	@Transactional
-	public void remove(Permission permission) {
-		permissionRepository.delete(permission);
-	}
-
+    @Transactional
+    public void remove(Permission permission) {
+        permissionRepository.delete(permission);
+    }
 }

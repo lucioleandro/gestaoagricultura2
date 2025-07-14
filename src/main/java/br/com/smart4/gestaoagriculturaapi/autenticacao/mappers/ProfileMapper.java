@@ -4,9 +4,13 @@ import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.ProfileResponse;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.ProfileWithPermissionsResponse;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProfileMapper {
+
+    private ProfileMapper() {
+    }
 
     public static ProfileResponse toResponse(Profile profile) {
         if (profile == null) return null;
@@ -38,5 +42,19 @@ public class ProfileMapper {
                 )
                 .build();
     }
+
+    public static List<ProfileResponse> toListResponse(List<Profile> profiles) {
+        return profiles.stream()
+                .map(ProfileMapper::toResponse)
+                .toList();
+    }
+
+    public static List<ProfileWithPermissionsResponse> toListWithPermissionsResponse(List<Profile> profiles) {
+        return profiles.stream()
+                .map(ProfileMapper::toWithPermissionsResponse)
+                .toList();
+    }
+
+
 }
 

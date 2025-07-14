@@ -2,7 +2,9 @@ package br.com.smart4.gestaoagriculturaapi.api.services;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Farmer;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.FarmerRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.FarmerResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.FarmerFactory;
+import br.com.smart4.gestaoagriculturaapi.api.mappers.FarmerMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.FarmerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,30 +22,33 @@ public class FarmerService {
 	}
 
 	@Transactional
-	public Farmer create(FarmerRequest farmer) {
-		return farmerRepository.save(FarmerFactory.fromRequest(farmer));
+	public FarmerResponse create(FarmerRequest farmer) {
+		Farmer entity = farmerRepository.save(FarmerFactory.fromRequest(farmer));
+		return FarmerMapper.toResponse(entity);
 	}
 
 	@Transactional
-	public Farmer update(FarmerRequest farmer) {
-		return farmerRepository.save(FarmerFactory.fromRequest(farmer));
+	public FarmerResponse update(FarmerRequest farmer) {
+		Farmer entity = farmerRepository.save(FarmerFactory.fromRequest(farmer));
+		return FarmerMapper.toResponse(entity);
 	}
 
-	public Optional<Farmer> findById(Long id) {
-		return farmerRepository.findById(id);
+	public Optional<FarmerResponse> findById(Long id) {
+		return farmerRepository.findById(id)
+				.map(FarmerMapper::toResponse);
 	}
 
-	public List<Farmer> findAll() {
-		return farmerRepository.findAll();
+	public List<FarmerResponse> findAll() {
+		return FarmerMapper.toListResponse(farmerRepository.findAll());
 	}
 
-	public Optional<Farmer> findByCpf(String cpf) {
-		return farmerRepository.findByCpf(cpf);
+	public Optional<FarmerResponse> findByCpf(String cpf) {
+		return farmerRepository.findByCpf(cpf)
+				.map(FarmerMapper::toResponse);
 	}
 
 	@Transactional
 	public void remove(Farmer farmer) {
 		farmerRepository.delete(farmer);
 	}
-	
 }

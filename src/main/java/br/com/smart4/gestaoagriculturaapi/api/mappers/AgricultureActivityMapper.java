@@ -3,7 +3,12 @@ package br.com.smart4.gestaoagriculturaapi.api.mappers;
 import br.com.smart4.gestaoagriculturaapi.api.domains.AgricultureActivity;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.AgricultureActivityResponse;
 
+import java.util.List;
+
 public class AgricultureActivityMapper {
+
+    private AgricultureActivityMapper() {
+    }
 
     public static AgricultureActivityResponse toResponse(AgricultureActivity activity) {
         if (activity == null) {
@@ -25,5 +30,12 @@ public class AgricultureActivityMapper {
                 .productDescricao(activity.getProduct() != null ? activity.getProduct().getDescricao() : null)
                 .build();
     }
+
+    public static List<AgricultureActivityResponse> toListResponse(List<AgricultureActivity> activities) {
+        return activities.stream()
+                .map(AgricultureActivityMapper::toResponse)
+                .toList();
+    }
+
 }
 

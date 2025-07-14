@@ -2,7 +2,9 @@ package br.com.smart4.gestaoagriculturaapi.api.services;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Neighborhood;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.NeighborhoodRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.NeighborhoodResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.NeighborhoodFactory;
+import br.com.smart4.gestaoagriculturaapi.api.mappers.NeighborhoodMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.NeighborhoodRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,30 +22,40 @@ public class NeighborhoodService {
 	}
 
 	@Transactional
-	public Neighborhood create(NeighborhoodRequest neighborhood) {
-		return neighborhoodRepository.save(NeighborhoodFactory.fromRequest(neighborhood));
+	public NeighborhoodResponse create(NeighborhoodRequest neighborhood) {
+		Neighborhood entity = neighborhoodRepository.save(
+				NeighborhoodFactory.fromRequest(neighborhood)
+		);
+		return NeighborhoodMapper.toResponse(entity);
 	}
 
 	@Transactional
-	public Neighborhood update(NeighborhoodRequest neighborhood) {
-		return neighborhoodRepository.save(NeighborhoodFactory.fromRequest(neighborhood));
+	public NeighborhoodResponse update(NeighborhoodRequest neighborhood) {
+		Neighborhood entity = neighborhoodRepository.save(
+				NeighborhoodFactory.fromRequest(neighborhood)
+		);
+		return NeighborhoodMapper.toResponse(entity);
 	}
 
-	public Optional<Neighborhood> findById(Long id) {
-		return neighborhoodRepository.findById(id);
+	public Optional<NeighborhoodResponse> findById(Long id) {
+		return neighborhoodRepository.findById(id)
+				.map(NeighborhoodMapper::toResponse);
 	}
 
-	public List<Neighborhood> findAll() {
-		return neighborhoodRepository.findAll();
+	public List<NeighborhoodResponse> findAll() {
+		return NeighborhoodMapper.toListResponse(
+				neighborhoodRepository.findAll()
+		);
 	}
 
-	public List<Neighborhood> findByMunicipioNome(String municipio) {
-		return neighborhoodRepository.findByCityNome(municipio);
+	public List<NeighborhoodResponse> findByMunicipioNome(String municipio) {
+		return NeighborhoodMapper.toListResponse(
+				neighborhoodRepository.findByCityNome(municipio)
+		);
 	}
 
 	@Transactional
 	public void remove(Neighborhood neighborhood) {
 		neighborhoodRepository.delete(neighborhood);
 	}
-	
 }

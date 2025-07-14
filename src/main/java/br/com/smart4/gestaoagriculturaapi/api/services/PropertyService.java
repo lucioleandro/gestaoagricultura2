@@ -2,7 +2,9 @@ package br.com.smart4.gestaoagriculturaapi.api.services;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.PropertyRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.PropertyResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.PropertyFactory;
+import br.com.smart4.gestaoagriculturaapi.api.mappers.PropertyMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.PropertyRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public class PropertyService {
-	
+
 	private final PropertyRepository propertyRepository;
 
 	public PropertyService(PropertyRepository propertyRepository) {
@@ -20,30 +22,40 @@ public class PropertyService {
 	}
 
 	@Transactional
-	public Property create(PropertyRequest property) {
-		return propertyRepository.save(PropertyFactory.fromRequest(property));
+	public PropertyResponse create(PropertyRequest property) {
+		Property entity = propertyRepository.save(
+				PropertyFactory.fromRequest(property)
+		);
+		return PropertyMapper.toResponse(entity);
 	}
 
 	@Transactional
-	public Property update(PropertyRequest property) {
-		return propertyRepository.save(PropertyFactory.fromRequest(property));
-	}
-	
-	public Optional<Property> findById(Long id) {
-		return propertyRepository.findById(id);
-	}
-	
-	public List<Property> findAll() {
-		return propertyRepository.findAll();
+	public PropertyResponse update(PropertyRequest property) {
+		Property entity = propertyRepository.save(
+				PropertyFactory.fromRequest(property)
+		);
+		return PropertyMapper.toResponse(entity);
 	}
 
-	public List<Property> findByFarmer(Long id) {
-		return propertyRepository.findByFarmerId(id);
+	public Optional<PropertyResponse> findById(Long id) {
+		return propertyRepository.findById(id)
+				.map(PropertyMapper::toResponse);
+	}
+
+	public List<PropertyResponse> findAll() {
+		return PropertyMapper.toListResponse(
+				propertyRepository.findAll()
+		);
+	}
+
+	public List<PropertyResponse> findByFarmer(Long id) {
+		return PropertyMapper.toListResponse(
+				propertyRepository.findByFarmerId(id)
+		);
 	}
 
 	@Transactional
 	public void remove(Property property) {
 		propertyRepository.delete(property);
 	}
-	
 }

@@ -3,7 +3,11 @@ package br.com.smart4.gestaoagriculturaapi.sistema.mappers;
 import br.com.smart4.gestaoagriculturaapi.sistema.domains.Parameters;
 import br.com.smart4.gestaoagriculturaapi.sistema.dto.responses.ParametersResponse;
 
+import java.util.List;
+
 public class ParametersMapper {
+
+    private ParametersMapper() {}
 
     public static ParametersResponse toResponse(Parameters entity) {
         if (entity == null) return null;
@@ -29,5 +33,12 @@ public class ParametersMapper {
                 .ordenadorPrincipal(entity.getOrdenadorPrincipal())
                 .build();
     }
+
+    public static List<ParametersResponse> toListResponse(List<Parameters> entities) {
+        return entities.stream()
+                .map(ParametersMapper::toResponse)
+                .toList();
+    }
+
 }
 

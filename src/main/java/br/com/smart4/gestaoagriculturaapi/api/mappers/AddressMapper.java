@@ -3,7 +3,13 @@ package br.com.smart4.gestaoagriculturaapi.api.mappers;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Address;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.AddressResponse;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class AddressMapper {
+
+    private AddressMapper() {
+    }
 
     public static AddressResponse toResponse(Address address) {
         if (address == null) {
@@ -22,6 +28,12 @@ public class AddressMapper {
                 .neighborhoodId(address.getNeighborhood() != null ? address.getNeighborhood().getId() : null)
                 .neighborhoodName(address.getNeighborhood() != null ? address.getNeighborhood().getNome() : null)
                 .build();
+    }
+
+    public static List<AddressResponse> toListResponse(List<Address> addresses) {
+        return addresses.stream()
+                .map(AddressMapper::toResponse)
+                .toList();
     }
 }
 

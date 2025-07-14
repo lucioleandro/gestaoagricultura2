@@ -3,7 +3,11 @@ package br.com.smart4.gestaoagriculturaapi.api.mappers;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Benefit;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.BenefitResponse;
 
+import java.util.List;
+
 public class BenefitMapper {
+
+    private BenefitMapper() {}
 
     public static BenefitResponse toResponse(Benefit benefit) {
         if (benefit == null) {
@@ -18,5 +22,12 @@ public class BenefitMapper {
                 .beneficiadoNome(benefit.getBeneficiado() != null ? benefit.getBeneficiado().getNome() : null)
                 .build();
     }
+
+    public static List<BenefitResponse> toListResponse(List<Benefit> benefits) {
+        return benefits.stream()
+                .map(BenefitMapper::toResponse)
+                .toList();
+    }
+
 }
 

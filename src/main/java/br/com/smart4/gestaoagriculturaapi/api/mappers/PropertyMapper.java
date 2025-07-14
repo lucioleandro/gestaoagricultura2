@@ -3,7 +3,11 @@ package br.com.smart4.gestaoagriculturaapi.api.mappers;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.PropertyResponse;
 
+import java.util.List;
+
 public class PropertyMapper {
+
+    private PropertyMapper() {}
 
     public static PropertyResponse toResponse(Property entity) {
         if (entity == null) return null;
@@ -24,5 +28,12 @@ public class PropertyMapper {
                 .addressId(entity.getAddress() != null ? entity.getAddress().getId() : null)
                 .build();
     }
+
+    public static List<PropertyResponse> toListResponse(List<Property> entities) {
+        return entities.stream()
+                .map(PropertyMapper::toResponse)
+                .toList();
+    }
+
 }
 

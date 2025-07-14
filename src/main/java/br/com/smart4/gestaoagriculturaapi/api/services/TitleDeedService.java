@@ -2,7 +2,9 @@ package br.com.smart4.gestaoagriculturaapi.api.services;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.TitleDeed;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.TitleDeedRequest;
+import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.TitleDeedResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.TitleDeedFactory;
+import br.com.smart4.gestaoagriculturaapi.api.mappers.TitleDeedMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.TitleDeedRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,30 +23,40 @@ public class TitleDeedService {
 	}
 
 	@Transactional
-	public TitleDeed create(TitleDeedRequest documentosProperty) throws IOException {
-		return titleDeedRepository.save(TitleDeedFactory.fromRequest(documentosProperty));
+	public TitleDeedResponse create(TitleDeedRequest documentosProperty) throws IOException {
+		TitleDeed entity = titleDeedRepository.save(
+				TitleDeedFactory.fromRequest(documentosProperty)
+		);
+		return TitleDeedMapper.toResponse(entity);
 	}
 
 	@Transactional
-	public TitleDeed update(TitleDeedRequest documentosProperty) throws IOException {
-		return titleDeedRepository.save(TitleDeedFactory.fromRequest(documentosProperty));
+	public TitleDeedResponse update(TitleDeedRequest documentosProperty) throws IOException {
+		TitleDeed entity = titleDeedRepository.save(
+				TitleDeedFactory.fromRequest(documentosProperty)
+		);
+		return TitleDeedMapper.toResponse(entity);
 	}
 
-	public Optional<TitleDeed> findById(Long id) {
-		return titleDeedRepository.findById(id);
+	public Optional<TitleDeedResponse> findById(Long id) {
+		return titleDeedRepository.findById(id)
+				.map(TitleDeedMapper::toResponse);
 	}
 
-	public List<TitleDeed> findAll() {
-		return titleDeedRepository.findAll();
+	public List<TitleDeedResponse> findAll() {
+		return TitleDeedMapper.toListResponse(
+				titleDeedRepository.findAll()
+		);
 	}
 
-	public List<TitleDeed> findByProperty(Long id) {
-		return titleDeedRepository.findByPropertyId(id);
+	public List<TitleDeedResponse> findByProperty(Long id) {
+		return TitleDeedMapper.toListResponse(
+				titleDeedRepository.findByPropertyId(id)
+		);
 	}
 
 	@Transactional
 	public void remove(TitleDeed documentosProperty) {
 		titleDeedRepository.delete(documentosProperty);
 	}
-	
 }

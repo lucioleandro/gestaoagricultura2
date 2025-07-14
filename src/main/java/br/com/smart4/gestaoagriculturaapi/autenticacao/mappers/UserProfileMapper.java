@@ -3,7 +3,11 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.mappers;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.UserProfile;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.UserProfileResponse;
 
+import java.util.List;
+
 public class UserProfileMapper {
+
+    private UserProfileMapper() {}
 
     public static UserProfileResponse toResponse(UserProfile entity) {
         if (entity == null) return null;
@@ -25,5 +29,12 @@ public class UserProfileMapper {
 
                 .build();
     }
+
+    public static List<UserProfileResponse> toListResponse(List<UserProfile> entities) {
+        return entities.stream()
+                .map(UserProfileMapper::toResponse)
+                .toList();
+    }
+
 }
 

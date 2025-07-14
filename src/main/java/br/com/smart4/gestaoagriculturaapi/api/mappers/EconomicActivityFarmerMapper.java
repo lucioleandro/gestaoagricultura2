@@ -3,7 +3,11 @@ package br.com.smart4.gestaoagriculturaapi.api.mappers;
 import br.com.smart4.gestaoagriculturaapi.api.domains.EconomicActivityFarmer;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.EconomicActivityFarmerResponse;
 
+import java.util.List;
+
 public class EconomicActivityFarmerMapper {
+
+    private EconomicActivityFarmerMapper() {}
 
     public static EconomicActivityFarmerResponse toResponse(EconomicActivityFarmer entity) {
         if (entity == null) return null;
@@ -18,5 +22,11 @@ public class EconomicActivityFarmerMapper {
                 .economicActivityId(entity.getEconomicActivity() != null ? entity.getEconomicActivity().getId() : null)
                 .build();
     }
+    public static List<EconomicActivityFarmerResponse> toListResponse(List<EconomicActivityFarmer> entities) {
+        return entities.stream()
+                .map(EconomicActivityFarmerMapper::toResponse)
+                .toList();
+    }
+
 }
 

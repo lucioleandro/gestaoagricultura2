@@ -2,7 +2,9 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.Profile;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.ProfileRequest;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.ProfileResponse;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.factories.ProfileFactory;
+import br.com.smart4.gestaoagriculturaapi.autenticacao.mappers.ProfileMapper;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.ProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,37 +15,39 @@ import java.util.Optional;
 @Service
 public class ProfileService {
 
-	private final ProfileRepository profileRepository;
+    private final ProfileRepository profileRepository;
 
-	public ProfileService(ProfileRepository profileRepository) {
-		this.profileRepository = profileRepository;
-	}
+    public ProfileService(ProfileRepository profileRepository) {
+        this.profileRepository = profileRepository;
+    }
 
-	@Transactional
-	public Profile create(ProfileRequest perfil) {
-		return profileRepository.saveAndFlush(ProfileFactory.fromRequest(perfil));
-	}
+    @Transactional
+    public ProfileResponse create(ProfileRequest perfil) {
+        Profile entity = profileRepository.saveAndFlush(ProfileFactory.fromRequest(perfil));
+        return ProfileMapper.toResponse(entity);
+    }
 
-	@Transactional
-	public Profile update(ProfileRequest perfil) {
-		return profileRepository.save(ProfileFactory.fromRequest(perfil));
-	}
-	
-	public List<Profile> findAll() {
-		return profileRepository.findAll();
-	}
+    @Transactional
+    public ProfileResponse update(ProfileRequest perfil) {
+        Profile entity = profileRepository.save(ProfileFactory.fromRequest(perfil));
+        return ProfileMapper.toResponse(entity);
+    }
 
-	public Optional<Profile> findById(Long id) {
-		return profileRepository.findById(id);
-	}
+    public List<ProfileResponse> findAll() {
+        return ProfileMapper.toListResponse(profileRepository.findAll());
+    }
 
-	public List<Profile> findByIdUsuario(Long id) {
-		return profileRepository.findByUserId(id);
-	}
+    public Optional<ProfileResponse> findById(Long id) {
+        return profileRepository.findById(id)
+                .map(ProfileMapper::toResponse);
+    }
 
-	@Transactional
-	public void remove(Profile perfil) {
-		profileRepository.delete(perfil);
-	}
+    public List<ProfileResponse> findByIdUsuario(Long id) {
+        return ProfileMapper.toListResponse(profileRepository.findByUserId(id));
+    }
 
+    @Transactional
+    public void remove(Profile perfil) {
+        profileRepository.delete(perfil);
+    }
 }
