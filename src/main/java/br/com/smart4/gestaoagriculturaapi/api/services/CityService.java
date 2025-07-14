@@ -6,44 +6,55 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.CityResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.CityFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.CityMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.CityRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CityService {
 
-	private final CityRepository municipioRepository;
+	private final CityRepository cityRepository;
 
-	public CityService(CityRepository municipioRepository) {
-		this.municipioRepository = municipioRepository;
+	public CityService(CityRepository cityRepository) {
+		this.cityRepository = cityRepository;
 	}
 
 	@Transactional
-	public CityResponse create(CityRequest municipio) {
-		City saved = municipioRepository.save(CityFactory.fromRequest(municipio));
+	public CityResponse create(CityRequest request) {
+		City saved = cityRepository.save(CityFactory.fromRequest(request));
 		return CityMapper.toResponse(saved);
 	}
 
 	@Transactional
-	public CityResponse update(CityRequest municipio) {
-		City updated = municipioRepository.save(CityFactory.fromRequest(municipio));
+	public CityResponse update(Long id, CityRequest request) {
+		City existing = cityRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("City not found with id: " + id));
+
+		existing.setNome(request.getNome());
+		existing.setUf(request.getUf());
+		existing.setCadastroUnico(request.getCadastroUnico());
+
+		City updated = cityRepository.save(existing);
 		return CityMapper.toResponse(updated);
 	}
 
-	public Optional<CityResponse> findById(Long id) {
-		return municipioRepository.findById(id)
-				.map(CityMapper::toResponse);
+	public CityResponse findById(Long id) {
+		return cityRepository.findById(id)
+				.map(CityMapper::toResponse)
+				.orElseThrow(() -> new EntityNotFoundException("City not found with id: " + id));
 	}
 
 	public List<CityResponse> findAll() {
-		return CityMapper.toListResponse(municipioRepository.findAll());
+		return CityMapper.toListResponse(cityRepository.findAll());
 	}
 
 	@Transactional
-	public void remove(City municipio) {
-		municipioRepository.delete(municipio);
+	public void remove(Long id) {
+		City existing = cityRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("City not found with id: " + id));
+
+		cityRepository.delete(existing);
 	}
 }

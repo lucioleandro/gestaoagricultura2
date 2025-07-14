@@ -6,11 +6,11 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.EconomicActivityRes
 import br.com.smart4.gestaoagriculturaapi.api.factories.EconomicActivityFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.EconomicActivityMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.EconomicActivityRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EconomicActivityService {
@@ -28,14 +28,27 @@ public class EconomicActivityService {
 	}
 
 	@Transactional
-	public EconomicActivityResponse update(EconomicActivityRequest request) {
-		EconomicActivity entity = economicActivityRepository.save(EconomicActivityFactory.fromRequest(request));
-		return EconomicActivityMapper.toResponse(entity);
+	public EconomicActivityResponse update(Long id, EconomicActivityRequest request) {
+		EconomicActivity existing = economicActivityRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Economic activity not found with id: " + id));
+
+		existing.setCodigocnae(request.getCodigocnae());
+		existing.setDescricao(request.getDescricao());
+		existing.setObservacao(request.getObservacao());
+		existing.setSituacao(request.getSituacao());
+		existing.setAliquota(request.getAliquota());
+		existing.setValor(request.getValor());
+		existing.setIsentoiss(request.isIsentoiss());
+		existing.setAtividadeDeServico(request.getAtividadeDeServico());
+
+		EconomicActivity updated = economicActivityRepository.save(existing);
+		return EconomicActivityMapper.toResponse(updated);
 	}
 
-	public Optional<EconomicActivityResponse> findById(Long id) {
+	public EconomicActivityResponse findById(Long id) {
 		return economicActivityRepository.findById(id)
-				.map(EconomicActivityMapper::toResponse);
+				.map(EconomicActivityMapper::toResponse)
+				.orElseThrow(() -> new EntityNotFoundException("Economic activity not found with id: " + id));
 	}
 
 	public List<EconomicActivityResponse> findAll() {
@@ -43,7 +56,9 @@ public class EconomicActivityService {
 	}
 
 	@Transactional
-	public void remove(EconomicActivity economicActivity) {
-		economicActivityRepository.delete(economicActivity);
+	public void remove(Long id) {
+		EconomicActivity existing = economicActivityRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Economic activity not found with id: " + id));
+		economicActivityRepository.delete(existing);
 	}
 }

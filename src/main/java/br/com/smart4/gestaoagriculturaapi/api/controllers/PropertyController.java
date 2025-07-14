@@ -59,7 +59,7 @@ public class PropertyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remove(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable Long id) {
 //        // TODO: Mover essa lógica de remoção para dentro do PropertyService
 //        Optional<PropertyResponse> property = propertyService.findEntityById(id);
 //

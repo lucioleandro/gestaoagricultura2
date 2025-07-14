@@ -13,7 +13,7 @@ public final class PersonalInformationFactory {
                 .apelido(request.getApelido())
                 .mae(request.getMae())
                 .pai(request.getPai())
-                .maritalStatus(request.getMaritalStatusEnum())
+                .maritalStatus(request.getMaritalStatus())
                 .nomeConjugue(request.getNomeConjugue())
                 .farmer(Farmer.builder().id(request.getFarmerId()).build())
                 .build();

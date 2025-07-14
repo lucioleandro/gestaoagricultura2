@@ -6,19 +6,25 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.AddressResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.AddressFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.AddressMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.AddressRepository;
+import br.com.smart4.gestaoagriculturaapi.api.repositories.CityRepository;
+import br.com.smart4.gestaoagriculturaapi.api.repositories.NeighborhoodRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AddressService {
 
     private final AddressRepository addressRepository;
+    private final CityRepository cityRepository;
+    private final NeighborhoodRepository neighborhoodRepository;
 
-    public AddressService(AddressRepository addressRepository) {
+    public AddressService(AddressRepository addressRepository, CityRepository cityRepository, NeighborhoodRepository neighborhoodRepository) {
         this.addressRepository = addressRepository;
+        this.cityRepository = cityRepository;
+        this.neighborhoodRepository = neighborhoodRepository;
     }
 
     @Transactional
@@ -28,14 +34,31 @@ public class AddressService {
     }
 
     @Transactional
-    public AddressResponse update(AddressRequest request) {
-        Address updated = addressRepository.save(AddressFactory.fromRequest(request));
+    public AddressResponse update(Long id, AddressRequest request) {
+        Address existing = addressRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + id));
+
+        var city = cityRepository.findById(request.getCityId())
+                .orElseThrow(() -> new EntityNotFoundException("City not found with id: " + request.getCityId()));
+
+        var neighborhood = neighborhoodRepository.findById(request.getNeighborhoodId())
+                .orElseThrow(() -> new EntityNotFoundException("Neighborhood not found with id: " + request.getNeighborhoodId()));
+
+        existing.setLogradouro(request.getLogradouro());
+        existing.setNumero(request.getNumero());
+        existing.setCity(city);
+        existing.setNeighborhood(neighborhood);
+        existing.setCep(request.getCep());
+
+        Address updated = addressRepository.save(existing);
         return AddressMapper.toResponse(updated);
     }
 
-    public Optional<AddressResponse> findById(Long id) {
+
+    public AddressResponse findById(Long id) {
         return addressRepository.findById(id)
-                .map(AddressMapper::toResponse);
+                .map(AddressMapper::toResponse)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + id));
     }
 
     public List<AddressResponse> findAll() {
@@ -43,7 +66,9 @@ public class AddressService {
     }
 
     @Transactional
-    public void remove(Address address) {
+    public void remove(Long id) {
+        Address address = addressRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + id));
         addressRepository.delete(address);
     }
 }

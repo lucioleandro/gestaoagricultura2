@@ -22,6 +22,7 @@ import java.io.Serializable;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -29,7 +30,6 @@ import java.io.Serializable;
 public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Setter
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

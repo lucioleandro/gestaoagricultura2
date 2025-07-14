@@ -20,7 +20,7 @@ public class PersonalInformationRequest {
     private String pai;
 
     @NotNull(message = "Marital status must be provided.")
-    private MaritalStatusEnum maritalStatusEnum;
+    private MaritalStatusEnum maritalStatus;
 
     private String nomeConjugue;
 

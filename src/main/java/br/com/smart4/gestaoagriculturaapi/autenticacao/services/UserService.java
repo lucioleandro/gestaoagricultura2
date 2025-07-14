@@ -6,6 +6,7 @@ import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.UserRespons
 import br.com.smart4.gestaoagriculturaapi.autenticacao.factories.UserFactory;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.mappers.UserMapper;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,9 +41,16 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	public UserResponse update(UserRequest user) {
-		User updated = userRepository.save(UserFactory.fromRequest(user));
-		return UserMapper.toResponse(updated);
+	public UserResponse update(UserRequest user, Long id) {
+		User entity = userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+
+		entity.setNome(user.getNome());
+		entity.setEmail(user.getEmail());
+		entity.setLogin(user.getLogin());
+		entity.setSenha(user.getSenha());
+
+		return UserMapper.toResponse(userRepository.save(entity));
 	}
 
 	@Transactional
@@ -55,9 +63,10 @@ public class UserService implements UserDetailsService {
 		return UserMapper.toListResponse(userRepository.findAll());
 	}
 
-	public Optional<UserResponse> findById(Long id) {
-		return userRepository.findById(id)
-				.map(UserMapper::toResponse);
+	public UserResponse findById(Long id) {
+		User entity = userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+		return UserMapper.toResponse(entity);
 	}
 
 	public Optional<UserResponse> findByLogin(String login) {
@@ -66,7 +75,9 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	public void remove(User usuario) {
-		userRepository.delete(usuario);
+	public void remove(Long id) {
+		User entity = userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+		userRepository.delete(entity);
 	}
 }

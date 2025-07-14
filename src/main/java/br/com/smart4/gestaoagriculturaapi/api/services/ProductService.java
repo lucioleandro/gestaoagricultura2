@@ -6,11 +6,11 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.ProductResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.ProductFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.ProductMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -22,34 +22,38 @@ public class ProductService {
 	}
 
 	@Transactional
-	public ProductResponse create(ProductRequest product) {
-		Product entity = productRepository.save(
-				ProductFactory.fromRequest(product)
-		);
+	public ProductResponse create(ProductRequest request) {
+		Product entity = productRepository.save(ProductFactory.fromRequest(request));
 		return ProductMapper.toResponse(entity);
 	}
 
 	@Transactional
-	public ProductResponse update(ProductRequest product) {
-		Product entity = productRepository.save(
-				ProductFactory.fromRequest(product)
-		);
-		return ProductMapper.toResponse(entity);
+	public ProductResponse update(Long id, ProductRequest request) {
+		Product existing = productRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+
+		existing.setDescricao(request.getDescricao());
+		existing.setUnidadeMedida(request.getUnidadeMedida());
+		existing.setSiglaUnidadeMedida(request.getSiglaUnidadeMedida());
+
+		Product updated = productRepository.save(existing);
+		return ProductMapper.toResponse(updated);
 	}
 
-	public Optional<ProductResponse> findById(Long id) {
+	public ProductResponse findById(Long id) {
 		return productRepository.findById(id)
-				.map(ProductMapper::toResponse);
+				.map(ProductMapper::toResponse)
+				.orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
 	}
 
 	public List<ProductResponse> findAll() {
-		return ProductMapper.toListResponse(
-				productRepository.findAll()
-		);
+		return ProductMapper.toListResponse(productRepository.findAll());
 	}
 
 	@Transactional
-	public void remove(Product product) {
-		productRepository.delete(product);
+	public void remove(Long id) {
+		Product existing = productRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+		productRepository.delete(existing);
 	}
 }

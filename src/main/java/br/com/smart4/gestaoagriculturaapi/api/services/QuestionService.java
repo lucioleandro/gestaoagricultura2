@@ -6,6 +6,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.QuestionResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.QuestionFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.QuestionMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.QuestionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,11 +31,16 @@ public class QuestionService {
     }
 
     @Transactional
-    public QuestionResponse update(QuestionRequest pergunta) {
-        Question entity = perguntaRepository.save(
-                QuestionFactory.fromRequest(pergunta)
-        );
-        return QuestionMapper.toResponse(entity);
+    public QuestionResponse update(Long id, QuestionRequest pergunta) {
+        Question existing = perguntaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + id));
+
+        existing.setDescricao(pergunta.getDescricao());
+        existing.setAtiva(pergunta.getAtiva());
+        existing.setObrigatoria(pergunta.getObrigatoria());
+        existing.setTipoQuestion(pergunta.getTipoQuestion());
+
+        return QuestionMapper.toResponse(perguntaRepository.save(existing));
     }
 
     public Optional<QuestionResponse> findById(Long id) {
