@@ -65,15 +65,8 @@ public class LivestockActivityController {
             @ApiResponse(responseCode = "404", description = "Livestock activity not found")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-//        Optional<LivestockActivity> livestockActivity = livestockActivityService.findById(id);
-//
-//        if (livestockActivity.isPresent()) {
-//            livestockActivityService.remove(livestockActivity.get());
-//            return ResponseEntity.ok().body("");
-//        }
-
-        // TODO levar lógica para o service
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+        livestockActivityService.remove(id);
         return ResponseEntity.notFound().build();
     }
 }

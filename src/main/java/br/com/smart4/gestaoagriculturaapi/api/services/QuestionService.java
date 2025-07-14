@@ -6,6 +6,7 @@ import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.QuestionResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.QuestionFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.QuestionMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.QuestionRepository;
+import br.com.smart4.gestaoagriculturaapi.api.repositories.StandardResponseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +18,11 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository perguntaRepository;
+    private final StandardResponseRepository standardResponseRepository;
 
-    public QuestionService(QuestionRepository perguntaRepository) {
+    public QuestionService(QuestionRepository perguntaRepository, StandardResponseRepository standardResponseRepository) {
         this.perguntaRepository = perguntaRepository;
+        this.standardResponseRepository = standardResponseRepository;
     }
 
     @Transactional
@@ -61,7 +64,10 @@ public class QuestionService {
     }
 
     @Transactional
-    public void remove(Question pergunta) {
-        perguntaRepository.delete(pergunta);
+    public void remove(Long questionId) {
+        Question question = perguntaRepository.findById(questionId)
+                .orElseThrow(() -> new EntityNotFoundException("Question not found with id: " + questionId));
+        standardResponseRepository.deleteAllByQuestionId(questionId);
+        perguntaRepository.delete(question);
     }
 }

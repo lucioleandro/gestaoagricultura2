@@ -46,8 +46,6 @@ public class QuestionResponseController {
     })
     @PostMapping("/list")
     public ResponseEntity<List<AnsweredQuestionResponse>> createList(@RequestBody @Valid List<ResponseQuestionRequest> request) {
-        // TODO revisar isso aqui - avaliar necessidade de limpar respostas anteriores do farmer
-
         List<AnsweredQuestionResponse> responses = request.stream()
                 .map(respostaQuestionService::create)
                 .toList();
@@ -90,14 +88,7 @@ public class QuestionResponseController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        // TODO: mover essa lógica para o service
-//        Optional<AnsweredQuestionResponse> respostaQuestion = respostaQuestionService.findById(id);
-//
-//        if (respostaQuestion.isPresent()) {
-//            respostaQuestionService.remove(respostaQuestion.get());
-//            return ResponseEntity.ok().build();
-//        }
-
+        respostaQuestionService.remove(id);
         return ResponseEntity.notFound().build();
     }
 }

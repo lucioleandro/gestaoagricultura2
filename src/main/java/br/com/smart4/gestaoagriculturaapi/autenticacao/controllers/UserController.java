@@ -32,7 +32,7 @@ public class UserController {
     @Operation(summary = "Create a new user", description = "Registers a new user in the system")
     public ResponseEntity<UserResponse> create(@RequestBody @Valid UserRequest request) {
         new CPFValidator().assertValid(request.getCpf());
-//        request.setPassword(passwordEncoder.encode(request.getPassword())); //TODO Resolver
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
         UserResponse created = userService.create(request);
         return ResponseEntity.created(URI.create("/users/" + created.getId())).body(created);
     }
@@ -41,25 +41,20 @@ public class UserController {
     @Operation(summary = "Update an existing user", description = "Updates a user by ID")
     public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody @Valid UserRequest request) {
         new CPFValidator().assertValid(request.getCpf());
-//        request.setPassword(passwordEncoder.encode(request.getPassword())); TODO Resolver
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
         return ResponseEntity.ok(userService.update(id, request));
     }
 
     @PatchMapping
     @Operation(summary = "Update basic user data", description = "Updates user's name, login, and email")
-    public ResponseEntity<UserResponse> updateBasicData(@RequestParam String nome,
-                                                        @RequestParam String login,
-                                                        @RequestParam String novologin,
-                                                        @RequestParam String email) {
-//        return userService.findByLogin(login)
-//                .map(user -> {
-//                    user.setNome(nome);
-//                    user.setLogin(novologin);
-//                    user.setEmail(email);
-//                    return ResponseEntity.ok(userService.update(user));
-//                })
-//                .orElseGet(() -> ResponseEntity.badRequest().build()); // TODO resolver
-        return null;
+    public ResponseEntity<UserResponse> updateBasicData(
+            @RequestParam String nome,
+            @RequestParam String login,
+            @RequestParam String novologin,
+            @RequestParam String email
+    ) {
+        UserResponse updated = userService.updateBasicData(login, nome, novologin, email);
+        return ResponseEntity.ok(updated);
     }
 
     @GetMapping
@@ -70,37 +65,23 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a user", description = "Deletes a user by ID")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-//        return userService.findById(id)
-//                .map(user -> {
-//                    userService.remove(user);
-//                    return ResponseEntity.ok().build();
-//                })
-//                .orElseGet(() ->
-//                        ResponseEntity.badRequest().body("Não existe esse registro no banco de dados")
-//                );
-        //todo levar para o service
-        return null;
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/pass")
-    @Operation(summary = "Update user password", description = "Changes the user's password if the current password matches")
-    public ResponseEntity<?> updatePassword(@RequestParam String senhaAtual,
-                                            @RequestParam String novaSenha,
-                                            @RequestParam String login) {
-
-        Optional<UserResponse> optionalUser = userService.findByLogin(login);
-
-//        if (optionalUser.isPresent()) {
-//            var userResponse = optionalUser.get();
-//            if (passwordEncoder.matches(senhaAtual, userResponse.getPassword())) {
-//                userResponse.setPassword(passwordEncoder.encode(novaSenha));
-//                return ResponseEntity.ok(userService.update(userResponse));
-//            }
-//            return ResponseEntity.badRequest().body(new ResponseMessage("A senha atual informada está incorreta"));
-//        }
-        //todo levar para o service
-
-        return ResponseEntity.badRequest().body(new ResponseMessage("Usuário não encontrado"));
+    @Operation(
+            summary = "Update user password",
+            description = "Changes the user's password if the current password matches"
+    )
+    public ResponseEntity<UserResponse> updatePassword(
+            @RequestParam String senhaAtual,
+            @RequestParam String novaSenha,
+            @RequestParam String login
+    ) {
+        UserResponse resp = userService.changePassword(login, senhaAtual, novaSenha);
+        return ResponseEntity.ok(resp);
     }
+
 }

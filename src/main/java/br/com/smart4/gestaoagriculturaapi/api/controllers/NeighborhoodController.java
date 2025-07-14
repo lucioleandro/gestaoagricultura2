@@ -79,15 +79,7 @@ public class NeighborhoodController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        Optional<NeighborhoodResponse> neighborhood = neighborhoodService.findById(id);
-//
-//        if (neighborhood.isPresent()) {
-//            // TODO: mover lógica de remoção para o service
-//            neighborhoodService.removeById(id);
-//            limpaTodosOsCaches();
-//            return ResponseEntity.ok().build();
-//        }
-
+        neighborhoodService.remove(id);
         return ResponseEntity.notFound().build();
     }
 

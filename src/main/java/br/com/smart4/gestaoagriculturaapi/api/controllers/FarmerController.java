@@ -77,17 +77,9 @@ public class FarmerController {
             @ApiResponse(responseCode = "200", description = "Farmer found"),
             @ApiResponse(responseCode = "404", description = "Farmer not found")
     })
-    @GetMapping("/document")
-    public ResponseEntity<FarmerResponse> getByCpf(@Param(value = "cpf") String cpf) {
-//        Optional<Farmer> farmer = farmerService.findByCpf(cpf);
-//
-//        if (farmer.isPresent()) {
-//            return farmer.get();
-//        }
-
-        // TODO levar lógica para o service
-
-        return ResponseEntity.notFound().build();
+    @GetMapping("/document/{cpf}")
+    public ResponseEntity<FarmerResponse> getByCpf(@PathVariable String cpf) {
+        return ResponseEntity.ok().body(farmerService.findByCpf(cpf));
     }
 
     @Operation(summary = "Delete a farmer", description = "Deletes a farmer from the system based on the provided ID")
@@ -96,14 +88,7 @@ public class FarmerController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        Optional<Farmer> farmer = farmerService.findById(id);
-//
-//        if (farmer.isPresent()) {
-//            farmerService.remove(farmer.get());
-//            return ResponseEntity.ok().body("");
-//        }
-
-        // TODO levar lógica service
+        farmerService.remove(id);
         return ResponseEntity.notFound().build();
     }
 

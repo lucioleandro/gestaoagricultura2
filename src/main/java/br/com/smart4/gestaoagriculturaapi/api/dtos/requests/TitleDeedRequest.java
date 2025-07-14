@@ -1,19 +1,18 @@
 package br.com.smart4.gestaoagriculturaapi.api.dtos.requests;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.enums.TitleDeedEnum;
-import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class TitleDeedRequest {
 
     @NotBlank(message = "The title must not be blank.")
@@ -27,10 +26,11 @@ public class TitleDeedRequest {
     @NotNull(message = "The document type must be specified.")
     private TitleDeedEnum documento;
 
+    @NotBlank(message = "The extension must not be blank.")
+    private String extensao;
+
     @NotNull(message = "The property ID must not be null.")
     private Long propertyId;
 
-    public TitleDeedRequest(String titulo, String observacao, LocalDateTime dataAdicao, byte[] byteArquivo, String extensao, TitleDeedEnum documento, Property property) {
-    }
 }
 

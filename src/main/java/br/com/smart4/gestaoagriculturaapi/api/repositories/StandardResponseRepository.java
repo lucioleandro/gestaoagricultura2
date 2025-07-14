@@ -9,4 +9,6 @@ public interface StandardResponseRepository extends JpaRepository<StandardRespon
 
 	List<StandardResponse> findByQuestionId(Long id);
 
+	void deleteAllByQuestionId(Long questionId);
+
 }

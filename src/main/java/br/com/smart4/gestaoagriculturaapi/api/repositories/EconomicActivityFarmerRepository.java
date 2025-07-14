@@ -11,4 +11,8 @@ public interface EconomicActivityFarmerRepository extends JpaRepository<Economic
 
 	List<EconomicActivityFarmer> findByPropertyId(Long id);
 
+	boolean existsByPropertyIdAndPrincipalTrue(Long propertyId);
+
+	boolean existsByPropertyIdAndPrincipalTrueAndIdNot(Long propertyId, Long id);
+
 }

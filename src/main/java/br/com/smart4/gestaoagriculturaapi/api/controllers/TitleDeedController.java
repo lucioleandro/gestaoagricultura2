@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -26,11 +27,9 @@ import java.util.Optional;
 public class TitleDeedController {
 
     private final TitleDeedService titleDeedService;
-    private final PropertyService propertyService;
 
-    public TitleDeedController(TitleDeedService titleDeedService, PropertyService propertyService) {
+    public TitleDeedController(TitleDeedService titleDeedService) {
         this.titleDeedService = titleDeedService;
-        this.propertyService = propertyService;
     }
 
     @PostMapping
@@ -56,41 +55,29 @@ public class TitleDeedController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        // TODO: mover a lógica de verificação para o service
-//        Optional<TitleDeedResponse> optional = titleDeedService.findResponseById(id);
-//        if (optional.isPresent()) {
-//            titleDeedService.remove(id);
-//            return ResponseEntity.ok().build();
-//        }
+        titleDeedService.remove(id);
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<TitleDeedResponse> createPropertyDocuments(
-            @RequestParam("titulo") String titulo,
-            @RequestParam("observacao") String observacao,
-            @RequestParam("bytes") MultipartFile arquivoMult,
-            @RequestParam("extensao") String extensao,
-            @RequestParam("documento") TitleDeedEnum documento,
-            @RequestParam("property") Long idProperty
-    ) throws Exception {
+    public ResponseEntity<TitleDeedResponse> upload(
+            @RequestParam("titulo")      String titulo,
+            @RequestParam("observacao")  String observacao,
+            @RequestParam("bytes")       MultipartFile arquivo,
+            @RequestParam("extensao")    String extensao,
+            @RequestParam("documento")   TitleDeedEnum documento,
+            @RequestParam("property")    Long propertyId
+    ) throws IOException {
+        TitleDeedResponse resp = titleDeedService.uploadTitleDeed(
+                titulo, observacao, arquivo, extensao, documento, propertyId
+        );
 
-//        Optional<TitleDeedResponse> created = propertyService.findById(idProperty)
-//                .map(property -> {
-//                    try {
-//                        byte[] bytes = arquivoMult.getBytes();
-//                        TitleDeedRequest request = new TitleDeedRequest(titulo, observacao, LocalDateTime.now(), bytes, extensao, documento, property);
-//                        return Optional.of(titleDeedService.create(request));
-//                    } catch (Exception e) {
-//                        throw new RuntimeException("Erro ao processar upload", e);
-//                    }
-//                });
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(resp.getId())
+                .toUri();
 
-//        return created.map(ResponseEntity::ok)
-//                .orElseGet(() -> ResponseEntity.badRequest().build());
-
-        //TODO levar para o service
-        return null;
+        return ResponseEntity.created(location).body(resp);
     }
 
     @GetMapping("/download/{id}")

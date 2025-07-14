@@ -1,5 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.autenticacao.services;
 
+import br.com.smart4.gestaoagriculturaapi.api.exceptions.ResourceNotFoundException;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.User;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.domains.UserPicture;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.UserPictureRequest;
@@ -42,6 +43,32 @@ public class UserPictureService {
 
 		entity.setFotoPerfil(request.getFotoPerfil());
 		return UserPictureMapper.toResponse(userPictureRepository.save(entity));
+	}
+
+	/**
+	 * Finds the User by login, then finds or creates its UserPicture
+	 * and updates the profile photo.
+	 * @throws EntityNotFoundException if the user login isn’t found
+	 */
+	@Transactional
+	public UserPictureResponse updateProfilePicture(String login, String fotoPerfil) {
+		User user = userRepository.findByLogin(login)
+				.orElseThrow(() ->
+						new EntityNotFoundException("User not found with login: " + login)
+				);
+
+		UserPicture pic = userPictureRepository
+				.findByUsuarioId(user.getId())
+				.orElseGet(() -> {
+					UserPicture np = new UserPicture();
+					np.setUsuario(user);
+					return np;
+				});
+
+		pic.setFotoPerfil(fotoPerfil);
+
+		UserPicture saved = userPictureRepository.saveAndFlush(pic);
+		return UserPictureMapper.toResponse(saved);
 	}
 
 	public List<UserPictureResponse> findAll() {

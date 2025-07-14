@@ -62,14 +62,7 @@ public class ProductController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        Optional<ProductResponse> product = productService.findById(id);
-//
-//        if (product.isPresent()) {
-//            // TODO: mover lógica de remoção para o service
-//            productService.removeById(id);
-//            return ResponseEntity.ok().build();
-//        }
-
+        productService.remove(id);
         return ResponseEntity.notFound().build();
     }
 }

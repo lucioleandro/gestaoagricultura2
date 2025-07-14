@@ -51,14 +51,8 @@ public class UserProfileController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete association", description = "Remove an association between a user and a profile by ID")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        // TODO Levar lógica para o service
-//        return userProfileService.findByUserId(id)
-//                .map(up -> {
-//                    userProfileService.remove(up);
-//                    return ResponseEntity.ok().build();
-//                })
-//                .orElse(ResponseEntity.badRequest().body("Não existe esse registro no banco de dados"));
-        return null;
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userProfileService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 }

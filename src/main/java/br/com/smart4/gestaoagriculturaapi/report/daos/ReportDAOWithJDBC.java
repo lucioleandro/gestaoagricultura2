@@ -43,16 +43,8 @@ public class ReportDAOWithJDBC implements ReportDAO {
 			System.out.println(conn.isClosed());
 			if (conn != null)conn.close( );
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}  
-		/*
-		 try {
-	            if (conn != null)conn.close( );
-	        } catch (Exception e) {
-	            System.out.println(e.getMessage( ));
-	        }
-		 */
 	}
 
 }

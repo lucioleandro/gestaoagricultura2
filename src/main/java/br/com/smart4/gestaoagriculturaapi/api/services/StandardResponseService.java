@@ -72,7 +72,9 @@ public class StandardResponseService {
     }
 
     @Transactional
-    public void remove(StandardResponse respostaPadrao) {
-        repository.delete(respostaPadrao);
+    public void remove(Long standardResponseId) {
+        StandardResponse standardResponse = repository.findById(standardResponseId)
+                .orElseThrow(() -> new EntityNotFoundException("StandardResponse not found with id: " + standardResponseId));
+        repository.delete(standardResponse);
     }
 }

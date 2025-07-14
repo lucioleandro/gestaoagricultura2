@@ -6,6 +6,7 @@ import br.com.smart4.gestaoagriculturaapi.api.domains.Farmer;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.EconomicActivityFarmerRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.EconomicActivityFarmerResponse;
+import br.com.smart4.gestaoagriculturaapi.api.exceptions.BusinessException;
 import br.com.smart4.gestaoagriculturaapi.api.factories.EconomicActivityFarmerFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.EconomicActivityFarmerMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.EconomicActivityFarmerRepository;
@@ -21,75 +22,100 @@ import java.util.List;
 @Service
 public class EconomicActivityFarmerService {
 
-	private final EconomicActivityFarmerRepository economicActivityRepository;
+	private final EconomicActivityFarmerRepository repository;
 	private final FarmerRepository farmerRepository;
 	private final PropertyRepository propertyRepository;
-	private final EconomicActivityRepository economicActivityRepo;
+	private final EconomicActivityRepository economicActivityRepository;
 
-	public EconomicActivityFarmerService(EconomicActivityFarmerRepository economicActivityRepository,
+	public EconomicActivityFarmerService(EconomicActivityFarmerRepository repository,
 										 FarmerRepository farmerRepository,
 										 PropertyRepository propertyRepository,
-										 EconomicActivityRepository economicActivityRepo) {
-		this.economicActivityRepository = economicActivityRepository;
+										 EconomicActivityRepository economicActivityRepository) {
+		this.repository = repository;
 		this.farmerRepository = farmerRepository;
 		this.propertyRepository = propertyRepository;
-		this.economicActivityRepo = economicActivityRepo;
+		this.economicActivityRepository = economicActivityRepository;
 	}
 
 	@Transactional
-	public EconomicActivityFarmerResponse create(EconomicActivityFarmerRequest request) {
-		EconomicActivityFarmer entity = economicActivityRepository.save(EconomicActivityFarmerFactory.fromRequest(request));
-		return EconomicActivityFarmerMapper.toResponse(entity);
+	public EconomicActivityFarmerResponse create(EconomicActivityFarmerRequest req) {
+		if (req.getPrincipal() &&
+				repository.existsByPropertyIdAndPrincipalTrue(req.getPropertyId())) {
+			throw new BusinessException(
+					"Já existe uma atividade principal cadastrada para esta propriedade");
+		}
+
+		var entity = EconomicActivityFarmerFactory.fromRequest(req);
+		var saved  = repository.save(entity);
+		return EconomicActivityFarmerMapper.toResponse(saved);
 	}
 
 	@Transactional
-	public EconomicActivityFarmerResponse update(Long id, EconomicActivityFarmerRequest request) {
-		EconomicActivityFarmer existing = economicActivityRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("Economic activity farmer not found with id: " + id));
+	public EconomicActivityFarmerResponse update(Long id, EconomicActivityFarmerRequest req) {
+		// 1) fetch existing
+		EconomicActivityFarmer existing = repository.findById(id)
+				.orElseThrow(() ->
+						new EntityNotFoundException("Economic activity farmer not found with id: " + id)
+				);
 
-		Farmer farmer = farmerRepository.findById(request.getFarmerId())
-				.orElseThrow(() -> new EntityNotFoundException("Farmer not found with id: " + request.getFarmerId()));
+		// 2) business rule: if marking principal, ensure no other principal exists
+		if (req.getPrincipal() &&
+				repository.existsByPropertyIdAndPrincipalTrueAndIdNot(req.getPropertyId(), id)) {
+			throw new BusinessException(
+					"Já existe uma atividade principal cadastrada para esta propriedade"
+			);
+		}
 
-		Property property = propertyRepository.findById(request.getPropertyId())
-				.orElseThrow(() -> new EntityNotFoundException("Property not found with id: " + request.getPropertyId()));
+		// 3) load associations
+		Farmer farmer = farmerRepository.findById(req.getFarmerId())
+				.orElseThrow(() ->
+						new EntityNotFoundException("Farmer not found with id: " + req.getFarmerId())
+				);
+		Property property = propertyRepository.findById(req.getPropertyId())
+				.orElseThrow(() ->
+						new EntityNotFoundException("Property not found with id: " + req.getPropertyId())
+				);
+		EconomicActivity activity = economicActivityRepository.findById(req.getEconomicActivityId())
+				.orElseThrow(() ->
+						new EntityNotFoundException("Economic activity not found with id: " + req.getEconomicActivityId())
+				);
 
-		EconomicActivity economicActivity = economicActivityRepo.findById(request.getEconomicActivityId())
-				.orElseThrow(() -> new EntityNotFoundException("Economic activity not found with id: " + request.getEconomicActivityId()));
-
-		existing.setDataInicial(request.getDataInicial());
-		existing.setDataFinal(request.getDataFinal());
-		existing.setPrincipal(request.getPrincipal());
+		// 4) apply updates
+		existing.setDataInicial(req.getDataInicial());
+		existing.setDataFinal(req.getDataFinal());
+		existing.setPrincipal(req.getPrincipal());
 		existing.setFarmer(farmer);
 		existing.setProperty(property);
-		existing.setEconomicActivity(economicActivity);
+		existing.setEconomicActivity(activity);
 
-		EconomicActivityFarmer updated = economicActivityRepository.save(existing);
-		return EconomicActivityFarmerMapper.toResponse(updated);
+		// 5) save & return
+		EconomicActivityFarmer saved = repository.save(existing);
+		return EconomicActivityFarmerMapper.toResponse(saved);
 	}
 
 	public EconomicActivityFarmerResponse findById(Long id) {
-		return economicActivityRepository.findById(id)
+		return repository.findById(id)
 				.map(EconomicActivityFarmerMapper::toResponse)
 				.orElseThrow(() -> new EntityNotFoundException("Economic activity farmer not found with id: " + id));
 	}
 
 	public List<EconomicActivityFarmerResponse> findAll() {
-		return EconomicActivityFarmerMapper.toListResponse(economicActivityRepository.findAll());
+		return EconomicActivityFarmerMapper.toListResponse(repository.findAll());
 	}
 
 	public List<EconomicActivityFarmerResponse> findByFarmer(Long id) {
-		return EconomicActivityFarmerMapper.toListResponse(economicActivityRepository.findByFarmerId(id));
+		return EconomicActivityFarmerMapper.toListResponse(repository.findByFarmerId(id));
 	}
 
 	public List<EconomicActivityFarmerResponse> findByProperty(Long id) {
-		return EconomicActivityFarmerMapper.toListResponse(economicActivityRepository.findByPropertyId(id));
+		return EconomicActivityFarmerMapper.toListResponse(repository.findByPropertyId(id));
 	}
 
 	@Transactional
 	public void remove(Long id) {
-		EconomicActivityFarmer existing = economicActivityRepository.findById(id)
+		EconomicActivityFarmer existing = repository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Economic activity farmer not found with id: " + id));
 
-		economicActivityRepository.delete(existing);
+		repository.delete(existing);
 	}
 }

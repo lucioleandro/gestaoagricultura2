@@ -73,14 +73,8 @@ public class PermissionController {
             summary = "Delete a permission",
             description = "Deletes the permission with the given ID"
     )
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        //TODO levar para o service
-//        return permissionService.findById(id)
-//                .map(p -> {
-//                    permissionService.remove(p);
-//                    return ResponseEntity.ok().build();
-//                })
-//                .orElseGet(() -> ResponseEntity.badRequest().body("Não existe esse registro no banco de dados"));
-        return null;
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        permissionService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 }

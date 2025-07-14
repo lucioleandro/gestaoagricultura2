@@ -19,6 +19,8 @@ server:
     context-path: ${SERVER_CONTEXT_PATH:/gestaoagriculturaapi}
 
 app:
+  version: ${APP_VERSION:1.0.0}
+  apiKey: ${API_KEY:AIzaSyB4hsbTQ9Vsb_2YkIdzJCnjYlM4-IN5Fbo}
   jwtSecret: ${APP_JWT_SECRET:b@dm%#2VA3YN??=cO_onfb$*HYzZr)0"T77nnmI$'#uL=55yIx2[5qbOwlRDJHhLz-bAYB1pnP5qNKJb9qU8[g%#OrXm'ZhecuD10P"mwNPyVyEiFKJPz)}
   jwtExpirationInMs: ${APP_JWT_EXPIRATION:3600000}
 

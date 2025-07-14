@@ -1,13 +1,12 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.Address;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.AddressRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.AddressResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Address", description = "Endpoints for managing address data")
 @RestController
@@ -70,8 +68,7 @@ public class AddressController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeAddress(@PathVariable Long id) {
-
-        // TODO implementa este método levando a lógica para o service
+        addressService.remove(id);
         return ResponseEntity.notFound().build();
     }
 

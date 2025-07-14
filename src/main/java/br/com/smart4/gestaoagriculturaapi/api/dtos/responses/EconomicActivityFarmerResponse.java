@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class EconomicActivityFarmerResponse {
     private Long id;
-    private boolean principal;
+    private Boolean principal;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataInicial;

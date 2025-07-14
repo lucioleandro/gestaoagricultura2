@@ -62,14 +62,7 @@ public class PersonalInformationController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        Optional<PersonalInformationResponse> personalInformation = personalInformationService.findById(id);
-//
-//        if (personalInformation.isPresent()) {
-//            // TODO: mover lógica de remoção para o service
-//            personalInformationService.removeById(id);
-//            return ResponseEntity.ok().build();
-//        }
-
+        personalInformationService.remove(id);
         return ResponseEntity.notFound().build();
     }
 }

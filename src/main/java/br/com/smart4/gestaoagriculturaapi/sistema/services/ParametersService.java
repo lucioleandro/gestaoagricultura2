@@ -4,6 +4,7 @@ import br.com.smart4.gestaoagriculturaapi.sistema.domains.Parameters;
 import br.com.smart4.gestaoagriculturaapi.sistema.dto.responses.ParametersResponse;
 import br.com.smart4.gestaoagriculturaapi.sistema.mappers.ParametersMapper;
 import br.com.smart4.gestaoagriculturaapi.sistema.repositories.ParametersRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +42,9 @@ public class ParametersService {
 	}
 
 	@Transactional
-	public void remove(Parameters parametro) {
-		parametroRepository.delete(parametro);
+	public void remove(Long parametroId) {
+		Parameters parameter = parametroRepository.findById(parametroId)
+				.orElseThrow(() -> new EntityNotFoundException("Parameter not found with id: " + parametroId));
+		parametroRepository.delete(parameter);
 	}
 }

@@ -2,6 +2,7 @@ package br.com.smart4.gestaoagriculturaapi.api.services;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import br.com.smart4.gestaoagriculturaapi.api.domains.TitleDeed;
+import br.com.smart4.gestaoagriculturaapi.api.domains.enums.TitleDeedEnum;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.TitleDeedRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.TitleDeedResponse;
 import br.com.smart4.gestaoagriculturaapi.api.factories.TitleDeedFactory;
@@ -11,6 +12,7 @@ import br.com.smart4.gestaoagriculturaapi.api.repositories.TitleDeedRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -29,9 +31,36 @@ public class TitleDeedService {
 	}
 
 	@Transactional
+	public TitleDeedResponse uploadTitleDeed(
+			String titulo,
+			String observacao,
+			MultipartFile arquivo,
+			String extensao,
+			TitleDeedEnum documento,
+			Long propertyId
+	) throws IOException {
+		propertyRepository.findById(propertyId)
+				.orElseThrow(() ->
+						new EntityNotFoundException("Property not found with id: " + propertyId)
+				);
+
+		TitleDeedRequest req = new TitleDeedRequest(
+				titulo,
+				observacao,
+				arquivo,
+				documento,
+				extensao,
+				propertyId
+		);
+
+		return create(req);
+	}
+
 	public TitleDeedResponse create(TitleDeedRequest request) throws IOException {
 		propertyRepository.findById(request.getPropertyId())
-				.orElseThrow(() -> new EntityNotFoundException("Property not found with id: " + request.getPropertyId()));
+				.orElseThrow(() ->
+						new EntityNotFoundException("Property not found with id: " + request.getPropertyId())
+				);
 
 		TitleDeed saved = titleDeedRepository.save(
 				TitleDeedFactory.fromRequest(request)
@@ -74,7 +103,9 @@ public class TitleDeedService {
 	}
 
 	@Transactional
-	public void remove(TitleDeed titleDeed) {
+	public void remove(Long titleDeedId) {
+		TitleDeed titleDeed = titleDeedRepository.findById(titleDeedId)
+				.orElseThrow(() -> new EntityNotFoundException("TitleDeed not found with id: " + titleDeedId));
 		titleDeedRepository.delete(titleDeed);
 	}
 

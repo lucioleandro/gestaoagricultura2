@@ -89,7 +89,9 @@ public class QuestionResponseService {
 	}
 
 	@Transactional
-	public void remove(QuestionResponse respostaQuestion) {
-		respostaQuestionRepository.delete(respostaQuestion);
+	public void remove(Long questionResponseId) {
+		QuestionResponse questionResponse = respostaQuestionRepository.findById(questionResponseId)
+				.orElseThrow(() -> new EntityNotFoundException("QuestionResponse not found with id: " + questionResponseId));
+		respostaQuestionRepository.delete(questionResponse);
 	}
 }

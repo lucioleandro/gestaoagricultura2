@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,8 @@ import java.util.*;
 @RequestMapping("/compatible")
 public class CompatibleController {
 
-    private String versaoApp = "1.0.0"; //TODO Buscar nas properties
+    @Value("${app.version}")
+    private String versaoApp;
 
     private final CompatibleService compatibleService;
     private final ParametersService parametersService;
@@ -52,17 +54,9 @@ public class CompatibleController {
 
     @Operation(summary = "Delete a compatibility entry by ID")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeCompativeis(@PathVariable Long id) {
-//        Optional<CompatibleResponse> compativeis = compatibleService.findById(id);
-//
-//        if (compativeis.isPresent()) {
-//            compatibleService.remove(compativeis.get());
-//            return ResponseEntity.ok().body("");
-//        } else if (!compativeis.isPresent()) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
-//        }
-        //todo levar logica para o service
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ResponseEntity<Void> removeCompativeis(@PathVariable Long id) {
+        compatibleService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Check if frontend and backend are compatible with the database")

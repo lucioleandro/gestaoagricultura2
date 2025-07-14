@@ -1,6 +1,5 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.EconomicActivityFarmer;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Property;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.EconomicActivityFarmerRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.EconomicActivityFarmerResponse;
@@ -13,8 +12,18 @@ import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Economic Activities - Farmer", description = "Endpoints for managing economic activities related to farmers")
@@ -34,24 +43,17 @@ public class EconomicActivityFarmerController {
             @ApiResponse(responseCode = "400", description = "Invalid request data")
     })
     @PostMapping
-    public ResponseEntity<EconomicActivityFarmerResponse> create(@RequestBody @Valid EconomicActivityFarmerRequest request) {
-//        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
-//            return ResponseEntity.badRequest()
-//                    .body(new ResponseMessage("Já existe uma atividade como principal"));
-//        }
-        // TODO revisar acima
-        return ResponseEntity.created(null).body(economicActivityFarmerService.create(request));
-    }
+    public ResponseEntity<EconomicActivityFarmerResponse> create(
+            @RequestBody @Valid EconomicActivityFarmerRequest request) {
 
-    private boolean existeAtividadePrincipal(Property property) {
-        List<EconomicActivityFarmerResponse> atividades = economicActivityFarmerService
-                .findByProperty(property.getId());
-        for (EconomicActivityFarmerResponse atv : atividades) {
-            if (atv.isPrincipal()) {
-                return true;
-            }
-        }
-        return false;
+        EconomicActivityFarmerResponse resp = economicActivityFarmerService.create(request);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(resp.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(resp);
     }
 
     @Operation(summary = "Update a farmer economic activity", description = "Updates an existing economic activity related to a farmer")
@@ -61,13 +63,12 @@ public class EconomicActivityFarmerController {
             @ApiResponse(responseCode = "404", description = "Activity not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<EconomicActivityFarmerResponse> update(@PathVariable Long id, @RequestBody @Valid EconomicActivityFarmerRequest request) {
-//        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
-//            return ResponseEntity.badRequest()
-//                    .body(new ResponseMessage("Já existe uma atividade como principal"));
-//        }
-        // TODO revisar acima
-        return ResponseEntity.ok().body(economicActivityFarmerService.update(id, request));
+    public ResponseEntity<EconomicActivityFarmerResponse> update(
+            @PathVariable Long id,
+            @RequestBody @Valid EconomicActivityFarmerRequest request) {
+
+        EconomicActivityFarmerResponse resp = economicActivityFarmerService.update(id, request);
+        return ResponseEntity.ok(resp);
     }
 
     @Operation(summary = "Get all farmer economic activities", description = "Returns a list of all economic activities linked to farmers")
@@ -100,22 +101,8 @@ public class EconomicActivityFarmerController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-        try {
-//            Optional<EconomicActivityFarmer> economicActivityFarmer = economicActivityFarmerService.findById(id);
-//
-//            if (economicActivityFarmer.isPresent()) {
-//                economicActivityFarmerService.remove(economicActivityFarmer.get());
-//                return ResponseEntity.ok().body("");
-//            }
-
-            // TODO Levar lógica para o service
-
-            return ResponseEntity.notFound().build();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        economicActivityFarmerService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

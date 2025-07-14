@@ -83,14 +83,7 @@ public class StandardResponseController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        // TODO: mover essa lógica de verificação para dentro do service
-//        Optional<StandardResponseDTO> respostaPadrao = respostaPadraoService.findById(id);
-//
-//        if (respostaPadrao.isPresent()) {
-//            respostaPadraoService.remove(respostaPadrao.get());
-//            return ResponseEntity.ok().build();
-//        }
-
+        respostaPadraoService.remove(id);
         return ResponseEntity.notFound().build();
     }
 }

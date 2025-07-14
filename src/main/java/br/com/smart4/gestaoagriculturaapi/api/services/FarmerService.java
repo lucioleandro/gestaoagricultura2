@@ -3,6 +3,7 @@ package br.com.smart4.gestaoagriculturaapi.api.services;
 import br.com.smart4.gestaoagriculturaapi.api.domains.Farmer;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.FarmerRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.FarmerResponse;
+import br.com.smart4.gestaoagriculturaapi.api.exceptions.ResourceNotFoundException;
 import br.com.smart4.gestaoagriculturaapi.api.factories.FarmerFactory;
 import br.com.smart4.gestaoagriculturaapi.api.mappers.FarmerMapper;
 import br.com.smart4.gestaoagriculturaapi.api.repositories.FarmerRepository;
@@ -56,7 +57,7 @@ public class FarmerService {
     public FarmerResponse findByCpf(String cpf) {
         return farmerRepository.findByCpf(cpf)
                 .map(FarmerMapper::toResponse)
-                .orElseThrow(() -> new EntityNotFoundException("Farmer not found with CPF: " + cpf));
+                .orElseThrow(() -> new ResourceNotFoundException("Farmer not found with CPF: " + cpf));
     }
 
     @Transactional

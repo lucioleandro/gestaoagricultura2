@@ -4,6 +4,7 @@ import br.com.smart4.gestaoagriculturaapi.sistema.domains.Compatible;
 import br.com.smart4.gestaoagriculturaapi.sistema.dto.responses.CompatibleResponse;
 import br.com.smart4.gestaoagriculturaapi.sistema.mappers.CompatibleMapper;
 import br.com.smart4.gestaoagriculturaapi.sistema.repositories.CompatibleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +33,9 @@ public class CompatibleService {
     }
 
     @Transactional
-    public void remove(Compatible compatible) {
+    public void remove(Long compatibleId) {
+        Compatible compatible = compatibleRepository.findById(compatibleId)
+                .orElseThrow(() -> new EntityNotFoundException("No compatible com id " + compatibleId));
         compatibleRepository.delete(compatible);
     }
 

@@ -26,6 +26,7 @@ import java.util.List;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

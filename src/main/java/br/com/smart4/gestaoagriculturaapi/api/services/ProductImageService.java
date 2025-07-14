@@ -11,7 +11,9 @@ import br.com.smart4.gestaoagriculturaapi.api.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -26,9 +28,23 @@ public class ProductImageService {
     }
 
 	@Transactional
-	public ProductImageResponse create(ProductImageRequest request) {
-		ProductImage entity = productImageRepository.save(
-				ProductImageFactory.fromRequest(request)
+	public ProductImageResponse create(MultipartFile file, String extension, Long productId
+	) throws IOException {
+		// 1) validate product exists
+		productRepository.findById(productId)
+				.orElseThrow(() ->
+						new EntityNotFoundException("Product not found with id: " + productId)
+				);
+
+		// 2) build request DTO
+		ProductImageRequest req = new ProductImageRequest();
+		req.setArquivo(file.getBytes());
+		req.setExtensao(extension);
+		req.setProductId(productId);
+
+		// 3) save and map
+		var entity = productImageRepository.save(
+				ProductImageFactory.fromRequest(req)
 		);
 		return ProductImageMapper.toResponse(entity);
 	}

@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "Product Image", description = "Endpoints for managing product images")
@@ -32,11 +34,9 @@ import java.util.List;
 public class ProductImageController {
 
     private final ProductImageService productImageService;
-    private final ProductService productService;
 
-    public ProductImageController(ProductImageService productImageService, ProductService productService) {
+    public ProductImageController(ProductImageService productImageService) {
         this.productImageService = productImageService;
-        this.productService = productService;
     }
 
     @Operation(summary = "Upload a new product image", description = "Uploads a new image for a given product")
@@ -46,7 +46,7 @@ public class ProductImageController {
             @ApiResponse(responseCode = "500", description = "Internal error processing file", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<?> create(
+    public ResponseEntity<ProductImageResponse> create(
             @Parameter(description = "Image file to upload", required = true)
             @RequestParam("arquivo") MultipartFile arquivo,
 
@@ -54,10 +54,17 @@ public class ProductImageController {
             @RequestParam("extensao") String extensao,
 
             @Parameter(description = "Product ID", required = true)
-            @RequestParam("product") Long idProduct) throws IOException {
+            @RequestParam("product") Long productId
+    ) throws IOException {
+        var resp = productImageService.create(arquivo, extensao, productId);
 
-        // TODO levar para o service
-        return null;
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(resp.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(resp);
     }
 
     @Operation(summary = "Update a product image", description = "Updates an existing image with new data")
@@ -94,14 +101,7 @@ public class ProductImageController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        Optional<ProductImageResponse> image = productImageService.findById(id);
-//
-//        if (image.isPresent()) {
-//            // TODO: mover lógica de remoção para o service
-//            productImageService.removeById(id);
-//            return ResponseEntity.ok().build();
-//        }
-
+        productImageService.remove(id);
         return ResponseEntity.notFound().build();
     }
 }

@@ -1,24 +1,30 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.AddressRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.PropertyRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.PropertyResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.AddressService;
 import br.com.smart4.gestaoagriculturaapi.api.services.PropertyService;
-import br.com.smart4.gestaoagriculturaapi.api.utils.Coordinates;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Property", description = "Endpoints for managing agricultural properties")
 @RestController
@@ -39,15 +45,16 @@ public class PropertyController {
             @ApiResponse(responseCode = "400", description = "Invalid property or address data")
     })
     @PostMapping
-    public ResponseEntity<PropertyResponse> create(@RequestBody @Valid PropertyRequest request) {
-        Coordinates coordenadas = searchCoordinates(request.getAddress());
-        request.setLatitude(coordenadas.getLatitude());
-        request.setLongitude(coordenadas.getLongitude());
+    public ResponseEntity<PropertyResponse> create(
+            @RequestBody @Valid PropertyRequest request) throws IOException {
+        PropertyResponse response = propertyService.create(request);
 
-        addressService.create(request.getAddress());
-        PropertyResponse created = propertyService.create(request);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.getId())
+                .toUri();
 
-        return ResponseEntity.created(null).body(created);
+        return ResponseEntity.created(location).body(response);
     }
 
     @Operation(summary = "Update a property", description = "Updates property and its coordinates based on the address")
@@ -57,14 +64,10 @@ public class PropertyController {
             @ApiResponse(responseCode = "404", description = "Property not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<PropertyResponse> update(@PathVariable Long id, @RequestBody @Valid PropertyRequest request) {
-        // TODO levar logica para o service
-        Coordinates coordenadas = searchCoordinates(request.getAddress());
-        request.setLatitude(coordenadas.getLatitude());
-        request.setLongitude(coordenadas.getLongitude());
-
-//        addressService.update(request.getAddress());
-        return ResponseEntity.ok().body(propertyService.update(id, request));
+    public ResponseEntity<PropertyResponse> update(@PathVariable Long id, @RequestBody @Valid PropertyRequest request)
+            throws IOException {
+        PropertyResponse resp = propertyService.update(id, request);
+        return ResponseEntity.ok(resp);
     }
 
     @Operation(summary = "List all properties", description = "Returns a list of all registered properties")
@@ -88,21 +91,9 @@ public class PropertyController {
             @ApiResponse(responseCode = "404", description = "Property not found")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
-//        // TODO: Mover essa lógica de remoção para dentro do PropertyService
-//        Optional<PropertyResponse> property = propertyService.findEntityById(id);
-//
-//        property.ifPresent(prop -> {
-//            Optional<Address> address = addressService.findById(prop.getAddressId());
-//            address.ifPresent(addressService::remove);
-//            propertyService.removeById(id);
-//        });
-
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+        propertyService.remove(id);
         return ResponseEntity.ok().build();
     }
 
-    public Coordinates searchCoordinates(AddressRequest address) {
-        // TODO: Substituir pelo uso real da API do Google Maps se necessário.
-        return new Coordinates(null, null);
-    }
 }

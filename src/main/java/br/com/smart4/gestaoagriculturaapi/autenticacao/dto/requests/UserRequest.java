@@ -15,5 +15,7 @@ public class UserRequest {
     private String telefone;
     private String telefoneAlternativo;
     private UserTypeEnum tipo;
+    private String password;
+
 }
 

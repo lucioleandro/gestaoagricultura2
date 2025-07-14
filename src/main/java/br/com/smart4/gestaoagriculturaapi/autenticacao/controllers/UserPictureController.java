@@ -43,24 +43,17 @@ public class UserPictureController {
     }
 
     @PatchMapping
-    @Operation(summary = "Update a user's profile picture", description = "Updates a user's profile picture using login")
-    public ResponseEntity<UserPictureResponse> updateProfilePicture(@RequestParam("fotoPerfil") String fotoPerfil,
-                                                                    @RequestParam("login") String login) {
-
-//        Optional<UserResponse> userOpt = userService.findByLogin(login);
-//        if (userOpt.isEmpty()) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        User user = userOpt.get();
-//        UserPicture userPicture = userPictureService.findByUsuarioLogin(login)
-//                .orElse(new UserPicture());
-//
-//        userPicture.setFotoPerfil(fotoPerfil);
-//        userPicture.setUsuario(user);
-        //TODO levar logica para o service
-
-        return ResponseEntity.ok(userPictureService.update(null)); //TODO substituir aqui
+    @Operation(
+            summary = "Update a user's profile picture",
+            description = "Updates a user's profile picture using login"
+    )
+    public ResponseEntity<UserPictureResponse> updateProfilePicture(
+            @RequestParam("login")      String login,
+            @RequestParam("fotoPerfil") String fotoPerfil
+    ) {
+        UserPictureResponse resp =
+                userPictureService.updateProfilePicture(login, fotoPerfil);
+        return ResponseEntity.ok(resp);
     }
 
     @GetMapping
@@ -77,15 +70,8 @@ public class UserPictureController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a user picture", description = "Deletes a profile picture by ID")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        //todo levar para o service
-//        return userPictureService.findById(id)
-//                .map(userPicture -> {
-//                    userPictureService.remove(userPicture);
-//                    return ResponseEntity.ok().build();
-//                })
-//                .orElseGet(() ->
-//                        ResponseEntity.badRequest().body("Não existe esse registro no banco de dados"));
-        return null;
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userPictureService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 }

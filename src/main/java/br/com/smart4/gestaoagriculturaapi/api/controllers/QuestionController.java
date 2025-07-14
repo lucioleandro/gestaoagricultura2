@@ -26,11 +26,13 @@ public class QuestionController {
     private final QuestionService perguntaService;
     private final StandardResponseService respostaPadraoService;
     private final CacheManager cacheManager;
+    private final QuestionService questionService;
 
-    public QuestionController(QuestionService perguntaService, StandardResponseService respostaPadraoService, CacheManager cacheManager) {
+    public QuestionController(QuestionService perguntaService, StandardResponseService respostaPadraoService, CacheManager cacheManager, QuestionService questionService) {
         this.perguntaService = perguntaService;
         this.respostaPadraoService = respostaPadraoService;
         this.cacheManager = cacheManager;
+        this.questionService = questionService;
     }
 
     @Operation(summary = "Create a question", description = "Registers a new question in the system")
@@ -80,23 +82,8 @@ public class QuestionController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        // TODO: mover essa lógica para o service
-//        var pergunta = perguntaService.findById(id);
-//
-//        if (pergunta.isPresent()) {
-//            excluiFilhosQuestion(pergunta.get().getId());
-//            perguntaService.remove(pergunta.get());
-//            limpaTodosOsCaches();
-//            return ResponseEntity.ok().build();
-//        }
-
+        questionService.remove(id);
         return ResponseEntity.notFound().build();
-    }
-
-    private void excluiFilhosQuestion(Long perguntaId) {
-        // TODO levar lógica para o service
-//        List<StandardResponseDTO> filhos = respostaPadraoService.findByQuestionId(perguntaId);
-//        filhos.forEach(filho -> respostaPadraoService.remove(filho));
     }
 
     private void limpaTodosOsCaches() {

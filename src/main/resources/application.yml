@@ -19,6 +19,8 @@ server:
     context-path: ${SERVER_CONTEXT_PATH}
 
 app:
+  version: ${APP_VERSION}
+  apiKey: ${API_KEY}
   jwtSecret: ${APP_JWT_SECRET}
   jwtExpirationInMs: ${APP_JWT_EXPIRATION}
 

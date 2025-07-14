@@ -1,6 +1,5 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
-import br.com.smart4.gestaoagriculturaapi.api.domains.AgricultureActivity;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.AgricultureActivityRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.AgricultureActivityResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.AgricultureActivityService;
@@ -11,10 +10,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Agriculture Activities", description = "Endpoints for managing agriculture activities")
 @RestController
@@ -69,13 +74,7 @@ public class AgricultureActivityController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        Optional<AgricultureActivity> agricultureActivity = agricultureActivityService.findById(id);
-//
-//        if (agricultureActivity.isPresent()) {
-//            agricultureActivityService.remove(agricultureActivity.get());
-//            return ResponseEntity.ok().body("");
-//        }
-        // TODO levar a lógica para o service
+        agricultureActivityService.remove(id);
         return ResponseEntity.notFound().build();
     }
 

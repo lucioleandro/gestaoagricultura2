@@ -44,17 +44,7 @@ public class ParametersController {
     @Operation(summary = "Delete system parameters by ID", description = "Removes a specific set of system parameters by ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
-//        Optional<Parameters> parametros = parametersService.findById(id);
-//
-//        if (parametros.isPresent()) {
-//            parametersService.remove(parametros.get());
-//            return ResponseEntity.ok().body("");
-//        } else if (!parametros.isPresent()) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
-//        }
-
-        // TODO: move logic to the service layer
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        parametersService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -16,6 +16,7 @@ public class ProductImageMapper {
                 .id(entity.getId())
                 .extensao(entity.getExtensao())
                 .productId(entity.getProduct() != null ? entity.getProduct().getId() : null)
+                .arquivo(entity.getArquivo())
                 .build();
     }
 
