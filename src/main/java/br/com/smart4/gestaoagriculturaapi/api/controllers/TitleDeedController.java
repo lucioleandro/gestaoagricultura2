@@ -1,7 +1,6 @@
 package br.com.smart4.gestaoagriculturaapi.api.controllers;
 
 import br.com.smart4.gestaoagriculturaapi.api.domains.enums.TitleDeedEnum;
-import br.com.smart4.gestaoagriculturaapi.api.domains.TitleDeed;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.TitleDeedRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.TitleDeedResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.PropertyService;

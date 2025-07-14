@@ -3,21 +3,16 @@ package br.com.smart4.gestaoagriculturaapi.sistema.controllers;
 import br.com.smart4.gestaoagriculturaapi.sistema.domains.Parameters;
 import br.com.smart4.gestaoagriculturaapi.sistema.dto.responses.ParametersResponse;
 import br.com.smart4.gestaoagriculturaapi.sistema.services.ParametersService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
+@Tag(name = "Parameters", description = "Endpoints for managing system parameters")
 @RestController
 @RequestMapping("/parameters")
 public class ParametersController {
@@ -28,21 +23,25 @@ public class ParametersController {
         this.parametersService = parametersService;
     }
 
+    @Operation(summary = "Create system parameters", description = "Creates a new set of system parameters")
     @PostMapping
     public ResponseEntity<ParametersResponse> create(@Valid @RequestBody Parameters request) {
         return ResponseEntity.created(null).body(parametersService.create(request));
     }
 
+    @Operation(summary = "Update system parameters", description = "Updates existing system parameters")
     @PutMapping
     public ResponseEntity<ParametersResponse> update(@RequestBody Parameters request) {
         return ResponseEntity.ok().body(parametersService.update(request));
     }
 
+    @Operation(summary = "List all system parameters", description = "Returns all registered system parameters")
     @GetMapping
     public ResponseEntity<List<ParametersResponse>> getList() {
         return ResponseEntity.ok(parametersService.findAll());
     }
 
+    @Operation(summary = "Delete system parameters by ID", description = "Removes a specific set of system parameters by ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
 //        Optional<Parameters> parametros = parametersService.findById(id);
@@ -54,9 +53,8 @@ public class ParametersController {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
 //        }
 
-        //todo levar logica para o service
+        // TODO: move logic to the service layer
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
     }
 }

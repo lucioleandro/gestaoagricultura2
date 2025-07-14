@@ -3,6 +3,8 @@ package br.com.smart4.gestaoagriculturaapi.autenticacao.controllers;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.LoginRequest;
 import br.com.smart4.gestaoagriculturaapi.sistema.security.JwtAuthenticationResponse;
 import br.com.smart4.gestaoagriculturaapi.sistema.security.JwtTokenProvider;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -10,20 +12,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@RequestMapping("/auth")
 @RestController
+@RequestMapping("/auth")
+@Tag(name = "Authentication", description = "Endpoints related to user authentication and JWT generation")
 public class AuthController {
 
 	private final AuthenticationManager authenticationManager;
-
 	private final JwtTokenProvider tokenProvider;
 
 	public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider) {
@@ -32,25 +28,26 @@ public class AuthController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> autenticaUsuario(@Valid @RequestBody LoginRequest request) {
-		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
+	@Operation(
+			summary = "Authenticate user and return JWT token",
+			description = "Authenticates a user using username and password, and returns a JWT token in the response header and body"
+	)
+	public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody LoginRequest request) {
+		// Autentica usuário com base nas credenciais
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword())
+		);
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
+		// Gera o token JWT
 		String jwt = tokenProvider.generateToken(authentication);
 
+		// Configura cabeçalhos para permitir que o frontend acesse o token
 		HttpHeaders headers = new HttpHeaders();
-
 		headers.add("x-access-token", jwt);
+		headers.add("Access-Control-Expose-Headers", "x-access-token");
 
-		List<String> allowedHeaders = new ArrayList<>();
-
-		allowedHeaders.add("x-access-token");
-
-		headers.setAccessControlAllowHeaders(allowedHeaders);
-
-		return (ResponseEntity<?>) ResponseEntity.ok().headers(headers).body(new JwtAuthenticationResponse(jwt));
+		return ResponseEntity.ok().headers(headers).body(new JwtAuthenticationResponse(jwt));
 	}
-
 }

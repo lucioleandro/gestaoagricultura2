@@ -3,6 +3,10 @@ package br.com.smart4.gestaoagriculturaapi.api.controllers;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.requests.NeighborhoodRequest;
 import br.com.smart4.gestaoagriculturaapi.api.dtos.responses.NeighborhoodResponse;
 import br.com.smart4.gestaoagriculturaapi.api.services.NeighborhoodService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
@@ -11,8 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
+@Tag(name = "Neighborhood", description = "Endpoints for managing neighborhoods")
 @RestController
 @RequestMapping("/neighborhoods")
 public class NeighborhoodController {
@@ -25,6 +29,11 @@ public class NeighborhoodController {
         this.cacheManager = cacheManager;
     }
 
+    @Operation(summary = "Create a neighborhood", description = "Registers a new neighborhood in the system and clears all neighborhood-related caches")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Neighborhood created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request data")
+    })
     @PostMapping
     public ResponseEntity<NeighborhoodResponse> create(@RequestBody @Valid NeighborhoodRequest request) {
         limpaTodosOsCaches();
@@ -32,6 +41,12 @@ public class NeighborhoodController {
         return ResponseEntity.created(null).body(response);
     }
 
+    @Operation(summary = "Update a neighborhood", description = "Updates the neighborhood with the given ID and clears related caches")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Neighborhood updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request data"),
+            @ApiResponse(responseCode = "404", description = "Neighborhood not found")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<NeighborhoodResponse> update(@PathVariable Long id, @RequestBody @Valid NeighborhoodRequest request) {
         limpaTodosOsCaches();
@@ -39,6 +54,8 @@ public class NeighborhoodController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "List all neighborhoods", description = "Retrieves all neighborhoods from cache or service")
+    @ApiResponse(responseCode = "200", description = "List retrieved successfully")
     @GetMapping
     @Cacheable(value = "listaDeNeighborhoods")
     public ResponseEntity<List<NeighborhoodResponse>> getList() {
@@ -46,6 +63,8 @@ public class NeighborhoodController {
         return ResponseEntity.ok(responses);
     }
 
+    @Operation(summary = "List neighborhoods by city", description = "Retrieves neighborhoods that belong to a specific city name")
+    @ApiResponse(responseCode = "200", description = "List retrieved successfully")
     @GetMapping("/city")
     @Cacheable(value = "listaDeNeighborhoodsPorMunicipio")
     public ResponseEntity<List<NeighborhoodResponse>> getListByCity(@Param("city") String municipio) {
@@ -53,6 +72,11 @@ public class NeighborhoodController {
         return ResponseEntity.ok(responses);
     }
 
+    @Operation(summary = "Delete a neighborhood", description = "Deletes a neighborhood by ID. Cache will be cleared if deletion is implemented")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Neighborhood deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Neighborhood not found")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id) {
 //        Optional<NeighborhoodResponse> neighborhood = neighborhoodService.findById(id);

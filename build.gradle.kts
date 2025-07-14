@@ -31,6 +31,8 @@ dependencies {
 	implementation ("io.jsonwebtoken:jjwt-impl:0.12.6")
 	implementation ("io.jsonwebtoken:jjwt-jackson:0.12.6")
 	implementation("net.sf.jasperreports:jasperreports:7.0.3")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")

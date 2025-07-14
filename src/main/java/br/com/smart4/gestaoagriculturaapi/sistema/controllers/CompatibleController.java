@@ -4,26 +4,20 @@ import br.com.smart4.gestaoagriculturaapi.sistema.domains.Compatible;
 import br.com.smart4.gestaoagriculturaapi.sistema.dto.responses.CompatibleResponse;
 import br.com.smart4.gestaoagriculturaapi.sistema.services.CompatibleService;
 import br.com.smart4.gestaoagriculturaapi.sistema.services.ParametersService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+@Tag(name = "Compatibility", description = "Endpoints for managing version and license compatibility between the frontend, backend, and database.")
 @RestController
 @RequestMapping("/compatible")
 public class CompatibleController {
@@ -31,7 +25,6 @@ public class CompatibleController {
     private String versaoApp = "1.0.0"; //TODO Buscar nas properties
 
     private final CompatibleService compatibleService;
-
     private final ParametersService parametersService;
 
     public CompatibleController(CompatibleService compatibleService, ParametersService parametersService) {
@@ -39,21 +32,25 @@ public class CompatibleController {
         this.parametersService = parametersService;
     }
 
+    @Operation(summary = "Create a compatibility entry")
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Compatible request) {
         return ResponseEntity.created(null).body(compatibleService.create(request));
     }
 
+    @Operation(summary = "Update a compatibility entry")
     @PutMapping
     public ResponseEntity<?> atualizaCompativeis(@RequestBody Compatible request) {
         return ResponseEntity.ok().body(compatibleService.update(request));
     }
 
+    @Operation(summary = "Get all compatibility entries")
     @GetMapping
     public List<CompatibleResponse> getListaCompativeises() {
         return compatibleService.findAll();
     }
 
+    @Operation(summary = "Delete a compatibility entry by ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removeCompativeis(@PathVariable Long id) {
 //        Optional<CompatibleResponse> compativeis = compatibleService.findById(id);
@@ -65,12 +62,12 @@ public class CompatibleController {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe esse registro no banco de dados");
 //        }
         //todo levar logica para o service
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    @Operation(summary = "Check if frontend and backend are compatible with the database")
     @GetMapping("/check")
-    public ResponseEntity<?> verificaSeaplicacaoEBaseCompativeis(@Param(value = "versaoFront") String versaoFront) {
+    public ResponseEntity<?> verificaSeaplicacaoEBaseCompativeis(@Parameter(description = "Frontend version") @Param(value = "versaoFront") String versaoFront) {
         CompatibleResponse compatible = compatibleService.findAll().get(0);
 
         if (aplicacaoEBaseSaoCompativeis(compatible, versaoFront)) {
@@ -94,6 +91,7 @@ public class CompatibleController {
         return false;
     }
 
+    @Operation(summary = "Check if system is blocked due to expired license")
     @GetMapping("/check-defaulter")
     public ResponseEntity<?> verificaSeEstaInadimplente() throws ParseException {
         CompatibleResponse compatible = compatibleService.findAll().get(0);
@@ -135,13 +133,13 @@ public class CompatibleController {
         return resultado;
     }
 
+    @Operation(summary = "Update the license release password")
     @PostMapping("/validasenhaliberacao")
     public ResponseEntity<?> validaSenha(@RequestBody String senha) {
         Integer codSistema = compatibleService.findAll().get(0).getCodSistema();
         atualizaSenha(codSistema.toString(), senha);
         return ResponseEntity.ok().body("");
     }
-
 
     private void atualizaSenha(String idSistema, String senhaDeLiberacao) {
         // ATUALIZAR A SENHA NA BASE DE DADOS E LIBERAR O SISTEMA
@@ -165,28 +163,28 @@ public class CompatibleController {
         // VERIFICAR SE É POSSIVEL DECODIFICAR A SENHA INFORMADA
 
         DataV = GetDV(PassWord);
-            if (sdf1.parse("01/01/1950") == DataV) {
-                if (msgdoprogramador)
-                    System.out.println("Erro: Validando Data de Vencimento...");
-                return false;
-            }
+        if (sdf1.parse("01/01/1950").equals(DataV)) {
+            if (msgdoprogramador)
+                System.out.println("Erro: Validando Data de Vencimento...");
+            return false;
+        }
 
         DataI = GetDI(PassWord);
-            if (sdf1.parse("01/01/9999") == DataI) {
-                if (msgdoprogramador)
-                    System.out.println("Erro: Validando Data Inicial...");
-                return false;
-            }
+        if (sdf1.parse("01/01/9999").equals(DataI)) {
+            if (msgdoprogramador)
+                System.out.println("Erro: Validando Data Inicial...");
+            return false;
+        }
 
         IDCli = GetIdCli(PassWord);
-        if ("XXX" == IDCli) {
+        if ("XXX".equals(IDCli)) {
             if (msgdoprogramador)
                 System.out.println("Erro: Validando Id do Cliente...");
             return false;
         }
 
         IDSis = GetIdSis(PassWord);
-        if ("XXX00" == IDSis) {
+        if ("XXX00".equals(IDSis)) {
             if (msgdoprogramador)
                 System.out.println("Erro: Validando Id do Sistema...");
             return false;
@@ -216,202 +214,91 @@ public class CompatibleController {
         return resultado;
     }
 
-
     private Date GetDV(String PassWord) throws ParseException {
-        Date resultado = null;
-        SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-
+        Date resultado = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1950");
         Integer DiaV, MesV, AnoV;
         int LetCod;
         char[] MesFull = {'X', 'X', 'X'};
         String MesFullTemp;
-        String SenhaCod;
+        String SenhaCod = PassWord;
 
-        resultado = sdf1.parse("01/01/1950");
-
-        // DECODIFICAR A SENHA
-        SenhaCod = PassWord;
-
-        // ACHAR O DIA DE VENCIMENTO
         DiaV = Integer.parseInt(SenhaCod.substring(0, 1), 10) + Integer.parseInt(SenhaCod.substring(8, 9), 10) * 10;
 
-        // ACHAR O MÊS DE VENCIMENTO
-        // PRIMEIRA LETRA DO MES
-        LetCod = Integer.valueOf(SenhaCod.charAt(1)) - (DiaV % 10);
-        if (LetCod < 65)
-            LetCod = LetCod + 26;
-
+        LetCod = SenhaCod.charAt(1) - (DiaV % 10);
+        if (LetCod < 65) LetCod += 26;
         MesFull[0] = (char) LetCod;
 
-        // SEGUNDA LETRA DO MES
-        LetCod = Integer.valueOf(SenhaCod.charAt(3)) - (DiaV % 10);
-        if (LetCod < 65)
-            LetCod = LetCod + 26;
-
+        LetCod = SenhaCod.charAt(3) - (DiaV % 10);
+        if (LetCod < 65) LetCod += 26;
         MesFull[1] = (char) LetCod;
 
-        // TERCEIRA LETRA DO MES
-        LetCod = Integer.valueOf(SenhaCod.charAt(5)) - (DiaV % 10);
-        if (LetCod < 65)
-            LetCod = LetCod + 26;
-
+        LetCod = SenhaCod.charAt(5) - (DiaV % 10);
+        if (LetCod < 65) LetCod += 26;
         MesFull[2] = (char) LetCod;
 
         MesFullTemp = String.valueOf(MesFull);
 
-        MesV = 0;
-        if (MesFullTemp.equals("JAN"))
-            MesV = 1;
-        if (MesFullTemp.equals("FEV"))
-            MesV = 2;
-        if (MesFullTemp.equals("MAR"))
-            MesV = 3;
-        if (MesFullTemp.equals("ABR"))
-            MesV = 4;
-        if (MesFullTemp.equals("MAI"))
-            MesV = 5;
-        if (MesFullTemp.equals("JUN"))
-            MesV = 6;
-        if (MesFullTemp.equals("JUL"))
-            MesV = 7;
-        if (MesFullTemp.equals("AGO"))
-            MesV = 8;
-        if (MesFullTemp.equals("SET"))
-            MesV = 9;
-        if (MesFullTemp.equals("OUT"))
-            MesV = 10;
-        if (MesFullTemp.equals("NOV"))
-            MesV = 11;
-        if (MesFullTemp.equals("DEZ"))
-            MesV = 12;
-        if (MesV == 0) {
-            return resultado;
-        }
+        MesV = switch (MesFullTemp) {
+            case "JAN" -> 1;
+            case "FEV" -> 2;
+            case "MAR" -> 3;
+            case "ABR" -> 4;
+            case "MAI" -> 5;
+            case "JUN" -> 6;
+            case "JUL" -> 7;
+            case "AGO" -> 8;
+            case "SET" -> 9;
+            case "OUT" -> 10;
+            case "NOV" -> 11;
+            case "DEZ" -> 12;
+            default -> 0;
+        };
 
-        // ACHAR O ANO DE VENCIMENTO
-        AnoV = 2000 + (Integer.parseInt(SenhaCod.substring(7, 8), 10) * 100
-                + Integer.parseInt(SenhaCod.substring(4, 5), 10) * 10
-                + Integer.parseInt(SenhaCod.substring(2, 3), 10)) - DiaV - MesV;
+        if (MesV == 0) return resultado;
 
-        resultado = sdf1.parse(String.valueOf(DiaV) + "/" + String.valueOf(MesV) + "/" + String.valueOf(AnoV));
+        AnoV = 2000 + (Integer.parseInt(SenhaCod.substring(7, 8)) * 100
+                + Integer.parseInt(SenhaCod.substring(4, 5)) * 10
+                + Integer.parseInt(SenhaCod.substring(2, 3))) - DiaV - MesV;
 
-        return resultado;
-
+        return new SimpleDateFormat("dd/MM/yyyy").parse(DiaV + "/" + MesV + "/" + AnoV);
     }
 
     @SuppressWarnings("deprecation")
     private Date GetDI(String PassWord) throws ParseException {
-
-        Date resultado = null;
-        String SenhaCod;
-        Integer Validade, DiaV;
-        Date DataV;
-        SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-
-        resultado = sdf1.parse("01/01/9999");
-
-        SenhaCod = PassWord;
-        DataV = GetDV(PassWord);
-
-        DiaV = DataV.getDate();
+        Date DataV = GetDV(PassWord);
+        int DiaV = DataV.getDate();
+        int Validade;
 
         if (DiaV % 10 > 5)
-            Validade = Integer.parseInt(SenhaCod.substring(9, 10), 10) * 10
-                    + Integer.parseInt(SenhaCod.substring(6, 7), 10);
+            Validade = Integer.parseInt(PassWord.substring(9, 10)) * 10 + Integer.parseInt(PassWord.substring(6, 7));
         else
-            Validade = Integer.parseInt(SenhaCod.substring(6, 7), 10) * 10
-                    + Integer.parseInt(SenhaCod.substring(9, 10), 10);
+            Validade = Integer.parseInt(PassWord.substring(6, 7)) * 10 + Integer.parseInt(PassWord.substring(9, 10));
 
-        Calendar agora = Calendar.getInstance();
-        agora.setTime(DataV);
-        agora.add(Calendar.DAY_OF_YEAR, -Validade);
-        resultado = agora.getTime();
-        return resultado;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(DataV);
+        calendar.add(Calendar.DAY_OF_YEAR, -Validade);
+        return calendar.getTime();
     }
 
     private String GetIdCli(String PassWord) {
-
-        String resultado;
-        String SenhaCod;
-        Integer DigC;
-        int LetCod;
-        char[] CliFull = {'X', 'X', 'X'};
-
-        resultado = "XXX";
-
-        SenhaCod = PassWord;
-
-        DigC = Integer.parseInt(SenhaCod.substring(10, 11), 10);
-
-        // PRIMEIRO DIGITO DO IDCLI
-        LetCod = Integer.valueOf(SenhaCod.charAt(19)) - DigC;
-        if (LetCod < 65)
-            LetCod = LetCod + 26;
-        CliFull[0] = (char) LetCod;
-
-        // SEGUNDO DIGITO DO IDCLI
-        LetCod = Integer.valueOf(SenhaCod.charAt(12)) - DigC;
-        if (LetCod < 65)
-            LetCod = LetCod + 26;
-        CliFull[1] = (char) LetCod;
-
-        // TERCEIRO DIGITO DO IDCLI
-        LetCod = Integer.valueOf(SenhaCod.charAt(15)) - DigC;
-        if (LetCod < 48)
-            LetCod = LetCod + 10;
-        CliFull[2] = (char) LetCod;
-
-        resultado = String.valueOf(CliFull);
-
-        return resultado;
+        int DigC = Integer.parseInt(PassWord.substring(10, 11));
+        char[] CliFull = {
+                (char) (PassWord.charAt(19) - DigC < 65 ? PassWord.charAt(19) - DigC + 26 : PassWord.charAt(19) - DigC),
+                (char) (PassWord.charAt(12) - DigC < 65 ? PassWord.charAt(12) - DigC + 26 : PassWord.charAt(12) - DigC),
+                (char) (PassWord.charAt(15) - DigC < 48 ? PassWord.charAt(15) - DigC + 10 : PassWord.charAt(15) - DigC)
+        };
+        return String.valueOf(CliFull);
     }
 
     private String GetIdSis(String PassWord) {
-
-        String resultado;
-        String SenhaCod;
-        Integer DigS;
-        int LetCod;
-        char[] SisFull = {'X', 'X', 'X', '0', '0'};
-
-        resultado = "XXX00";
-
-        SenhaCod = PassWord;
-        DigS = Integer.parseInt(SenhaCod.substring(11, 12), 10);
-
-        // PRIMEIRO DIGITO DO IDSIS
-        LetCod = Integer.valueOf(SenhaCod.charAt(14)) - DigS;
-        if (LetCod < 65)
-            LetCod = LetCod + 26;
-        SisFull[0] = (char) LetCod;
-
-        // SEGUNDO DIGITO DO IDSIS
-        LetCod = Integer.valueOf(SenhaCod.charAt(16)) - DigS;
-        if (LetCod < 65)
-            LetCod = LetCod + 26;
-        SisFull[1] = (char) LetCod;
-
-        // TERCEIRO DIGITO DO IDSIS
-        LetCod = Integer.valueOf(SenhaCod.charAt(18)) - DigS;
-        if (LetCod < 65)
-            LetCod = LetCod + 26;
-        SisFull[2] = (char) LetCod;
-
-        // QUARTO DIGITO DO IDSIS
-        LetCod = Integer.valueOf(SenhaCod.charAt(17)) - DigS;
-        if (LetCod < 48)
-            LetCod = LetCod + 10;
-        SisFull[3] = (char) LetCod;
-
-        // QUINTO DIGITO DO IDSIS
-        LetCod = Integer.valueOf(SenhaCod.charAt(13)) - DigS;
-        if (LetCod < 48)
-            LetCod = LetCod + 10;
-        SisFull[4] = (char) LetCod;
-
-        resultado = String.valueOf(SisFull);
-
-        return resultado;
+        int DigS = Integer.parseInt(PassWord.substring(11, 12));
+        char[] SisFull = {
+                (char) (PassWord.charAt(14) - DigS < 65 ? PassWord.charAt(14) - DigS + 26 : PassWord.charAt(14) - DigS),
+                (char) (PassWord.charAt(16) - DigS < 65 ? PassWord.charAt(16) - DigS + 26 : PassWord.charAt(16) - DigS),
+                (char) (PassWord.charAt(18) - DigS < 65 ? PassWord.charAt(18) - DigS + 26 : PassWord.charAt(18) - DigS),
+                (char) (PassWord.charAt(17) - DigS < 48 ? PassWord.charAt(17) - DigS + 10 : PassWord.charAt(17) - DigS),
+                (char) (PassWord.charAt(13) - DigS < 48 ? PassWord.charAt(13) - DigS + 10 : PassWord.charAt(13) - DigS)
+        };
+        return String.valueOf(SisFull);
     }
-
 }

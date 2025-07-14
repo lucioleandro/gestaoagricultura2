@@ -5,6 +5,8 @@ import br.com.smart4.gestaoagriculturaapi.api.utils.ResponseMessage;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.requests.UserRequest;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.dto.responses.UserResponse;
 import br.com.smart4.gestaoagriculturaapi.autenticacao.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@Tag(name = "Users", description = "Endpoints for managing system users")
 public class UserController {
 
     private final UserService userService;
@@ -26,6 +29,7 @@ public class UserController {
     }
 
     @PostMapping
+    @Operation(summary = "Create a new user", description = "Registers a new user in the system")
     public ResponseEntity<UserResponse> create(@RequestBody @Valid UserRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 //        request.setPassword(passwordEncoder.encode(request.getPassword())); //TODO Resolver
@@ -34,6 +38,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update an existing user", description = "Updates a user by ID")
     public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody @Valid UserRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 //        request.setPassword(passwordEncoder.encode(request.getPassword())); TODO Resolver
@@ -41,6 +46,7 @@ public class UserController {
     }
 
     @PatchMapping
+    @Operation(summary = "Update basic user data", description = "Updates user's name, login, and email")
     public ResponseEntity<UserResponse> updateBasicData(@RequestParam String nome,
                                                         @RequestParam String login,
                                                         @RequestParam String novologin,
@@ -57,11 +63,13 @@ public class UserController {
     }
 
     @GetMapping
+    @Operation(summary = "List all users", description = "Returns a list of all users")
     public ResponseEntity<List<UserResponse>> findAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a user", description = "Deletes a user by ID")
     public ResponseEntity<?> delete(@PathVariable Long id) {
 //        return userService.findById(id)
 //                .map(user -> {
@@ -76,6 +84,7 @@ public class UserController {
     }
 
     @PatchMapping("/pass")
+    @Operation(summary = "Update user password", description = "Changes the user's password if the current password matches")
     public ResponseEntity<?> updatePassword(@RequestParam String senhaAtual,
                                             @RequestParam String novaSenha,
                                             @RequestParam String login) {
