@@ -33,9 +33,9 @@ public class AddressController {
         return ResponseEntity.created(null).body(addressService.create(request));
     }
 
-    @PutMapping
-    public ResponseEntity<AddressResponse> update(@RequestBody @Valid AddressRequest request) {
-        return ResponseEntity.ok().body(addressService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<AddressResponse> update(@PathVariable Long id, @RequestBody @Valid AddressRequest request) {
+        return ResponseEntity.ok().body(addressService.update(id, request));
     }
 
     @GetMapping

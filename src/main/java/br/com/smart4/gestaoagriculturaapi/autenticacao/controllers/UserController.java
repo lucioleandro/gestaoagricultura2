@@ -33,11 +33,11 @@ public class UserController {
         return ResponseEntity.created(URI.create("/users/" + created.getId())).body(created);
     }
 
-    @PutMapping
-    public ResponseEntity<UserResponse> update(@RequestBody @Valid UserRequest request) {
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody @Valid UserRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 //        request.setPassword(passwordEncoder.encode(request.getPassword())); TODO Resolver
-        return ResponseEntity.ok(userService.update(request));
+        return ResponseEntity.ok(userService.update(id, request));
     }
 
     @PatchMapping

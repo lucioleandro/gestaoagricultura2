@@ -40,9 +40,9 @@ public class TitleDeedController {
         return ResponseEntity.created(URI.create("/title-deeds/" + created.getId())).body(created);
     }
 
-    @PutMapping
-    public ResponseEntity<TitleDeedResponse> update(@RequestBody @Valid TitleDeedRequest request) throws IOException {
-        return ResponseEntity.ok(titleDeedService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<TitleDeedResponse> update(@PathVariable Long id, @RequestBody @Valid TitleDeedRequest request) throws IOException {
+        return ResponseEntity.ok(titleDeedService.update(id, request));
     }
 
     @GetMapping

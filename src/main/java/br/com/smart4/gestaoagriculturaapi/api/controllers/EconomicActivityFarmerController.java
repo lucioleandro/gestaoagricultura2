@@ -54,15 +54,15 @@ public class EconomicActivityFarmerController {
         return false;
     }
 
-    @PutMapping
-    public ResponseEntity<EconomicActivityFarmerResponse> update(@RequestBody @Valid EconomicActivityFarmerRequest request) {
+    @PutMapping("/{id}")
+    public ResponseEntity<EconomicActivityFarmerResponse> update(@PathVariable Long id, @RequestBody @Valid EconomicActivityFarmerRequest request) {
 //        if (request.isPrincipal() && existeAtividadePrincipal(request.getProperty())) {
 //            return ResponseEntity.badRequest()
 //                    .body(new ResponseMessage("Já existe uma atividade como principal"));
 //        }
         // TODO revisar acima
 
-        return ResponseEntity.ok().body(economicActivityFarmerService.update(request));
+        return ResponseEntity.ok().body(economicActivityFarmerService.update(id, request));
     }
 
     @GetMapping

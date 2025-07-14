@@ -32,10 +32,10 @@ public class NeighborhoodController {
         return ResponseEntity.created(null).body(response);
     }
 
-    @PutMapping
-    public ResponseEntity<NeighborhoodResponse> update(@RequestBody @Valid NeighborhoodRequest request) {
+    @PutMapping("/{id}")
+    public ResponseEntity<NeighborhoodResponse> update(@PathVariable Long id, @RequestBody @Valid NeighborhoodRequest request) {
         limpaTodosOsCaches();
-        NeighborhoodResponse response = neighborhoodService.update(request);
+        NeighborhoodResponse response = neighborhoodService.update(id, request);
         return ResponseEntity.ok(response);
     }
 

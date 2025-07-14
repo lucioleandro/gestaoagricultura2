@@ -27,9 +27,9 @@ public class ProfileController {
         return ResponseEntity.created(URI.create("/profiles/" + created.getId())).body(created);
     }
 
-    @PutMapping
-    public ResponseEntity<ProfileResponse> update(@RequestBody @Valid ProfileRequest request) {
-        return ResponseEntity.ok(profileService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<ProfileResponse> update(@PathVariable Long id, @RequestBody @Valid ProfileRequest request) {
+        return ResponseEntity.ok(profileService.update(id, request));
     }
 
     @GetMapping

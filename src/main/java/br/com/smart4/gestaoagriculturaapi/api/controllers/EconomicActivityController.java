@@ -36,10 +36,10 @@ public class EconomicActivityController {
         return ResponseEntity.created(null).body(economicActivityService.create(request));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @CacheEvict(value = "listaDeAtividadesEconomicas", allEntries = true)
-    public ResponseEntity<EconomicActivityResponse> update(@RequestBody @Valid EconomicActivityRequest request) {
-        return ResponseEntity.ok().body(economicActivityService.update(request));
+    public ResponseEntity<EconomicActivityResponse> update(@PathVariable Long id, @RequestBody @Valid EconomicActivityRequest request) {
+        return ResponseEntity.ok().body(economicActivityService.update(id, request));
     }
 
     @GetMapping

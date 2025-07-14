@@ -45,11 +45,11 @@ public class FarmerController {
 
     }
 
-    @PutMapping
-    public ResponseEntity<FarmerResponse> update(@RequestBody @Valid FarmerRequest request) {
+    @PutMapping("/{id}")
+    public ResponseEntity<FarmerResponse> update(@PathVariable Long id, @RequestBody @Valid FarmerRequest request) {
         new CPFValidator().assertValid(request.getCpf());
 
-        return ResponseEntity.ok().body(farmerService.update(request));
+        return ResponseEntity.ok().body(farmerService.update(id, request));
     }
 
     @GetMapping

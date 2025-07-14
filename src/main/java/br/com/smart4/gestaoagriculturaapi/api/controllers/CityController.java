@@ -36,10 +36,10 @@ public class CityController {
         return ResponseEntity.created(null).body(municipioService.create(request));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @CacheEvict(value = "listaDeMunicipios", allEntries = true)
-    public ResponseEntity<CityResponse> update(@RequestBody @Valid CityRequest request) {
-        return ResponseEntity.ok().body(municipioService.update(request));
+    public ResponseEntity<CityResponse> update(@PathVariable Long id, @RequestBody @Valid CityRequest request) {
+        return ResponseEntity.ok().body(municipioService.update(id, request));
     }
 
     @GetMapping

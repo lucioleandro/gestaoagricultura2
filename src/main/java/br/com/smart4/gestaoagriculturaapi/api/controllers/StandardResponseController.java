@@ -31,10 +31,10 @@ public class StandardResponseController {
         return ResponseEntity.created(URI.create("/standard-responses/" + created.getId())).body(created);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @CacheEvict(value = "listaDeRespostasPadroesPorQuestion", allEntries = true)
-    public ResponseEntity<StandardResponseDTO> update(@RequestBody @Valid StandardResponseRequest request) {
-        return ResponseEntity.ok().body(respostaPadraoService.update(request));
+    public ResponseEntity<StandardResponseDTO> update(@PathVariable Long id, @RequestBody @Valid StandardResponseRequest request) {
+        return ResponseEntity.ok().body(respostaPadraoService.update(id, request));
     }
 
     @GetMapping

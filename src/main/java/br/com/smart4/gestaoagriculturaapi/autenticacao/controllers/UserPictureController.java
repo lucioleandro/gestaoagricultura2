@@ -51,7 +51,7 @@ public class UserPictureController {
 //        userPicture.setUsuario(user);
         //TODO levar logica para o service
 
-        return ResponseEntity.ok(userPictureService.createOrUpdate(null)); //TODO substituir aqui
+        return ResponseEntity.ok(userPictureService.update(null)); //TODO substituir aqui
     }
 
     @GetMapping
@@ -61,9 +61,7 @@ public class UserPictureController {
 
     @GetMapping("/usuario")
     public ResponseEntity<UserPictureResponse> getByLogin(@Param(value = "id") String login) {
-        return userPictureService.findByUsuarioLogin(login)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok().body(userPictureService.findByUsuarioLogin(login));
     }
 
     @DeleteMapping("/{id}")

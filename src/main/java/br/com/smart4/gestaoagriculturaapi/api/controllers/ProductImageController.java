@@ -34,28 +34,29 @@ public class ProductImageController {
             @RequestParam("product") Long idProduct) throws IOException {
 
         // TODO levar para o service
-        Optional<ProductImageResponse> created = productService.findById(idProduct)
-                .map(product -> {
-                    ProductImageRequest request = null;
-                    try {
-                        request = new ProductImageRequest(arquivo.getBytes(), extensao, product.getId());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return productImageService.create(request);
-                });
+//        Optional<ProductImageResponse> created = productService.findById(idProduct)
+//                .map(product -> {
+//                    ProductImageRequest request = null;
+//                    try {
+//                        request = new ProductImageRequest(arquivo.getBytes(), extensao, product.getId());
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                    return productImageService.create(request);
+//                });
 
-        return created
-                .map(response -> {
-                    URI location = URI.create("/product-images/" + response.getId()); // só use se houver getById
-                    return ResponseEntity.created(location).body(response);
-                })
-                .orElseGet(() -> ResponseEntity.badRequest().body(null));
+//        return created
+//                .map(response -> {
+//                    URI location = URI.create("/product-images/" + response.getId()); // só use se houver getById
+//                    return ResponseEntity.created(location).body(response);
+//                })
+//                .orElseGet(() -> ResponseEntity.badRequest().body(null));
+        return null;
     }
 
-    @PutMapping
-    public ResponseEntity<ProductImageResponse> update(@RequestBody @Valid ProductImageRequest request) {
-        return ResponseEntity.ok(productImageService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductImageResponse> update(@PathVariable Long id, @RequestBody @Valid ProductImageRequest request) {
+        return ResponseEntity.ok(productImageService.update(id, request));
     }
 
     @GetMapping

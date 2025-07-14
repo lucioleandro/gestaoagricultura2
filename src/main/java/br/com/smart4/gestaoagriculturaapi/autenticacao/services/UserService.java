@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	public UserResponse update(UserRequest user, Long id) {
+	public UserResponse update(Long id, UserRequest user) {
 		User entity = userRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
 

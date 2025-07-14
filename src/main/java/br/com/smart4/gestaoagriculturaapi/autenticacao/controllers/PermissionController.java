@@ -29,9 +29,9 @@ public class PermissionController {
         return ResponseEntity.created(URI.create("/permissions/" + created.getId())).body(created);
     }
 
-    @PutMapping
-    public ResponseEntity<PermissionResponse> update(@RequestBody @Valid PermissionRequest request) {
-        return ResponseEntity.ok(permissionService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<PermissionResponse> update(@PathVariable Long id, @RequestBody @Valid PermissionRequest request) {
+        return ResponseEntity.ok(permissionService.update(id, request));
     }
 
     @GetMapping

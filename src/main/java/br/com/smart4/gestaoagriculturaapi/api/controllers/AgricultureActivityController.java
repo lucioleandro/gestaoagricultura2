@@ -34,9 +34,9 @@ public class AgricultureActivityController {
         return ResponseEntity.created(null).body(agricultureActivityService.create(request));
     }
 
-    @PutMapping
-    public ResponseEntity<AgricultureActivityResponse> update(@RequestBody @Valid AgricultureActivityRequest request) {
-        return ResponseEntity.ok().body(agricultureActivityService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<AgricultureActivityResponse> update(@PathVariable Long id, @RequestBody @Valid AgricultureActivityRequest request) {
+        return ResponseEntity.ok().body(agricultureActivityService.update(id, request));
     }
 
     @GetMapping

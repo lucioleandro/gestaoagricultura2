@@ -26,9 +26,9 @@ public class PersonalInformationController {
         return ResponseEntity.created(null).body(response);
     }
 
-    @PutMapping
-    public ResponseEntity<PersonalInformationResponse> update(@RequestBody @Valid PersonalInformationRequest request) {
-        PersonalInformationResponse response = personalInformationService.update(request);
+    @PutMapping("/{id}")
+    public ResponseEntity<PersonalInformationResponse> update(@PathVariable Long id, @RequestBody @Valid PersonalInformationRequest request) {
+        PersonalInformationResponse response = personalInformationService.update(id, request);
         return ResponseEntity.ok(response);
     }
 

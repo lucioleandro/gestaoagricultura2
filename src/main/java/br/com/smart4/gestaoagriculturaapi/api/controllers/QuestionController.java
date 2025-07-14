@@ -35,10 +35,10 @@ public class QuestionController {
         return ResponseEntity.created(null).body(perguntaService.create(request));
     }
 
-    @PutMapping
-    public ResponseEntity<QuestionResponse> update(@RequestBody @Valid QuestionRequest request) {
+    @PutMapping("/{id}")
+    public ResponseEntity<QuestionResponse> update(@PathVariable Long id, @RequestBody @Valid QuestionRequest request) {
         limpaTodosOsCaches();
-        return ResponseEntity.ok().body(perguntaService.update(request));
+        return ResponseEntity.ok().body(perguntaService.update(id, request));
     }
 
     @GetMapping

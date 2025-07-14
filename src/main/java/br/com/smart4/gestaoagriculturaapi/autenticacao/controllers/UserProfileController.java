@@ -27,9 +27,9 @@ public class UserProfileController {
         return ResponseEntity.created(URI.create("/user-profiles/" + created.getId())).body(created);
     }
 
-    @PutMapping
-    public ResponseEntity<UserProfileResponse> update(@RequestBody @Valid UserProfileRequest request) {
-        return ResponseEntity.ok(userProfileService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<UserProfileResponse> update(@PathVariable Long id, @RequestBody @Valid UserProfileRequest request) {
+        return ResponseEntity.ok(userProfileService.update(id, request));
     }
 
     @GetMapping

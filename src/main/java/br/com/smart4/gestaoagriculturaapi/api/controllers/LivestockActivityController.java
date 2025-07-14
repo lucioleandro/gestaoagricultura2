@@ -32,9 +32,9 @@ public class LivestockActivityController {
         return ResponseEntity.created(null).body(livestockActivityService.create(request));
     }
 
-    @PutMapping
-    public ResponseEntity<LivestockActivityResponse> update(@RequestBody @Valid LivestockActivityRequest request) {
-        return ResponseEntity.ok().body(livestockActivityService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<LivestockActivityResponse> update(@PathVariable Long id, @RequestBody @Valid LivestockActivityRequest request) {
+        return ResponseEntity.ok().body(livestockActivityService.update(id, request));
     }
 
     @GetMapping

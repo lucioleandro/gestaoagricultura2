@@ -39,9 +39,9 @@ public class QuestionResponseController {
         return ResponseEntity.ok(responses);
     }
 
-    @PutMapping
-    public ResponseEntity<AnsweredQuestionResponse> update(@RequestBody @Valid ResponseQuestionRequest request) {
-        return ResponseEntity.ok(respostaQuestionService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<AnsweredQuestionResponse> update(@PathVariable Long id, @RequestBody @Valid ResponseQuestionRequest request) {
+        return ResponseEntity.ok(respostaQuestionService.update(id, request));
     }
 
     @GetMapping

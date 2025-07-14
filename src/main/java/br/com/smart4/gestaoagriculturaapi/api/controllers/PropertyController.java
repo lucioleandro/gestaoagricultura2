@@ -38,14 +38,15 @@ public class PropertyController {
         return ResponseEntity.created(null).body(created);
     }
 
-    @PutMapping
-    public ResponseEntity<PropertyResponse> update(@RequestBody @Valid PropertyRequest request) {
+    @PutMapping("/{id}")
+    public ResponseEntity<PropertyResponse> update(@PathVariable Long id, @RequestBody @Valid PropertyRequest request) {
+        //TODO levar logica para o service
         Coordinates coordenadas = searchCoordinates(request.getAddress());
         request.setLatitude(coordenadas.getLatitude());
         request.setLongitude(coordenadas.getLongitude());
 
-        addressService.update(request.getAddress());
-        return ResponseEntity.ok().body(propertyService.update(request));
+//        addressService.update(request.getAddress());
+        return ResponseEntity.ok().body(propertyService.update(id, request));
     }
 
     @GetMapping
